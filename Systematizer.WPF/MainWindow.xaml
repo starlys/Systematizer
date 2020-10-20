@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Systematizer.WPF"
         mc:Ignorable="d"
-        Title="Systematizer" Height="300" Width="800" WindowState="Maximized" >
+        Title="Systematizer" Height="300" Width="800" WindowState="Maximized" Icon="icons/app.ico">
     <!--DataContext is set in MainController code for each item-->
     <DockPanel Background="#FFE4E1DB">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top">

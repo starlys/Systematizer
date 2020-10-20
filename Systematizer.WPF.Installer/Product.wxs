@@ -42,6 +42,7 @@
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <UIRef Id="WixUI_InstallDir"/>
+    <WixVariable Id="WixUILicenseRtf" Value="C:\dev\Systematizer\Systematizer.WPF.Installer\license.rtf" />
 	</Product>
 </Wix>
 

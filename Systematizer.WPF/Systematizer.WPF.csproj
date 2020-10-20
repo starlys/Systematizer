@@ -5,9 +5,11 @@
     <Version>1.0.0</Version>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icons\app.ico" />
     <None Remove="icons\calendar.png" />
     <None Remove="icons\delete.png" />
     <None Remove="icons\edit.png" />
@@ -23,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="icons\app.ico" />
     <Resource Include="icons\calendar.png" />
     <Resource Include="icons\delete.png" />
     <Resource Include="icons\edit.png" />
