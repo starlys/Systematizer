@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Systematizer.WPF.BlockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <!-- DataContext is any BlockVM -->
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+            <DockPanel GotFocus="DockPanel_GotFocus" Margin="0,2">
+                <DockPanel DockPanel.Dock="Top">
+                    <Button DockPanel.Dock="Left" Padding="4" Click="Close_Click" IsTabStop="False">X</Button>
+                    <TextBlock DockPanel.Dock="Left" Text="{Binding BlockTitle}" Padding="6,0,0,0" Foreground="AliceBlue" FontWeight="Bold" Background="DarkSlateGray" FontSize="16" />
+                </DockPanel>
+                <Button Width="12" DockPanel.Dock="Left" Background="{Binding FocusBarColor}" Uid="eFocusBar" Click="FocusBar_Click" />
+                <ContentPresenter Margin="6"/>
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

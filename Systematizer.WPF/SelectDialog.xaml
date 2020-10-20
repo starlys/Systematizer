@@ -1,0 +1,21 @@
+﻿<Window x:Class="Systematizer.WPF.SelectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Systematizer.WPF"
+        mc:Ignorable="d"
+        Title="Select Option" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" >
+    <StackPanel>
+        <ItemsControl x:Name="eList" MinWidth="250">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Click="Button_Click" HorizontalAlignment="Left" Margin="4" Padding="8,3" Tag="{Binding Index}" >
+                        <AccessText Text="{Binding Text}"/>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button IsCancel="True" Margin="4" HorizontalAlignment="Left" Padding="4,2">Cancel</Button>
+    </StackPanel>
+</Window>

@@ -1,0 +1,35 @@
+﻿<Window x:Class="Systematizer.WPF.CatManageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Systematizer.WPF"
+        mc:Ignorable="d"
+        Title="Manage Categories for People" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+    <!-- DataContext is a class defined in code-behind-->
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="6"/>
+            </Style>
+        </StackPanel.Resources>
+        <TextBlock Text="Select an item first:"/>
+        <TreeView x:Name="eTree" ItemsSource="{Binding Roots}" Height="200" Width="300">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}" Margin="0,2"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <Button Click="Add_Click">Add Category</Button>
+        <Button Click="Rename_Click">Rename Category</Button>
+        <Button Click="Move_Click">Move Category</Button>
+        <Button Click="Delete_Click">Delete Category</Button>
+        <Button IsCancel="True">Done</Button>
+    </StackPanel>
+</Window>

@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Systematizer.WPF.SubjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="500">
+    <!-- DataContext is SubjectVM-->
+    <local:BlockView>
+        <TreeView ItemsSource="{Binding RootRows}" SelectedItemChanged="TreeView_SelectedItemChanged" TreeViewItem.Expanded="TreeView_Expanded" 
+                  TreeViewItem.Collapsed="TreeView_Collapsed" KeyDown="TreeView_KeyDown">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Title}" Margin="0,2"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </local:BlockView>
+</UserControl>

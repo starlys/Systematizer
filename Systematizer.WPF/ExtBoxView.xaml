@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Systematizer.WPF.ExtBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <!-- DataContext is ExtBoxVM-->
+    <local:BlockView>
+        <StackPanel Background="{Binding BlockBackground}" >
+            <TextBox Uid="eTitle" Text="{Binding Title}" Margin="2" FontSize="13" FontWeight="Bold" Background="#efe" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" KeyDown="Title_KeyDown"/>
+            <StackPanel >
+                <Button Visibility="{Binding ClassifyButtonVisibility}" Click="ClassifyButton_Click" HorizontalAlignment="Right" IsTabStop="False">Classify quick note as...</Button>
+                <WrapPanel Visibility="{Binding ClassificationPanelVisibility}">
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding TimeTypeOptions, Mode=OneTime}" SelectedValue="{Binding TimeType}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding VisibilityOptions, Mode=OneTime}" SelectedValue="{Binding Visibility}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding ImportanceOptions, Mode=OneTime}" SelectedValue="{Binding Importance}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <Grid Margin="2,0" Visibility="{Binding BoxTime_DateVisibility}" >
+                        <local:DateView DataContext="{Binding BoxTime_Date}" x:Uid="eDate" KeyDown="Date_KeyDown"/>
+                    </Grid>
+                    <Grid Margin="2,0" Visibility="{Binding BoxTime_TimeVisibility}">
+                        <local:TimeView x:Uid="eTime" Width="40" DataContext="{Binding BoxTime_Time}" />
+                    </Grid>
+                </WrapPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,2" Visibility="{Binding DurationVisibility}">
+                    <TextBlock Text="Duration:"/>
+                    <TextBox Width="40" Text="{Binding Duration}" IsReadOnly="{Binding IsReadOnly}" />
+                    <TextBlock Text=" Prep time:"/>
+                    <TextBox Width="40" Text="{Binding PrepDuration}" IsReadOnly="{Binding IsReadOnly}" />
+                </StackPanel>
+            </StackPanel>
+            <local:RichTextView x:Uid="eNotes" DataContext="{Binding Notes}" Margin="2" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Folder:" Visibility="{Binding RefDirVisibility}"/>
+                <TextBox Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding RefDir}" Visibility="{Binding RefDirVisibility}" Margin="0,3,0,0"/>
+                <TextBlock Grid.Row="1" Text="File:" Visibility="{Binding RefFileVisibility}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding RefFile}" Visibility="{Binding RefFileVisibility}" Margin="0,3,0,0"/>
+                <TextBlock Grid.Row="2" Text="Password:" Visibility="{Binding PasswordVisibility}"/>
+                <Grid Grid.Row="2" Grid.Column="1" Visibility="{Binding PasswordVisibility}" Margin="0,3,0,0">
+                    <local:PasswordView DataContext="{Binding Password}" />
+                </Grid>
+                <TextBlock Grid.Row="3" Text="Email:" Visibility="{Binding RawEmailVisibility}" Margin="0,3,0,0"/>
+                <Grid Grid.Row="3" Grid.Column="1" Visibility="{Binding RawEmailVisibility}" >
+                    <local:RawEmailView DataContext="{Binding RawEmail}" />
+                </Grid>
+                <TextBlock Grid.Row="4" Text="Repeating:  " Visibility="{Binding RepeatsVisibility}" Margin="0,3,0,0"/>
+                <Grid Grid.Row="4" Grid.Column="1" Visibility="{Binding RepeatsVisibility}" Margin="0,3,0,0" >
+                    <local:RepeatInfoView DataContext="{Binding Repeats}"/>
+                </Grid>
+                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Content="Show All" IsChecked="{Binding ShowAllChecked}" IsTabStop="False" Margin="0,3,0,0" Visibility="{Binding EditModeVisibility}"/>
+            </Grid>
+            <local:BlockLinkView DataContext="{Binding Links}"/>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

@@ -1,0 +1,52 @@
+﻿<Window x:Class="Systematizer.WPF.SystemDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Systematizer.WPF"
+        mc:Ignorable="d"
+        Title="Systematizer Settings" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" >
+    <!-- no binding; see SystemController -->
+    <StackPanel Margin="5">
+        <TextBlock Text="Recent Files" />
+        <ListBox x:Name="eFileList" Height="100" Width="400" />
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Margin="5" x:Name="eCreateButton">Create New Database</Button>
+            <Button Margin="5" x:Name="eOpenButton">Open Another Database</Button>
+            <Button Margin="5" x:Name="eForgetButton">Remove From List</Button>
+        </StackPanel>
+        <GroupBox x:Name="eOptionsPanel">
+            <GroupBox.Header>Options for Current Database</GroupBox.Header>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <CheckBox x:Name="eAllowScheduled" />
+                    <TextBlock Text="Allow scheduled tasks" />
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Label for person custom field (1): "/>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="eCustom1"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Label for person custom field (2): "/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="eCustom2"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Label for person custom field (3): "/>
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="eCustom3"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Label for person custom field (4): "/>
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="eCustom4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Label for person custom field (5): "/>
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="eCustom5"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <Button x:Name="eDoneButton" HorizontalAlignment="Right">Done</Button>
+    </StackPanel>
+</Window>

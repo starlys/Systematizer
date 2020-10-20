@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Systematizer.WPF.ExtPersonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <!-- DataContext is ExtPersonVM-->
+    <local:BlockView>
+        <StackPanel Background="{Binding BlockBackground}" >
+            <TextBox Uid="eName" Text="{Binding Name}" Margin="2" FontSize="13" FontWeight="Bold" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Phone:"/>
+                <TextBox Grid.Row="0" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding MainPhone}" Margin="0,3,0,0"/>
+                <TextBlock Grid.Row="1" Text="Email:"/>
+                <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding MainEmail}" Margin="0,3,0,0"/>
+                <TextBlock Grid.Row="2" Text="Address:"/>
+                <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Address}" Margin="0,3,0,0" AcceptsReturn="True" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="3" Text="{Binding CustomLabel1}" Visibility="{Binding Custom1Visibility}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Custom1}" Margin="0,3,0,0" Visibility="{Binding Custom1Visibility}"/>
+                <TextBlock Grid.Row="4" Text="{Binding CustomLabel2}" Visibility="{Binding Custom2Visibility}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Custom2}" Margin="0,3,0,0" Visibility="{Binding Custom2Visibility}"/>
+                <TextBlock Grid.Row="5" Text="{Binding CustomLabel3}" Visibility="{Binding Custom3Visibility}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Custom3}" Margin="0,3,0,0" Visibility="{Binding Custom3Visibility}"/>
+                <TextBlock Grid.Row="6" Text="{Binding CustomLabel4}" Visibility="{Binding Custom4Visibility}"/>
+                <TextBox Grid.Row="6" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Custom4}" Margin="0,3,0,0" Visibility="{Binding Custom4Visibility}"/>
+                <TextBlock Grid.Row="7" Text="{Binding CustomLabel5}" Visibility="{Binding Custom5Visibility}"/>
+                <TextBox Grid.Row="7" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Custom5}" Margin="0,3,0,0" Visibility="{Binding Custom5Visibility}"/>
+                <Button Grid.Row="8" Content="Categories" Click="Categories_Click" VerticalAlignment="Top" Margin="2,2,4,0"/>
+                <ItemsControl Grid.Row="8" Grid.Column="1" ItemsSource="{Binding CatNames}" Margin="0,3,0,0" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <local:RichTextView DataContext="{Binding Notes}" Margin="2" />
+            
+            <local:BlockLinkView DataContext="{Binding Links}"/>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

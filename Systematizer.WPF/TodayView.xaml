@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Systematizer.WPF.TodayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <!-- DataContext is TodayVM-->
+    <local:BlockView>
+        <StackPanel Background="{Binding BlockBackground}" >
+            <ItemsControl ItemsSource="{Binding Path=Chunks}" IsTabStop="False" x:Uid="eChunkList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="#FFDDDDDD">
+                            <TextBox Uid="eChunkTitle" Text="{Binding Title}" FontWeight="Bold" FontSize="16" GotFocus="ChunkTitle_GotFocus" BorderThickness="0" AllowDrop="True" PreviewDragOver="ChunkTitle_DragEnter" PreviewDragLeave="ChunkTitle_DragLeave" Drop="ChunkTitle_Drop"/>
+                            <Label Height="2" Background="{Binding DragTargetColor}"/>
+                            <ItemsControl ItemsSource="{Binding Items}" IsTabStop="False">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <local:BoxPreviewView />
+                                            <Label Height="2" Background="{Binding DragTargetColor}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBox Text="{Binding NewChunkTitle}" FontWeight="Bold" FontSize="16" BorderThickness="0"/>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

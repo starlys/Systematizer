@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Systematizer.WPF.BoxPreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <!-- DataContext is BoxPreviewVM -->
+    <StackPanel>
+        <DockPanel AllowDrop="True" PreviewDragOver="Box_DragEnter" PreviewDragLeave="Box_DragLeave" Drop="Box_Drop">
+            <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayTime}" Width="45" Margin="1,2,0,0" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="Time_MouseLeftButtonDown" MouseMove="Time_MouseMove" MouseLeftButtonUp="Time_MouseLeftButtonUp" GiveFeedback="TimeDragging_GiveFeedback"/>
+            <TextBox Text="{Binding Persistent.Box.Title}" TextWrapping="Wrap" AcceptsReturn="True" Background="#efe" BorderThickness="0" FontSize="14" IsReadOnly="True" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
+        </DockPanel>
+        <TextBlock Text="{Binding Persistent.Box.SmallNotes}" Margin="48,0,0,0"/>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Systematizer.WPF.AgendaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" >
+    <!-- DataContext is AgendaVM-->
+    <local:BlockView>
+        <StackPanel Background="{Binding BlockBackground}" >
+            <StackPanel Orientation="Horizontal">
+                <Slider Minimum="0" Maximum="3" Width="120" Interval="1" SmallChange="1" TickFrequency="4" Value="{Binding BoxVisibilityIncluded}"/>
+                <TextBlock Text="{Binding SliderToolTip}" Margin="12,0,0,0" Foreground="White"/>
+            </StackPanel>
+            <ItemsControl x:Uid="eRows" ItemsSource="{Binding Path=Rows}" IsTabStop="False" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="#FFDDDDDD">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="55"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="8"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding MainText}" Grid.ColumnSpan="2" Foreground="Gray" Margin="0,6,0,0" FontWeight="Bold" FontSize="16" Visibility="{Binding HeadingVisibility}"/>
+                                <TextBlock Grid.Column="2" Width="8" Background="{Binding VertHighlightColor0}"/>
+                                <TextBlock Grid.Column="3" Width="8" Background="{Binding VertHighlightColor1}"/>
+                                <TextBlock Grid.Column="4" Width="8" Background="{Binding VertHighlightColor2}"/>
+                                <TextBlock Grid.Column="5" Width="8" Background="{Binding VertHighlightColor3}"/>
+                                <TextBlock Grid.Column="6" Width="8" Background="{Binding VertHighlightColor4}"/>
+                                <TextBlock Grid.Column="7" Width="8" Background="{Binding VertHighlightColor5}"/>
+                                <TextBlock Grid.Column="0" Text="{Binding TimeDisplay}" Visibility="{Binding BoxVisibility}" Width="45" Margin="18,2,0,0" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="Time_MouseLeftButtonDown" />
+                                <TextBox Grid.Column="1" Grid.ColumnSpan="1" Visibility="{Binding BoxVisibility}" BorderThickness="0" IsReadOnly="True" Text="{Binding MainText}" Background="{Binding HorzHighlightColor}" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button HorizontalAlignment="Right" Visibility="{Binding RequestMoreVisibility}" Click="More_Click">Show More</Button>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

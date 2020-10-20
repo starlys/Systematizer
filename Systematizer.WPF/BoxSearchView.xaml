@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Systematizer.WPF.BoxSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" >
+    <!--DataContext is BoxSearchVM-->
+    <local:BlockView>
+        <StackPanel Margin="4,4,0,0">
+            <Border Background="#FFEDEED8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Search for:"/>
+                    <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left"/>
+                    <CheckBox Grid.Row="1" Grid.Column="1" Margin="4" Content="Also search in details" IsChecked="{Binding IncludeDetailsCri}"/>
+                    <TextBlock Grid.Row="2" Text="Done since:" Visibility="{Binding DoneSinceVisibility}" />
+                    <Grid Grid.Row="2" Grid.Column="1" Margin="4" Visibility="{Binding DoneSinceVisibility}" >
+                        <local:DateView DataContext="{Binding DoneSinceCri}" />
+                    </Grid>
+                    <Button Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Click="Search_Click">Search</Button>
+                </Grid>
+            </Border>
+            <TextBlock Text="(No results)" Visibility="{Binding EmptyMessageVisibility}"/>
+            <ItemsControl ItemsSource="{Binding Results}" x:Uid="eResults">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:BoxPreviewView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

@@ -1,0 +1,13 @@
+﻿<Window x:Class="Systematizer.WPF.IdleDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Systematizer.WPF"
+        mc:Ignorable="d"
+        Title="Sleeping..." WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        FocusManager.FocusedElement="{Binding ElementName=eWakeUp}">
+    <Grid Margin="60">
+        <Button x:Name="eWakeUp" Padding="30" FontSize="20">Wake Up</Button>
+    </Grid>
+</Window>

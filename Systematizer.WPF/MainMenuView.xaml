@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Systematizer.WPF.MainMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBlock" x:Key="Item" x:Name="Item">
+                <Setter Property="Margin" Value="12,2,2,2" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Shortcut" x:Name="Shortcut">
+                <Setter Property="Margin" Value="12,2,2,2" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="#FF0046FF" />
+                <Setter Property="Width" Value="70" />
+                <Setter Property="TextAlignment" Value="Right" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Header" x:Name="Header">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Margin" Value="2,12,12,2" />
+                <Setter Property="Padding" Value="6,0,0,0" />
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="Background" Value="#FF0046FF" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border BorderBrush="#FF4C5693" BorderThickness="2" Background="#FFCCF5F7"  >
+        <ScrollViewer Padding="4">
+            <WrapPanel x:Name="eMenuRoot">
+            </WrapPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

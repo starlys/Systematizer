@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+	<Product Id="A60054F3-E3A8-46BD-B90D-08FC906EB346" 
+           Name="Systematizer v1.0" 
+           Language="1033" 
+           Version="1.0.0" 
+           Manufacturer="Divergent Labs" 
+           UpgradeCode="5201E674-EC37-439C-8229-2A4A80BADB04">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="Systematizer Installer"/>
+    <Media Id="1" Cabinet="Systematizer.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="DivergentLabsSystematizer">
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Systematizer">
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="Systematizer.exe" Guid="4EC17582-45E4-421E-BCFD-7A31B700D746">
+        <File Id="exe" Name="Systematizer.exe" Source="/Stage/SystematizerPublish/Systematizer.WPF.exe" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="8E21367B-9104-4BBD-8F4E-58B2913976A4">
+        <Shortcut Id="ApplicationShortcutMain" Name="Systematizer" Target="[INSTALLLOCATION]Systematizer.exe" WorkingDirectory="INSTALLLOCATION" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Divergent Labs\Systematizer" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    
+    <Feature Id="ProductFeature" Title="Systematizer" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION">
+			<ComponentRef Id="Systematizer.exe" />
+      <ComponentRef Id="ApplicationShortcut" />
+		</Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+    <UIRef Id="WixUI_InstallDir"/>
+	</Product>
+</Wix>
+

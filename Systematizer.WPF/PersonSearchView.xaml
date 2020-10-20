@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Systematizer.WPF.PersonSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Systematizer.WPF"
+             mc:Ignorable="d" >
+    <!--DataContext is BoxSearchVM-->
+    <local:BlockView>
+        <StackPanel Margin="4,4,0,0">
+            <Border Background="#FFEDEED8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Search for:"/>
+                    <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left"/>
+                    <CheckBox Grid.Row="1" Grid.Column="1" Margin="4" Content="Also search in details" IsChecked="{Binding IncludeDetailsCri}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                        <Button Margin="4" Click="CatFilter_Click">Filter by Category</Button>
+                        <Button Margin="4" Click="Clear_Click">Clear</Button>
+                    </StackPanel>
+                    <Button Grid.Row="3" Grid.Column="1" x:Uid="eSearch" Margin="4" HorizontalAlignment="Left" Click="Search_Click">Search</Button>
+                </Grid>
+            </Border>
+            <TextBlock Text="(No results)" Visibility="{Binding EmptyMessageVisibility}"/>
+            <ItemsControl x:Uid="eResults" ItemsSource="{Binding Results}" IsTabStop="False">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label IsTabStop="True" Focusable="True" Content="{Binding Name}" Cursor="Hand" MouseLeftButtonDown="Name_MouseLeftButtonDown" PreviewKeyDown="Result_PreviewKeyDown"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </local:BlockView>
+</UserControl>

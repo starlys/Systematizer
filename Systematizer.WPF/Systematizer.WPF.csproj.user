@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\dev\Systematizer\Systematizer.WPF\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="AgendaView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BlockLinkView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BlockStackView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BlockView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BoxPreviewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="BoxSearchView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CalendarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CatManageDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CatMultiselectDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CatSelectDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CollapsedBlockView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DateTimeDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ExportHtmlDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ExtBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ExtPersonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="IdleDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MainMenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PasswordView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PersonSearchView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RawEmailView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RecordLinkView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RepeatExceptionDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RepeatInfoView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RepeatPatternDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RescheduleDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RichTextView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SelectDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="StringDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SubjectView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SystemDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TimeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TodayView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AgendaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BlockLinkView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BlockStackView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BlockView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BoxPreviewView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BoxSearchView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CalendarView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CatManageDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CatMultiselectDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CatSelectDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CollapsedBlockView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DateTimeDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DateView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ExportHtmlDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ExtBoxView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ExtPersonView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="IdleDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainMenuView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PasswordView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PersonSearchView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RawEmailView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RecordLinkView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RepeatExceptionDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RepeatInfoView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RepeatPatternDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RescheduleDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RichTextView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SelectDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StringDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SubjectView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SystemDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TimeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TodayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
