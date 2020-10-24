@@ -92,7 +92,7 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Width="{Binding Width}" Height="{Binding Height}" BorderBrush="Gray" BorderThickness="1,1,1,1">
+                            <Border Width="{Binding Width}" Height="{Binding Height}" BorderBrush="Gray" BorderThickness="1,1,1,1" IsHitTestVisible="False">
                                 <TextBlock Text="{Binding Text}" FontSize="30" Opacity="0.2" FontWeight="Bold" Margin="2,35,0,0"/>
                             </Border>
                         </DataTemplate>

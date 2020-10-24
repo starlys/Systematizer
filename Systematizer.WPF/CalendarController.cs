@@ -105,7 +105,7 @@ namespace Systematizer.WPF
             var bars = new List<CalendarVM.BarVM>();
             foreach (var box in boxes)
             {
-                DateTime? d0 = DateUtil.ToDateTime(box.Box.BoxTime);
+                DateTime? d0 = DateUtil.ToDateTime(box.Time);
                 if (d0 == null) continue;
                 DateTime d1 = DateUtil.AddDuration(d0.Value, box.Box.Duration);
                 double totalDays0 = d0.Value.Subtract(dStart).TotalDays; //from calendar beginning, can be negative

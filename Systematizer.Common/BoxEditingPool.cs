@@ -17,6 +17,7 @@ namespace Systematizer.Common
 
             public long BoxId;
             public string OldTitle, NewTitle;
+            public string OldDuration, NewDuration;
             public string OldBoxTime, NewBoxTime;
             public string OldRepeatInfo, NewRepeatInfo;
             public short OldTimeType = -1, NewTimeType;
@@ -25,6 +26,7 @@ namespace Systematizer.Common
             public long? OldParentId, NewParentId;
 
             public bool IsAgendaChanged => OldBoxTime != NewBoxTime || OldTimeType != NewTimeType || OldVisibility != NewVisibility
+                || OldDuration != NewDuration
                 || OldDoneDate != NewDoneDate || OldRepeatInfo != NewRepeatInfo || IsTitleChanged;
 
             bool InvolvesSubjects => OldTimeType == Constants.TIMETYPE_NONE || NewTimeType == Constants.TIMETYPE_NONE;
@@ -83,6 +85,7 @@ namespace Systematizer.Common
             {
                 BoxId = box.RowId,
                 OldBoxTime = box.BoxTime,
+                OldDuration = box.Duration,
                 OldParentId = box.ParentId,
                 OldTimeType = box.TimeType,
                 OldTitle = box.Title,
@@ -102,6 +105,7 @@ namespace Systematizer.Common
             var item = OpenItems.FirstOrDefault(b => b.BoxId == box.RowId);
             if (item == null) item = new Item(); //happens when this is a new box
             item.NewBoxTime = box.BoxTime;
+            item.NewDuration = box.Duration;
             item.NewParentId = box.ParentId;
             item.NewTimeType = box.TimeType;
             item.NewTitle = box.Title;

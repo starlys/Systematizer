@@ -7,11 +7,11 @@
              mc:Ignorable="d" >
     <!-- DataContext is RepeatInfoVM-->
     <StackPanel>
-        <TextBlock Text="Not repeating" Visibility="{Binding NoEntriesTextVisibility}"/>
+        <TextBlock Text="Not repeating" Visibility="{Binding NoEntriesTextVisibility}" Margin="0,0,0,4"/>
         <ItemsControl x:Name="eEntries" ItemsSource="{Binding Entries}" Visibility="{Binding EditModeVisibility}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,4">
                         <Button Click="RemoveEntry_Click" BorderThickness="0" Background="Transparent">
                             <Image Source="pack://application:,,,/icons/delete.png"/>
                         </Button>

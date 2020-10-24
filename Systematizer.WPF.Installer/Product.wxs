@@ -25,6 +25,9 @@
       <Component Id="Systematizer.exe" Guid="4EC17582-45E4-421E-BCFD-7A31B700D746">
         <File Id="exe" Name="Systematizer.exe" Source="/Stage/SystematizerPublish/Systematizer.WPF.exe" KeyPath="yes" />
       </Component>
+      <Component Id="templatedb" Guid="46E81A3A-4849-465C-B256-D2F6E610DB36">
+        <File Id="templatedb" Name="template.sqlite" Source="/dev/Systematizer/template.sqlite" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
     
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -37,6 +40,7 @@
     
     <Feature Id="ProductFeature" Title="Systematizer" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION">
 			<ComponentRef Id="Systematizer.exe" />
+			<ComponentRef Id="templatedb" />
       <ComponentRef Id="ApplicationShortcut" />
 		</Feature>
 

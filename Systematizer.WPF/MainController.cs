@@ -248,10 +248,9 @@ namespace Systematizer.WPF
         {
             Win.eMessage.Text = msg;
             Win.eMessage.Visibility = Visibility.Visible;
-            await Task.Delay(3000);
+            await Task.Delay(6000);
             Win.eMessage.Visibility = Visibility.Collapsed;
         }
-
 
         /// <param name="mode">true to open, false to close, null to switch</param>
         public void ToggleMenu(bool? mode)

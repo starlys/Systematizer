@@ -108,13 +108,13 @@ namespace Systematizer.WPF
                         });
                         LinkToPersonIdOnSave = null;
                     }
+                    VM.IsDirty = false;
                 }
                 catch (Exception ex)
                 {
                     failedSave = true;
                     UIGlobals.Do.ShowTimedMessge("Cannot save: " + ex.Message);
                 }
-                VM.IsDirty = false;
             }
             VM.IsEditMode = mode == Mode.Edit || failedSave;
             return !failedSave;
@@ -145,8 +145,8 @@ namespace Systematizer.WPF
             }
             if (command == Globals.Commands.CLOSE)
             {
-                ChangeMode(Mode.ReadOnly, true);
-                if (!VM.IsUnclass)
+                bool saveOK = ChangeMode(Mode.ReadOnly, true);
+                if (!VM.IsUnclass && saveOK)
                     CollapseRequested(this, false);
                 return true;
             }
@@ -269,7 +269,7 @@ namespace Systematizer.WPF
             //if no template folder or if it's empty, explain to user how to use the command and abort
             bool found = false;
             string[] templateNames = null;
-            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "templates");
+            string templatePath = Path.Combine(Globals.UI.GetExeDirectory(), "templates");
             if (Directory.Exists(templatePath))
             {
                 var fullNames = Directory.GetFiles(templatePath);

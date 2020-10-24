@@ -155,7 +155,11 @@ namespace Systematizer.WPF
             unchecked
             {
                 int hash = 0;
-                foreach (var a in agendaItems) hash += (int)a.Box.RowId + a.Box.Title.GetHashCode() + a.Box.BoxTime.GetHashCode();
+                foreach (var a in agendaItems)
+                {
+                    hash += (int)a.Box.RowId + a.Box.Title.GetHashCode() + a.Box.BoxTime.GetHashCode();
+                    if (a.Box.Duration != null) hash += a.Box.Duration.GetHashCode();
+                }
                 return hash;
             }
         }

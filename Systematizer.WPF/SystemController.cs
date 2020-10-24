@@ -40,7 +40,7 @@ namespace Systematizer.WPF
                 saveAs.Filter = FILEFILTER;
                 if (saveAs.ShowDialog(SysDlg) != true) return;
 
-                CopyTemplateDatabaseTo(saveAs.FileName);
+                if (!CopyTemplateDatabaseTo(saveAs.FileName)) return;
                 if (!UIGlobals.Do.OpenDatabaseWithErrorReporting(saveAs.FileName)) return;
                 SysDlg.Close();
             };
@@ -108,10 +108,20 @@ namespace Systematizer.WPF
             }
         }
 
-        void CopyTemplateDatabaseTo(string fileName)
+        //true on success
+        bool CopyTemplateDatabaseTo(string fileName)
         {
-            string fromPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "template.sqlite");
-            File.Copy(fromPath, fileName);
+            try
+            {
+                string fromPath = Path.Combine(Globals.UI.GetExeDirectory(), "template.sqlite");
+                File.Copy(fromPath, fileName);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                VisualUtils.ShowMessageDialog("Error copying template database to the selected location: " + ex.Message);
+                return false;
+            }
         }
     }
 }

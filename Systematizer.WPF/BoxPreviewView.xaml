@@ -8,9 +8,15 @@
              d:DesignHeight="150" d:DesignWidth="300">
     <!-- DataContext is BoxPreviewVM -->
     <StackPanel>
-        <DockPanel AllowDrop="True" PreviewDragOver="Box_DragEnter" PreviewDragLeave="Box_DragLeave" Drop="Box_Drop">
+        <StackPanel.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="White" Offset="0"/>
+                <GradientStop Color="#FFCCEEEE" Offset="1"/>
+            </LinearGradientBrush>
+        </StackPanel.Background>
+        <DockPanel AllowDrop="True" PreviewDragOver="Box_DragEnter" PreviewDragLeave="Box_DragLeave" Drop="Box_Drop" >
             <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayTime}" Width="45" Margin="1,2,0,0" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="Time_MouseLeftButtonDown" MouseMove="Time_MouseMove" MouseLeftButtonUp="Time_MouseLeftButtonUp" GiveFeedback="TimeDragging_GiveFeedback"/>
-            <TextBox Text="{Binding Persistent.Box.Title}" TextWrapping="Wrap" AcceptsReturn="True" Background="#efe" BorderThickness="0" FontSize="14" IsReadOnly="True" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
+            <TextBox Text="{Binding Persistent.Box.Title}" TextWrapping="Wrap" AcceptsReturn="True" Background="Transparent" BorderThickness="0" FontSize="15" IsReadOnly="True" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
         </DockPanel>
         <TextBlock Text="{Binding Persistent.Box.SmallNotes}" Margin="48,0,0,0"/>
     </StackPanel>

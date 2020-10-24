@@ -13,6 +13,19 @@ namespace Systematizer.Common
     public class UIService
     {
         /// <summary>
+        /// Get the folder where the exe file was run from.
+        /// Note that single-file deployments cause this to be a temp folder instead of the actual source.
+        /// </summary>
+        public string GetExeDirectory()
+        {
+#if DEBUG
+            return AppContext.BaseDirectory;
+#else
+            return Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+#endif
+        }
+
+        /// <summary>
         /// App startup (call when UI loaded and after database is identified); true if file opened
         /// </summary>
         /// <param name="path">path and file name of database</param>

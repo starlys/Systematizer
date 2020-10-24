@@ -9,7 +9,7 @@
     <!-- DataContext is ExtPersonVM-->
     <local:BlockView>
         <StackPanel Background="{Binding BlockBackground}" >
-            <TextBox Uid="eName" Text="{Binding Name}" Margin="2" FontSize="13" FontWeight="Bold" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap"/>
+            <TextBox Uid="eName" Text="{Binding Name}" Margin="2" Background="#eff" FontSize="15" FontWeight="DemiBold" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

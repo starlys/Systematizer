@@ -42,7 +42,7 @@ namespace Systematizer.WPF
 
         void Title_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && VM.IsEditMode)
+            if (e.Key == Key.Enter && VM.IsEditMode && !IsCtrlDown)
             {
                 if (VM.BoxTime_DateVisibility == System.Windows.Visibility.Visible)
                     FocusDate();
@@ -55,7 +55,7 @@ namespace Systematizer.WPF
 
         void Date_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && VM.IsEditMode)
+            if (e.Key == Key.Enter && VM.IsEditMode && !IsCtrlDown)
             {
                 FocusNotes();
                 e.Handled = true;
@@ -73,5 +73,7 @@ namespace Systematizer.WPF
             var ctrl = VisualUtils.GetByUid(this, "eNotes") as RichTextView;
             VisualUtils.DelayThen(20, () => ctrl?.FocusMainControl());
         }
+
+        bool IsCtrlDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
     }
 }

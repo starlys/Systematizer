@@ -34,7 +34,14 @@
             <ItemsControl x:Uid="eResults" ItemsSource="{Binding Results}" IsTabStop="False">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Label IsTabStop="True" Focusable="True" Content="{Binding Name}" Cursor="Hand" MouseLeftButtonDown="Name_MouseLeftButtonDown" PreviewKeyDown="Result_PreviewKeyDown"/>
+                        <Label IsTabStop="True" Focusable="True" Content="{Binding Name}" Cursor="Hand" MouseLeftButtonDown="Name_MouseLeftButtonDown" PreviewKeyDown="Result_PreviewKeyDown">
+                            <Label.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="White" Offset="0"/>
+                                    <GradientStop Color="#FFCCEEEE" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Label.Background>
+                        </Label>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

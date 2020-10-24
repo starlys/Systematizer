@@ -8,10 +8,10 @@
         Title="Systematizer" Height="300" Width="800" WindowState="Maximized" Icon="icons/app.ico">
     <!--DataContext is set in MainController code for each item-->
     <DockPanel Background="#FFE4E1DB">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top">
-            <Button x:Name="eMenuButton" IsTabStop="False">Menu</Button>
-            <Button x:Name="eQuickNoteButton" IsTabStop="False" Margin="5,0,5,0" >Quick Note</Button>
-            <TextBlock x:Name="eMessage" HorizontalAlignment="Stretch" Text="Welcome" Background="Yellow" Margin="5,0,0,0" Padding="2"></TextBlock>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,6">
+            <Button x:Name="eMenuButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3">Menu</Button>
+            <Button x:Name="eQuickNoteButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3" Margin="5,0,5,0" >Quick Note</Button>
+            <TextBlock x:Name="eMessage" HorizontalAlignment="Stretch" Text="Welcome" Background="Yellow" Margin="5,0,0,0" FontSize="14" Padding="8,4"></TextBlock>
         </StackPanel>
         <local:MainMenuView x:Name="eMenu" DockPanel.Dock="Top" MaxHeight="300" Visibility="Collapsed"/>
         <local:RecordLinkView DockPanel.Dock="Top" x:Name="eRecordLinks"/>

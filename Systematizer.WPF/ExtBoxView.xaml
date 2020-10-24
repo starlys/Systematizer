@@ -9,7 +9,7 @@
     <!-- DataContext is ExtBoxVM-->
     <local:BlockView>
         <StackPanel Background="{Binding BlockBackground}" >
-            <TextBox Uid="eTitle" Text="{Binding Title}" Margin="2" FontSize="13" FontWeight="Bold" Background="#efe" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" KeyDown="Title_KeyDown"/>
+            <TextBox Uid="eTitle" Text="{Binding Title}" Margin="2" FontSize="15" FontWeight="DemiBold" Background="#eff" IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" KeyDown="Title_KeyDown"/>
             <StackPanel >
                 <Button Visibility="{Binding ClassifyButtonVisibility}" Click="ClassifyButton_Click" HorizontalAlignment="Right" IsTabStop="False">Classify quick note as...</Button>
                 <WrapPanel Visibility="{Binding ClassificationPanelVisibility}">

@@ -15,7 +15,7 @@
             <ItemsControl x:Uid="eRows" ItemsSource="{Binding Path=Rows}" IsTabStop="False" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Background="#FFDDDDDD">
+                        <StackPanel Background="#eee">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="55"/>
@@ -30,7 +30,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding MainText}" Grid.ColumnSpan="2" Foreground="Gray" Margin="0,6,0,0" FontWeight="Bold" FontSize="16" Visibility="{Binding HeadingVisibility}"/>
+                                <TextBlock Text="{Binding MainText}" Grid.ColumnSpan="2" Padding="3,5,0,5" Foreground="Gray" FontWeight="Bold" FontSize="14" Visibility="{Binding HeadingVisibility}"/>
                                 <TextBlock Grid.Column="2" Width="8" Background="{Binding VertHighlightColor0}"/>
                                 <TextBlock Grid.Column="3" Width="8" Background="{Binding VertHighlightColor1}"/>
                                 <TextBlock Grid.Column="4" Width="8" Background="{Binding VertHighlightColor2}"/>
@@ -38,7 +38,7 @@
                                 <TextBlock Grid.Column="6" Width="8" Background="{Binding VertHighlightColor4}"/>
                                 <TextBlock Grid.Column="7" Width="8" Background="{Binding VertHighlightColor5}"/>
                                 <TextBlock Grid.Column="0" Text="{Binding TimeDisplay}" Visibility="{Binding BoxVisibility}" Width="45" Margin="18,2,0,0" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="Time_MouseLeftButtonDown" />
-                                <TextBox Grid.Column="1" Grid.ColumnSpan="1" Visibility="{Binding BoxVisibility}" BorderThickness="0" IsReadOnly="True" Text="{Binding MainText}" Background="{Binding HorzHighlightColor}" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
+                                <TextBox Grid.Column="1" Grid.ColumnSpan="1" Visibility="{Binding BoxVisibility}" BorderThickness="0" IsReadOnly="True" Text="{Binding MainText}" Background="{Binding HorzHighlightColor}" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" FontSize="15" IsReadOnlyCaretVisible="True" GotFocus="Title_GotFocus"/>
                             </Grid>
                         </StackPanel>
                     </DataTemplate>
