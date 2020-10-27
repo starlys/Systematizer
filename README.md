@@ -33,11 +33,13 @@ Some design points:
 * This is offline first because you can't afford to have your calendar depend on the internet.
 * Plan for mobile and other platforms (not implemented); each will use the same database format for compatibility.
 * Multiple databases - you decide where to store them and are responsible for backups.
+* It's open source - if you know or want to learn C# or WPF, you can contribute a fix or feature
 
 ## Installation
 
-[Download the Windows installer](Systematizer-1.0.0.msi). If you run it and it requests to install the "NET Core runtime", then go ahead and download it
-as requested, but be sure to run the "x86" version.
+* [Download the Windows installer](Systematizer-1.0.0.msi?raw=true). 
+* Windows will say the file is dangerous because we haven't done any of the security tasks for publishing software, so it's being helpful. You should only bypass the warning and run the installer if you trust the source, which in this case means you know the author. 
+* If you run it and it requests to install the "NET Core runtime", then go ahead and download it as requested, but be sure to run the "x86" version.
 
 ## Really abbreviated user guide
 
@@ -62,7 +64,7 @@ The "quick note" button (or F12) creates a quick note without asking any questio
 needs to be recorded. Quick notes stay on screen until you classify them, even if you close and reopen the app. They must have a title to be able to close the app,
 however. They do not appear anywhere else.
 
-### What you can do in the "Today" pane
+### The "Today" pane
 
 Today is divided into three chunks by default - Morning, Afternoon, and Evening. You can rename the chunks, delete them by clearing out the text, and add new chunks
 by entering a name in the blank space at the end. Chunks are an optional organizing aid that only lasts for that day, and are not saved after that.
@@ -231,7 +233,7 @@ You can store people and link them to tasks. Here are the main features:
 * Use the command "new linked person" (Ctrl-K) to create a person linked to the active task. Or if you already have the person created and want to create a linked
 task, use "new sub-item" (Ctrl-B). Once linked, the next time you open the task or person, you get a quick link to open the person or task respectively.
 
-## People categories
+### People categories
 
 People have categories in an outline format. Use categories for things like where you met them (listing places you've lived), whether they are friends,
 family or work contacts, and if they are contractors, stores or other vendors (with as many categories as you like). 
@@ -245,7 +247,10 @@ Categories automatically denote all sub-categories when searching. Notice that w
 most nested level. So if you have a category "Vendors" and a subcategory "Mechanics", you cannot choose "Vendors" as the category of a person. But you can
 still search on Vendors and the search results will include Mechanics.
 
-## Linking
+### Linking
+
+Tasks can be linked to each other as a parent/child relationship. People can be linked to each other as associated (members of a family
+for example). People and tasks can also be linked together.
 
 Linking using the "new sub-item" command is the easiest way, but you can also manage links after you've created tasks and people.
 
@@ -253,7 +258,7 @@ Use the "manage links" command (Ctrl-6, which you can remember because the 6 key
 a pane where it gives instructions for linking and unlinking. Activate the desired target pane to cause the link pane to show the linking
 option for that target.
 
-## Import/export
+### Import/export
 
 The import/export utility can be used to copy data to/from some other calendar app. If you are importing into a blank file, first create a sample record
 and export it, so you can see the format. Then make your importable data match that format exactly.
