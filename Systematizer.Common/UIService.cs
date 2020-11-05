@@ -98,7 +98,7 @@ namespace Systematizer.Common
             var ret = new List<ExtBox>();
             using (var db = new SystematizerContext())
             {
-                var boxes = db.Box.Where(r => r.IsUnclass != 0);
+                var boxes = db.Box.Where(r => r.IsUnclass != 0 && r.DoneDate == null);
                 foreach (var box in boxes)
                 {
                     Globals.BoxEditingPool.CheckOut(box);

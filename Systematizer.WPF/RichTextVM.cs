@@ -25,7 +25,7 @@ namespace Systematizer.WPF
         /// </summary>
         public RichTextBox TextBox;
 
-        bool UserChanging;
+        bool IsUpdatingText;
 
         public RichTextVM()
         {
@@ -64,15 +64,15 @@ namespace Systematizer.WPF
         }
 
         /// <summary>
-        /// Called from view directly on lost focus, to create the stored text
+        /// Set Text property from the current flow document contents
         /// </summary>
-        public void LostFocus(FlowDocument document)
+        public void UpdateText()
         {
-            UserChanging = true;
-            string newText = FlowDocumentToText(document);
+            IsUpdatingText = true;
+            string newText = FlowDocumentToText(TextBox.Document);
             if (newText != Text)
                 Text = newText;
-            UserChanging = false;
+            IsUpdatingText = false;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Systematizer.WPF
             {
                 _text = value;
                 NotifyChanged();
-                if (TextBox != null && !UserChanging)
+                if (TextBox != null && !IsUpdatingText)
                     TextBox.Document = TextToFlowDocument(value, !IsEditMode);
             }
         }
@@ -219,10 +219,18 @@ namespace Systematizer.WPF
             return s;
         }
 
-        static string[] ToLines(string s)
+        static List<string> ToLines(string s)
         {
-            if (s == null) return new string[0];
-            return s.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            if (s == null) return new List<string>();
+            s = s.Replace("\r", "");
+            var lines = new List<string>(s.Split('\n'));
+
+            //don't allow multiple contiguous blank lines
+            //for (int i = lines.Count - 1; i > 0; --i)
+            //    if (string.IsNullOrWhiteSpace(lines[i]) && string.IsNullOrWhiteSpace(lines[i - 1])) 
+            //        lines.RemoveAt(i);
+
+            return lines;
         }
 
         static IEnumerable<Inline> StringToRunsWithHyperlinks(string s)

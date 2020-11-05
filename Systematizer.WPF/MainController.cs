@@ -195,6 +195,10 @@ namespace Systematizer.WPF
             {
                 ResizeContents(e.NewSize.Width);
             };
+            Win.StateChanged += (s, e) =>
+            {
+                ShowHideIdleMode(false);
+            };
             Win.eMenuButton.Click += (s, e) =>
             {
                 ToggleMenu(null);
@@ -275,14 +279,14 @@ namespace Systematizer.WPF
             if (IsIdlePanelShowing == idle) return;
             if (idle)
             {
-                Win.eNonIdlePanel.Visibility = Visibility.Hidden;
+                Win.eNonIdlePanel.Visibility = Visibility.Collapsed;
                 Win.eIdlePanel.Visibility = Visibility.Visible;
                 IsIdlePanelShowing = true;
                 VisualUtils.DelayThen(100, () => Win.eWakeUp.Focus());
             }
             else
             {
-                Win.eIdlePanel.Visibility = Visibility.Hidden;
+                Win.eIdlePanel.Visibility = Visibility.Collapsed;
                 Win.eNonIdlePanel.Visibility = Visibility.Visible;
                 IsIdlePanelShowing = false;
                 UserActionCompleted(true);

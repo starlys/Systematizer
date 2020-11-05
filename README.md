@@ -37,7 +37,7 @@ Some design points:
 
 ## Installation
 
-* [Download the Windows installer](Systematizer-1.0.0.msi?raw=true). 
+* [Download the Windows installer](Systematizer-1.1.2.msi?raw=true). 
 * Windows will say the file is dangerous because we haven't done any of the security tasks for publishing software, so it's being helpful. You should only bypass the warning and run the installer if you trust the source, which in this case means you know the author. 
 * If you run it and it requests to install the "NET Core runtime", then go ahead and download it as requested, but be sure to run the "x86" version.
 

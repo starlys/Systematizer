@@ -35,7 +35,7 @@ namespace Systematizer.WPF
 
         void eRTB_LostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            VM?.LostFocus(eRTB.Document);
+            VM?.UpdateText();
         }
 
         void CommandBinding_Disabled(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)

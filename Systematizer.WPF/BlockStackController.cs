@@ -231,12 +231,21 @@ namespace Systematizer.WPF
         }
 
         /// <summary>
-        /// Focus the next (+1) or previous (-1) block in the stack
+        /// Focus the next (+1) or previous (-1) block in the stack; ensures something gets focus if possible
         /// </summary>
         public void FocusDelta(int delta)
         {
-            int oldIdx = Controllers.IndexOf(FocusedChild);
+            int oldIdx = Controllers.IndexOf(FocusedChild); //could be -1
+
+            //delta 0 case might need to be implemented as delta = 1
+            if (delta == 0)
+            {
+                if (oldIdx < 0 || oldIdx >= Controllers.Count || (Controllers[oldIdx] is CollapsedBlockController))
+                    delta = 1;
+            }
+
             int newIdx = oldIdx;
+            oldIdx = Math.Max(oldIdx, 0);
             while (true)
             {
                 newIdx = (newIdx + delta + Controllers.Count) % Controllers.Count;

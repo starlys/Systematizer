@@ -142,6 +142,7 @@ namespace Systematizer.WPF
             }
             if (command == Globals.Commands.CLOSE)
             {
+                VisualUtils.LoseRegainFocus();
                 ChangeMode(Mode.ReadOnly, true);
                 CollapseRequested(this, false);
                 return true;

@@ -10,7 +10,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal" x:Name="eIdlePanel" Visibility="Hidden">
             <Button x:Name="eWakeUp" FontWeight="Bold" FontSize="14" Padding="20" Margin="30" VerticalAlignment="Top">Wake Up</Button>
-            <TextBlock Text="Application is sleeping" Margin="0,30" FontSize="20" />
+            <TextBlock Text="Sleeping" Margin="0,40" FontSize="20" />
         </StackPanel>
         <DockPanel Background="#FFE4E1DB" x:Name="eNonIdlePanel">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,6">

@@ -323,6 +323,12 @@ namespace Systematizer.WPF
                 UIGlobals.Do.AddBoxToEditStack(ebox);
                 return true;
             }
+            if (command == Globals.Commands.CLOSE)
+            {
+                VisualUtils.LoseRegainFocus();
+                SaveChunks();
+                return false; //caller can handle collapse
+            }
             if (command == Globals.Commands.NEWLINKEDBOX)
             {
                 NewTaskNearSelection();
@@ -360,6 +366,9 @@ namespace Systematizer.WPF
 
         void UserRemovedChunk(TodayVM.ChunkVM cvm)
         {
+            //can't remove last one
+            if (VM.Chunks.Count <= 1) return;
+
             VM.Chunks.Remove(cvm);
             SaveChunks(force: true);
             Refresh(null);

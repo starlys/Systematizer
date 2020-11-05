@@ -114,6 +114,7 @@ namespace Systematizer.WPF
             Persistent.Box.IsUnclass = (short)(IsUnclass ? 1 : 0);
             Persistent.Box.Duration = Duration;
             Persistent.Box.PrepDuration = PrepDuration;
+            Notes.UpdateText();
             Persistent.Box.Notes = Notes.Text;
             Persistent.Box.RefDir = RefDir;
             Persistent.Box.RefFile = RefFile;

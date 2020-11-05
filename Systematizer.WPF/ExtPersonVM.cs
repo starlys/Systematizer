@@ -73,6 +73,7 @@ namespace Systematizer.WPF
             Persistent.Person.MainPhone = MainPhone;
             Persistent.Person.MainEmail = MainEmail;
             Persistent.Person.Address = Address;
+            Notes.UpdateText();
             Persistent.Person.Notes = Notes.Text;
             Persistent.Person.Custom1 = Custom1;
             Persistent.Person.Custom2 = Custom2;
