@@ -215,6 +215,11 @@ namespace Systematizer.Common
         };
 
         //SECTION_UTIL
+        public readonly Item ABOUT = new Item
+        {
+            Description = "About",
+            MenuSection = SECTION_UTIL
+        };
         public readonly Item SETTINGS = new Item
         {
             Description = "Settings",
@@ -253,7 +258,7 @@ namespace Systematizer.Common
                 EDITCATEGORIES, SENDEMAIL, DELETEPERSON,
 
                 //SECTION_UTIL
-                SETTINGS, MANAGECATS, IMPORTEXPORT
+                ABOUT, SETTINGS, MANAGECATS, IMPORTEXPORT
             };
         }
     }

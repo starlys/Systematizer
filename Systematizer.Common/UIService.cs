@@ -216,11 +216,12 @@ namespace Systematizer.Common
         /// <summary>
         /// Get persons for search block; see comments in DBUtil
         /// </summary>
-        public Person[] LoadFilteredPersons(string term, bool includeDetails, long? catId)
+        /// <param name="catIds">null or catIds to match</param>
+        public Person[] LoadFilteredPersons(string term, bool includeDetails, long[] catIds, bool forExport)
         {
             using (var db = new SystematizerContext())
             {
-                var a = DBUtil.LoadFilteredPersons(db, term, includeDetails, catId);
+                var a = DBUtil.LoadFilteredPersons(db, term, includeDetails, catIds, allowLoadUnfiltered: true, limit100: !forExport);
                 if (a == null) a = new Person[0];
                 return a.ToArray();
             }

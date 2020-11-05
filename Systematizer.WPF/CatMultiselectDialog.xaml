@@ -8,7 +8,7 @@
         Title="Categories" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
     <!-- DataContext is VM defined in code-behind-->
     <StackPanel>
-        <TextBlock x:Name="eCaption" Text="Choose" Margin="6"/>
+        <TextBlock x:Name="eCaption" Text="Choose" Margin="6" MaxWidth="300" TextWrapping="Wrap"/>
         <TreeView x:Name="eTree" ItemsSource="{Binding Roots}" Height="250" Width="300" Margin="6">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">

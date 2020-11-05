@@ -20,7 +20,7 @@ namespace Systematizer.WPF
         DispatcherTimer Timer30; //30s timer as required by common layer
         readonly UICommandCenter Commands = new UICommandCenter();
         BlockStackController FocusedStack;
-        IdleDialog IdleDialog; //only set when showing
+        bool IsIdlePanelShowing;
 
         BlockStackController HomeStackController;
         BlockStackController EditStackController;
@@ -238,6 +238,7 @@ namespace Systematizer.WPF
                 Timer30.IsEnabled = false;
                 App.Current.Shutdown();
             };
+            Win.eWakeUp.Click += (s, e) => ShowHideIdleMode(false);
         }
 
         /// <summary>
@@ -271,24 +272,21 @@ namespace Systematizer.WPF
 
         public void ShowHideIdleMode(bool idle)
         {
+            if (IsIdlePanelShowing == idle) return;
             if (idle)
             {
-                if (IdleDialog != null) return; //already in idle mode
-                IdleDialog = new IdleDialog();
-                IdleDialog.Owner = Win;
-                IdleDialog.Show();
-                Win.IsEnabled = false;
-                IdleDialog.eWakeUp.Click += (s, e) =>
-                {
-                    UserActionCompleted(true);
-                    Globals.UI.RequestWakeUp();
-                };
+                Win.eNonIdlePanel.Visibility = Visibility.Hidden;
+                Win.eIdlePanel.Visibility = Visibility.Visible;
+                IsIdlePanelShowing = true;
+                VisualUtils.DelayThen(100, () => Win.eWakeUp.Focus());
             }
             else
             {
-                IdleDialog?.Hide();
-                IdleDialog = null;
-                Win.IsEnabled = true;
+                Win.eIdlePanel.Visibility = Visibility.Hidden;
+                Win.eNonIdlePanel.Visibility = Visibility.Visible;
+                IsIdlePanelShowing = false;
+                UserActionCompleted(true);
+                Globals.UI.RequestWakeUp();
             }
         }
 

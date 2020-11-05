@@ -7,7 +7,7 @@ using Systematizer.Common;
 namespace Systematizer.WPF
 {
     /// <summary>
-    /// Allow multi-select categories in context of a person
+    /// Allow multi-select categories 
     /// </summary>
     public partial class CatMultiselectDialog : Window
     {
@@ -15,14 +15,22 @@ namespace Systematizer.WPF
         {
             public class Item : BaseVM
             {
+                public readonly VM Owner;
                 public long RowId;
                 public bool IsSelected { get; set; }
                 public bool IsExpanded { get; set; }
                 public string Name { get; set; }
                 public List<Item> Children { get; set; }
 
-                public Visibility CheckboxVisibility => ToVisibility(Children == null);
+                public Item(VM owner)
+                {
+                    Owner = owner;
+                }
+
+                public Visibility CheckboxVisibility => ToVisibility(Owner.ShowNonLeafCheckboxes || Children == null);
             }
+
+            public bool ShowNonLeafCheckboxes;
 
             public RangeObservableCollection<Item> Roots { get; set; } = new RangeObservableCollection<Item>();
 
@@ -45,7 +53,7 @@ namespace Systematizer.WPF
                 return selectedIds.ToArray();
             }
 
-            Item ToItem(CatCache.Item it, long[] selectedCatIds) => new Item
+            Item ToItem(CatCache.Item it, long[] selectedCatIds) => new Item(this)
             {
                 RowId = it.RowId,
                 IsExpanded = true,
@@ -96,6 +104,21 @@ namespace Systematizer.WPF
             if (dialog.ShowDialog() != true) return false;
             ep.SelectedCatIds = dialog._VM.GetEditedSelectedIds();
             return true;
+        }
+
+        /// <summary>
+        /// Allow selecting categories (such as for searching); returns null on cancel
+        /// </summary>
+        public static long[] SelectCats(bool allowNonLeafSelection, string caption)
+        {
+            var dialog = new CatMultiselectDialog();
+            dialog.Owner = App.Current.MainWindow;
+            dialog._VM = new VM(new long[0]);
+            dialog._VM.ShowNonLeafCheckboxes = allowNonLeafSelection;
+            dialog.DataContext = dialog._VM;
+            dialog.eCaption.Text = caption;
+            if (dialog.ShowDialog() != true) return null;
+            return dialog._VM.GetEditedSelectedIds();
         }
 
         void AddCat_Click(object sender, RoutedEventArgs e)

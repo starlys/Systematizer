@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-	<Product Id="A60054F3-E3A8-46BD-B90D-08FC906EB346" 
-           Name="Systematizer v1.0" 
+	<Product Id="2AC23BE0-08C9-453D-8747-104E66917FD6"
+           Name="Systematizer v1.1.1" 
            Language="1033" 
-           Version="1.0.0" 
+           Version="1.0.1" 
            Manufacturer="Divergent Labs" 
            UpgradeCode="5201E674-EC37-439C-8229-2A4A80BADB04">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="Systematizer Installer"/>
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version is already installed." />
     <Media Id="1" Cabinet="Systematizer.cab" EmbedCab="yes" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">

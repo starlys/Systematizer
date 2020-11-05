@@ -42,9 +42,10 @@ namespace Systematizer.WPF
 
         void CatFilter_Click(object sender, RoutedEventArgs e)
         {
-            var cat = CatSelectDialog.SelectCat("Choose category to include");
-            if (cat == null) return;
-            VM.CatIdCri = cat.RowId;
+            var cats = CatMultiselectDialog.SelectCats(true, "Choose categories to search by (Choose multiple to find people who are in ALL of the categories.)");
+            //single cat version: var cat = CatSelectDialog.SelectCat("Choose category to include");
+            if (cats == null) return;
+            VM.CatIdCri = cats;
             VM.SearchRequested();
         }
 

@@ -54,7 +54,7 @@ namespace Systematizer.WPF
             set { _includeDetailsCri = value; NotifyChanged(); }
         }
 
-        public long? CatIdCri { get; set; }
+        public long[] CatIdCri { get; set; }
 
         public ObservableCollection<ResultItem> Results { get; set; } = new ObservableCollection<ResultItem>();
     }

@@ -101,6 +101,11 @@ namespace Systematizer.WPF
             //SECTION_EDIT
 
             //SECTION_UTIL
+            Handlers[Globals.Commands.ABOUT] = () =>
+            {
+                AboutWindow.ShowAbout();
+                return true;
+            };
             Handlers[Globals.Commands.SETTINGS] = () =>
             {
                 UIGlobals.Do.SaveAll(true);

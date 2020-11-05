@@ -70,10 +70,12 @@ namespace Systematizer.WPF
         }
 
         public readonly ExtBox Ebox;
+        public readonly Func<string> GetDefaultTime; //in HHMM
 
-        public RepeatInfoVM(ExtBox ebox)
+        public RepeatInfoVM(ExtBox ebox, Func<string> getDefaultTime)
         {
             Ebox = ebox;
+            GetDefaultTime = getDefaultTime;
             var ri = ebox.Repeats;
             if (ri != null)
             {

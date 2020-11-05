@@ -71,7 +71,7 @@ namespace Systematizer.WPF
             RefFile = Persistent.Box.RefFile;
             Password = new PasswordVM { Value = Persistent.Box.Password, IsEditMode = IsEditMode };
             RawEmail = new RawEmailVM(HandleCommand) { Value = Persistent.Box.RawEmail, IsEditMode = IsEditMode };
-            Repeats = new RepeatInfoVM(Persistent);
+            Repeats = new RepeatInfoVM(Persistent, () => BoxTime_Time.Time);
 
             InitializeLinksFromPersistent();
 

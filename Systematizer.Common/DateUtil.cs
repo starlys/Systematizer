@@ -63,6 +63,28 @@ namespace Systematizer.Common
         }
 
         /// <summary>
+        /// Convert a string in YYYYMMDDHHMM or HHMM format to the hour and minute components
+        /// </summary>
+        public static (int, int) ToHourMinute(string s, int defaultHour, int defaultMinute)
+        {
+            int h = defaultHour, m = defaultMinute;
+            if (s != null)
+            {
+                if (s.Length == 4)
+                {
+                    h = ParseInt(s.Substring(0, 2), defaultHour);
+                    m = ParseInt(s.Substring(2, 2), defaultMinute);
+                }
+                else if (s.Length == 12)
+                {
+                    h = ParseInt(s.Substring(8, 2), defaultHour);
+                    m = ParseInt(s.Substring(10, 2), defaultMinute);
+                }
+            }
+            return (h, m);
+        }
+
+        /// <summary>
         /// parse int and return default if not possible
         /// </summary>
         public static int ParseInt(string s, int defaultValue)

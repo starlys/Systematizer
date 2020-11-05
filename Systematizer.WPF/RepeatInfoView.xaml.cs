@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using Systematizer.Common;
@@ -43,7 +44,8 @@ namespace Systematizer.WPF
             var pat = new ParsedRepeatInfo.RepeatEntry()
             {
                 Arg2 = new[] { true, true, true, true, true },
-                Kind = ParsedRepeatInfo.RepeatKind.WeekOfMonth
+                Kind = ParsedRepeatInfo.RepeatKind.WeekOfMonth,
+                Time = VM.GetDefaultTime()
             };
             var entry = RepeatPatternDialog.ShowDialog(pat);
             if (entry != null) VM.Entries.Add(new RepeatInfoVM.EntryVM(entry));

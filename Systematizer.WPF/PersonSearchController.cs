@@ -54,7 +54,7 @@ namespace Systematizer.WPF
         public void SearchRequested()
         {
             VisualUtils.LoseRegainFocus();
-            var persons = Globals.UI.LoadFilteredPersons(VM.TermCri, VM.IncludeDetailsCri, VM.CatIdCri);
+            var persons = Globals.UI.LoadFilteredPersons(VM.TermCri, VM.IncludeDetailsCri, VM.CatIdCri, false);
             VM.Results.Clear();
             if (persons == null) return;
             foreach (var p in persons)
@@ -62,6 +62,7 @@ namespace Systematizer.WPF
             var searchBtn = VM.GetPreResultsControl?.Invoke();
             VisualUtils.DelayThen(20, () =>
             {
+                if (searchBtn == null) return;
                 searchBtn.Focus();
                 searchBtn.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
             });

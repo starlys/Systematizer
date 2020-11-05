@@ -7,24 +7,30 @@
         mc:Ignorable="d"
         Title="Systematizer" Height="300" Width="800" WindowState="Maximized" Icon="icons/app.ico">
     <!--DataContext is set in MainController code for each item-->
-    <DockPanel Background="#FFE4E1DB">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,6">
-            <Button x:Name="eMenuButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3">Menu</Button>
-            <Button x:Name="eQuickNoteButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3" Margin="5,0,5,0" >Quick Note</Button>
-            <TextBlock x:Name="eMessage" HorizontalAlignment="Stretch" Text="Welcome" Background="Yellow" Margin="5,0,0,0" FontSize="14" Padding="8,4"></TextBlock>
+    <Grid>
+        <StackPanel Orientation="Horizontal" x:Name="eIdlePanel" Visibility="Hidden">
+            <Button x:Name="eWakeUp" FontWeight="Bold" FontSize="14" Padding="20" Margin="30" VerticalAlignment="Top">Wake Up</Button>
+            <TextBlock Text="Application is sleeping" Margin="0,30" FontSize="20" />
         </StackPanel>
-        <local:MainMenuView x:Name="eMenu" DockPanel.Dock="Top" MaxHeight="300" Visibility="Collapsed"/>
-        <local:RecordLinkView DockPanel.Dock="Top" x:Name="eRecordLinks"/>
-        <ScrollViewer IsTabStop="False">
-            <StackPanel>
-                <Grid x:Name="eTopEditContainer" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3"/>
-                <StackPanel Orientation="Horizontal">
-                    <local:BlockStackView x:Name="eHomeStack" Width="200" Margin="3" IsTabStop="False" />
-                    <Grid x:Name="eSideEditContainer" Width="200" Margin="3">
-                        <local:BlockStackView x:Name="eEditStack" IsTabStop="False"/>
-                    </Grid>
-                </StackPanel>
+        <DockPanel Background="#FFE4E1DB" x:Name="eNonIdlePanel">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,6">
+                <Button x:Name="eMenuButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3">Menu</Button>
+                <Button x:Name="eQuickNoteButton" IsTabStop="False" FontWeight="Bold" FontSize="14" Padding="8,3" Margin="5,0,5,0" >Quick Note</Button>
+                <TextBlock x:Name="eMessage" HorizontalAlignment="Stretch" Text="Welcome" Background="Yellow" Margin="5,0,0,0" FontSize="14" Padding="8,4"></TextBlock>
             </StackPanel>
-        </ScrollViewer>
-    </DockPanel>
+            <local:MainMenuView x:Name="eMenu" DockPanel.Dock="Top" MaxHeight="300" Visibility="Collapsed"/>
+            <local:RecordLinkView DockPanel.Dock="Top" x:Name="eRecordLinks"/>
+            <ScrollViewer IsTabStop="False">
+                <StackPanel>
+                    <Grid x:Name="eTopEditContainer" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <local:BlockStackView x:Name="eHomeStack" Width="200" Margin="3" IsTabStop="False" />
+                        <Grid x:Name="eSideEditContainer" Width="200" Margin="3">
+                            <local:BlockStackView x:Name="eEditStack" IsTabStop="False"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
 </Window>

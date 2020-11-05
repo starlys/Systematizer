@@ -170,23 +170,31 @@ namespace Systematizer.Common
         /// <summary>
         /// Load persons matching keyword filter and optional category filter
         /// </summary>
+        /// <param name="catIds">null or catIds to match (using AND)</param>
         /// <returns>can be null or empty collection</returns>
-        internal static IEnumerable<Person> LoadFilteredPersons(SystematizerContext db, string keyword, bool lookInDetails, long? catId,
-            bool allowLoadUnfiltered = false)
+        internal static IEnumerable<Person> LoadFilteredPersons(SystematizerContext db, string keyword, bool lookInDetails, long[] catIds,
+            bool allowLoadUnfiltered = false, bool limit100 = false)
         {
             string keyFilter = BuildKeywordFilter("Person", 1, keyword, lookInDetails);
             var filters = new List<string>(2);
             if (keyFilter != null) filters.Add(keyFilter);
-            if (catId != null)
+            if (catIds != null)
             {
-                var catids = Globals.AllCats.GetDescendantIds(catId.Value);
-                string inClauseValues = string.Join(',', catids);
-                filters.Add($"exists(select * from PersonCat where PersonId=Person.RowId and CatId in ({inClauseValues}))");
+                foreach (long catId in catIds)
+                {
+                    var catids = Globals.AllCats.GetDescendantIds(catId);
+                    string inClauseValues = string.Join(',', catids);
+                    filters.Add($"exists(select * from PersonCat where PersonId=Person.RowId and CatId in ({inClauseValues}))");
+                }
             }
             if (filters.Count == 0 && !allowLoadUnfiltered) return null;
-            string combinedFilter = " where " + string.Join(" and ", filters);
+            string combinedFilter = "";
+            if (filters.Count > 0) combinedFilter = " where " + string.Join(" and ", filters);
 
-            return db.Person.FromSqlRaw($"select RowId,* from Person {combinedFilter}").OrderBy(r => r.Name).ToArray();
+            string sql = $"select RowId,* from Person {combinedFilter}";
+            if (limit100) sql += " limit 100";
+
+            return db.Person.FromSqlRaw(sql).OrderBy(r => r.Name).ToArray();
         }
 
         /// <summary>

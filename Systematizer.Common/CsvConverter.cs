@@ -36,6 +36,7 @@ namespace Systematizer.Common
             {
                 parser.Configuration.HeaderValidated = null;
                 parser.Configuration.MissingFieldFound = null;
+                parser.Configuration.IgnoreBlankLines = false;
                 var ret = parser.GetRecords<Person>();
                 return ret.ToArray();
             }
@@ -65,6 +66,7 @@ namespace Systematizer.Common
             {
                 parser.Configuration.HeaderValidated = null;
                 parser.Configuration.MissingFieldFound = null;
+                parser.Configuration.IgnoreBlankLines = false;
                 var ret = parser.GetRecords<Box>().ToArray();
                 foreach (var b in ret)
                 {

@@ -5,8 +5,6 @@ using System.Windows;
 using Systematizer.Common;
 using Microsoft.Win32;
 using System.IO;
-using System.Diagnostics;
-using System.Net.Http.Headers;
 
 namespace Systematizer.WPF
 {
@@ -176,6 +174,8 @@ namespace Systematizer.WPF
                 {
                     VM.BoxTime_Date.Date = newDate;
                     UIGlobals.Do.ShowTimedMessge("Rescheduled for " + DateUtil.ToReadableDate(newDate, includeDOW: true));
+                    ChangeMode(Mode.ReadOnly, true);
+                    CollapseRequested(this, false);
                 }
                 return true;
             }
@@ -315,7 +315,7 @@ namespace Systematizer.WPF
         void HandleDoneCommand()
         {
             string userMessage = null;
-            bool doCloseBlock, doMarkDone = false;
+            bool doCollapseBlock, doRemoveBlock = false, doMarkDone = false;
 
             //note we will save VM to persistent so we project using the correct repeats, but then we will modify the VM again
             VM.WriteToPersistent();
@@ -331,16 +331,16 @@ namespace Systematizer.WPF
                     VM.BoxTime_Date.Date = nextTime;
                     VM.BoxTime_Time.Time = nextTime;
                     userMessage = "Recheduled for " + DateUtil.ToReadableDate(nextTime, includeDOW: true);
-                    doCloseBlock = true;
+                    doCollapseBlock = true;
                 }
                 else
                 {
                     //reached the last instance of a repeated task
                     doMarkDone = true;
-                    doCloseBlock = true;
+                    doCollapseBlock = true;
                 }
             }
-            else doMarkDone = doCloseBlock = true;
+            else doMarkDone = doCollapseBlock = doRemoveBlock = true;
 
             //check if it is possible to really mark it done
             if (doMarkDone)
@@ -350,7 +350,7 @@ namespace Systematizer.WPF
                 if (hasUndoneChildren)
                 {
                     doMarkDone = false;
-                    doCloseBlock = false;
+                    doCollapseBlock = doRemoveBlock = false;
                     userMessage = "Cannot complete task because it has child items that are not done";
                 }
                 else if (VM.Importance == Constants.IMPORTANCE_HIGH)
@@ -358,7 +358,7 @@ namespace Systematizer.WPF
                     if (!VisualUtils.Confirm("Task is marked important. About to remove from calendar."))
                     {
                         doMarkDone = false;
-                        doCloseBlock = false;
+                        doCollapseBlock = doRemoveBlock = false;
                         userMessage = null;
                     }
                 }
@@ -366,10 +366,10 @@ namespace Systematizer.WPF
 
             if (doMarkDone)
                 VM.DoneDate = DateUtil.ToYMD(DateTime.Today);
-            if (doCloseBlock)
+            if (doCollapseBlock)
             {
                 ChangeMode(Mode.ReadOnly, true);
-                CollapseRequested(this, true);
+                CollapseRequested(this, doRemoveBlock);
             }
             if (userMessage != null)
                 UIGlobals.Do.ShowTimedMessge(userMessage);

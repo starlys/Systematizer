@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AboutWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="AgendaView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,9 +58,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ExtPersonView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="IdleDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MainMenuView.xaml.cs">
@@ -110,6 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="AgendaView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -156,9 +159,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ExtPersonView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="IdleDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainMenuView.xaml">

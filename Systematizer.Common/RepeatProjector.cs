@@ -75,11 +75,12 @@ namespace Systematizer.Common
                     }
 
                     //handle all other pattern kinds
+                    (int hr, int mi) = DateUtil.ToHourMinute(pat.Time, 9, 0);
                     DateTime? running = DateUtil.ToDateTime(box.BoxTime);
                     if (running == null) continue;
                     while (true)
                     {
-                        running = NextTime(running.Value, max.Value, pat);
+                        running = NextTime(running.Value, max.Value, pat, hr, mi);
                         if (running == null) break;
                         string t2 = DateUtil.ToYMDHM(running.Value);
                         if (deleteExceptions.Contains(t2)) continue;
@@ -103,12 +104,10 @@ namespace Systematizer.Common
         /// Advance a given time to the next time
         /// </summary>
         /// <returns>null if no more</returns>
-        DateTime? NextTime(DateTime d, DateTime max, ParsedRepeatInfo.RepeatEntry r)
+        DateTime? NextTime(DateTime d, DateTime max, ParsedRepeatInfo.RepeatEntry r, int hour, int minute)
         {
             if (r.Kind == ParsedRepeatInfo.RepeatKind.DeleteSpecific || r.Kind == ParsedRepeatInfo.RepeatKind.AddSpecific)
                 throw new Exception("Call error");
-
-            int h = d.Hour, m = d.Minute;
 
             //the following blocks advance d to the correct day or abort
             if (r.Kind == ParsedRepeatInfo.RepeatKind.NDays)
@@ -141,8 +140,8 @@ namespace Systematizer.Common
                 do { d = d.AddDays(1); } while (d.Day != r.Arg1);
             }
 
-            //reapply the exact hour/minute in case some weird thing happens with AddDay
-            d = new DateTime(d.Year, d.Month, d.Day, h, m, 0);
+            //apply the exact hour/minute 
+            d = new DateTime(d.Year, d.Month, d.Day, hour, minute, 0);
             if (d > max) return null;
             return d;
         }

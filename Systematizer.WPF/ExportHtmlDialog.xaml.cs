@@ -86,6 +86,9 @@ namespace Systematizer.WPF
 
         void ImportPeopleCSV_Click(object sender, RoutedEventArgs e)
         {
+            //category to auto-apply
+            long? autocCatId = CatSelectDialog.SelectCat("Choose category to apply to each imported person, or cancel to skip")?.RowId;
+
             string filename = AskForImportFileName(false);
             if (filename == null) return;
             var cvt = new CsvConverter();
@@ -95,7 +98,12 @@ namespace Systematizer.WPF
                 {
                     var persons = cvt.PersonFromCsv(rdr).ToArray();
                     foreach (var person in persons)
-                        Globals.UI.SavePerson(new ExtPerson(person, null, null));
+                    {
+                        var eperson = new ExtPerson(person, null, null);
+                        if (autocCatId != null)
+                            eperson.SelectedCatIds = new long[] { autocCatId.Value };
+                        Globals.UI.SavePerson(eperson);
+                    }
                     VisualUtils.ShowMessageDialog($"Imported {persons.Length} record(s)");
                 }
             }

@@ -1,0 +1,15 @@
+﻿<Window x:Class="Systematizer.WPF.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Systematizer.WPF"
+        mc:Ignorable="d"
+        Title="About Systematizer" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+    <StackPanel>
+        <TextBlock x:Name="eVersion" Text="Version" Margin="18"/>
+        <TextBlock Text="Open source software! Code/instructions here: " Margin="18,2"/>
+        <TextBox IsReadOnly="True" Text="https://github.com/starlys/Systematizer" Margin="18,2"/>
+        <Button Margin="18" IsDefault="True" IsCancel="True" HorizontalAlignment="Right" Padding="6">Done</Button>
+    </StackPanel>
+</Window>
