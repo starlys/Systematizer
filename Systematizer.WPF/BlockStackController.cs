@@ -244,8 +244,8 @@ namespace Systematizer.WPF
                     delta = 1;
             }
 
-            int newIdx = oldIdx;
             oldIdx = Math.Max(oldIdx, 0);
+            int newIdx = oldIdx;
             while (true)
             {
                 newIdx = (newIdx + delta + Controllers.Count) % Controllers.Count;

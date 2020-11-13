@@ -160,6 +160,7 @@ namespace Systematizer.WPF
             {
                 var targetPerson = targetBlock2.VM.Persistent.Person;
                 if (targetPerson.RowId == 0) return;
+                if (targetBlock2 == Source) return;
                 if (Source is ExtBoxController sourceBlock1)
                 {
                     var sourceBox = sourceBlock1.VM.Persistent;

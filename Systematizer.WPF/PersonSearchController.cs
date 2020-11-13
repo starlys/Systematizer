@@ -13,6 +13,7 @@ namespace Systematizer.WPF
         {
             public bool IncludeDetailsCri;
             public string TermCri;
+            public long[] CatIdCri;
         }
 
         public PersonSearchVM VM { get; private set; }
@@ -60,13 +61,14 @@ namespace Systematizer.WPF
             foreach (var p in persons)
                 VM.Results.Add(new PersonSearchVM.ResultItem { PersonId = p.RowId, Name = p.Name });
             var searchBtn = VM.GetPreResultsControl?.Invoke();
-            VisualUtils.DelayThen(20, () =>
+            if (searchBtn != null && persons.Length > 0)
             {
-                if (searchBtn == null) return;
-                searchBtn.Focus();
-                searchBtn.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
-            });
-
+                VisualUtils.DelayThen(20, () =>
+                {
+                    searchBtn.Focus();
+                    searchBtn.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                });
+            }
         }
 
         void OpenRequested(int idx)

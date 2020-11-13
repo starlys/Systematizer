@@ -77,7 +77,16 @@ namespace Systematizer.WPF
             foreach (var cb in cachedBoxes)
                 VM.Results.Add(new BoxPreviewVM(new AgendaEntry { Box = cb, Time = cb.BoxTime }, null, ItemGotFocus));
             foreach (var vm in VM.Results) vm.TimeClicked = HandleTimeClicked;
-            if (VM.GetResultsControl != null) VM.GetResultsControl().Focus();
+
+            var searchBtn = VM.GetPreResultsControl?.Invoke();
+            if (searchBtn != null && cachedBoxes.Length > 0)
+            {
+                VisualUtils.DelayThen(20, () =>
+                {
+                    searchBtn.Focus();
+                    searchBtn.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                });
+            }
         }
 
         void HandleTimeClicked(BoxPreviewVM pvm, FrameworkElement eventSource)

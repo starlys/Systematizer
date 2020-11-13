@@ -158,7 +158,7 @@ namespace Systematizer.Common
 
         internal static IEnumerable<CachedBox> LoadBoxesByParent(SystematizerContext db, long parentId)
         {
-            return LoadForCaching(db.Box.Where(r => r.ParentId == parentId));
+            return LoadForCaching(db.Box.Where(r => r.ParentId == parentId).OrderBy(r => r.Title));
         }
 
         internal static long[] BoxesWithChildren(SystematizerContext db, long[] ids)

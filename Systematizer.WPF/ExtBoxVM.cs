@@ -169,7 +169,7 @@ namespace Systematizer.WPF
         public WinVisibility ClassificationPanelVisibility => ToVisibility(Persistent.Box.IsUnclass == 0);
         public WinVisibility BoxTime_DateVisibility => ToVisibility(TimeType >= Constants.TIMETYPE_APPROX);
         public WinVisibility DurationVisibility => ToVisibility(TimeType >= Constants.TIMETYPE_DAY);
-        public WinVisibility BoxTime_TimeVisibility => ToVisibility(TimeType >= Constants.TIMETYPE_MINUTE);
+        public WinVisibility BoxTime_TimeVisibility => ToVisibility(TimeType >= Constants.TIMETYPE_DAY);
 
         string _title;
         public string Title

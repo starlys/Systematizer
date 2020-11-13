@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,14 +19,16 @@ namespace Systematizer.WPF
             InitializeComponent();
             Loaded += (s, e) =>
             {
-                //remove key bindings except C, V
+                //remove key bindings except A, C, X, V
                 for (Key k = Key.A; k <= Key.Z; ++k)
                 {
-                    if (k == Key.C || k == Key.V) continue;
+                    if (k == Key.C || k == Key.V || k == Key.A || k == Key.X) continue;
                     AddNoopCtrlKeyBinding(k);
                 }
+                DataObject.AddPastingHandler(eRTB, new DataObjectPastingEventHandler(OnPaste));
                 VM?.Initialize(eRTB);
             };
+            
         }
 
         public void FocusMainControl()
@@ -36,6 +39,15 @@ namespace Systematizer.WPF
         void eRTB_LostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
             VM?.UpdateText();
+        }
+
+        void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            if (!e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText)) return;
+            string s = e.SourceDataObject.GetData(DataFormats.UnicodeText) as string;
+            if (s == null) return;
+            Clipboard.SetText(s);
+            //eRTB.Paste();
         }
 
         void CommandBinding_Disabled(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)

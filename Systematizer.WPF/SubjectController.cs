@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Systematizer.Common;
+using Systematizer.Common.PersistentModel;
 
 namespace Systematizer.WPF
 {
@@ -63,7 +64,16 @@ namespace Systematizer.WPF
             if (command == Globals.Commands.NEWLINKEDBOX)
             {
                 UIGlobals.Deferred.OnNewBox = new DeferredBehaviors.NewBoxBehavior { ParentId = LastFocusedBoxId };
-                UIGlobals.Do.HandleGlobalCommand(Globals.Commands.NEWITEM);
+                //UIGlobals.Do.HandleGlobalCommand(Globals.Commands.NEWITEM);
+                var box = new Box
+                {
+                    TimeType = Constants.TIMETYPE_NONE,
+                    Importance = Constants.IMPORTANCE_NORMAL,
+                    Visibility = Constants.VISIBILITY_NORMAL
+                };
+                var ebox = new ExtBox(box, null);
+                UIGlobals.Do.AddBoxToEditStack(ebox);
+                UIGlobals.Do.ShowTimedMessge($"New note will be filed under selected note.");
             }
             return base.HandleCommand(command);
         }
@@ -73,7 +83,7 @@ namespace Systematizer.WPF
             bool rootChanged = changes != null && changes.IsRootSubjectsChanged;
             if (VM.RootRows.Count == 0 || rootChanged)
                 RefreshRoot();
-            if (changes != null && changes.IsChildSubjectsChanged)
+            if (changes != null)
                 RefreshChildren(changes);
         }
 
@@ -137,10 +147,9 @@ namespace Systematizer.WPF
             if (rowVM.Status == SubjectVM.ChildrenStatus.No)
                 reloadNeeded = changes.NewParentId == thisId;
             else if (rowVM.Status == SubjectVM.ChildrenStatus.YesLoaded)
-                reloadNeeded = (changes.IsParentageChanged && (changes.OldParentId == thisId || changes.NewParentId == thisId))
-                    || changes.IsTitleChanged;
+                reloadNeeded = (changes.IsParentageChanged || changes.IsTitleChanged) && (changes.OldParentId == thisId || changes.NewParentId == thisId);
             else if (rowVM.Status == SubjectVM.ChildrenStatus.YesPlaceholder)
-                reloadNeeded = changes.IsParentageChanged && (changes.OldParentId == thisId || changes.NewParentId == thisId);
+                reloadNeeded = false; //was: changes.IsParentageChanged && (changes.OldParentId == thisId || changes.NewParentId == thisId);
 
             //found it, so reload (which collapses children)
             if (reloadNeeded)

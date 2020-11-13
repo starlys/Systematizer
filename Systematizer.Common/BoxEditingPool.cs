@@ -29,7 +29,7 @@ namespace Systematizer.Common
                 || OldDuration != NewDuration
                 || OldDoneDate != NewDoneDate || OldRepeatInfo != NewRepeatInfo || IsTitleChanged;
 
-            bool InvolvesSubjects => OldTimeType == Constants.TIMETYPE_NONE || NewTimeType == Constants.TIMETYPE_NONE;
+            bool InvolvesSubjects => OldTimeType == Constants.TIMETYPE_NONE || NewTimeType == Constants.TIMETYPE_NONE; //this is only true if is root
             bool InvolvesRoots => OldParentId == 0 || NewParentId == 0 || OldParentId == null || NewParentId == null;
             bool InvolvesRootSubjects => InvolvesRoots && InvolvesSubjects;
             
@@ -44,11 +44,6 @@ namespace Systematizer.Common
             /// True if the subject tree roots list is changed
             /// </summary>
             public bool IsRootSubjectsChanged => InvolvesRootSubjects && (IsTitleChanged || IsParentageChanged);
-
-            /// <summary>
-            /// True if the subject tree is changed outside of root list (requires more expensive reloads)
-            /// </summary>
-            public bool IsChildSubjectsChanged => InvolvesSubjects && (IsTitleChanged || IsParentageChanged);
         }
 
         /// <summary>

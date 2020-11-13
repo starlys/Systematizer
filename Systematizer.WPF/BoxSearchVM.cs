@@ -13,9 +13,9 @@ namespace Systematizer.WPF
         public readonly Action SearchRequested;
 
         /// <summary>
-        /// Optionally implemented by code behind to return the results ItemsControl
+        /// Optionally implemented by code behind to return the control immediately prior to the results
         /// </summary>
-        public Func<FrameworkElement> GetResultsControl { get; set; }
+        public Func<FrameworkElement> GetPreResultsControl { get; set; }
 
         public readonly bool DoneMode;
 

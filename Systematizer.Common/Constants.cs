@@ -27,7 +27,7 @@ namespace Systematizer.Common
         {
             new KeyValuePair<short, string>(IMPORTANCE_LOW, "Optional"),
             new KeyValuePair<short, string>(IMPORTANCE_NORMAL, "Normal"),
-            new KeyValuePair<short, string>(IMPORTANCE_HIGH, "High priority")
+            new KeyValuePair<short, string>(IMPORTANCE_HIGH, "Keep-alive")
         };
 
         public static KeyValuePair<short, string>[] VISIBILITY_UICHOICES = new[]

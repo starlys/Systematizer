@@ -62,6 +62,7 @@ namespace Systematizer.WPF
             if (e.Key == Key.Enter)
             {
                 OpenFromLabel((Label)sender);
+                e.Handled = true;
             }
         }
 

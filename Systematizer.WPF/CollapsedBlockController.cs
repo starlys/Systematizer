@@ -56,7 +56,8 @@ namespace Systematizer.WPF
                 var data = new PersonSearchController.CollapseData
                 {
                     IncludeDetailsCri = vm8.IncludeDetailsCri,
-                    TermCri = vm8.TermCri
+                    TermCri = vm8.TermCri,
+                    CatIdCri = vm8.CatIdCri
                 };
                 return new CollapsedBlockController(typeof(PersonSearchController), blockGotFocusHandler, expansionRequested, vm8.BlockTitle, data, true);
             }
@@ -164,6 +165,7 @@ namespace Systematizer.WPF
                 var c = new PersonSearchController(blockGotFocusHandler, collapseRequested);
                 c.VM.TermCri = inflateData.TermCri;
                 c.VM.IncludeDetailsCri = inflateData.IncludeDetailsCri;
+                c.VM.CatIdCri = inflateData.CatIdCri;
                 c.SearchRequested();
                 return c;
             }

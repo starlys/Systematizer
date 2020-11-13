@@ -21,17 +21,17 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Search for:"/>
-                    <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left" PreviewKeyDown="Search_PreviewKeyDown"/>
                     <CheckBox Grid.Row="1" Grid.Column="1" Margin="4" Content="Also search in details" IsChecked="{Binding IncludeDetailsCri}"/>
                     <TextBlock Grid.Row="2" Text="Done since:" Visibility="{Binding DoneSinceVisibility}" />
                     <Grid Grid.Row="2" Grid.Column="1" Margin="4" Visibility="{Binding DoneSinceVisibility}" >
                         <local:DateView DataContext="{Binding DoneSinceCri}" />
                     </Grid>
-                    <Button Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Click="Search_Click">Search</Button>
+                    <Button Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Click="Search_Click" x:Uid="eSearch">Search</Button>
                 </Grid>
             </Border>
             <TextBlock Text="(No results)" Visibility="{Binding EmptyMessageVisibility}"/>
-            <ItemsControl ItemsSource="{Binding Results}" x:Uid="eResults">
+            <ItemsControl ItemsSource="{Binding Results}" IsTabStop="False" x:Uid="eResults">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <local:BoxPreviewView />

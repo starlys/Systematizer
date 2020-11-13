@@ -131,13 +131,14 @@ namespace Systematizer.Common
             var eveningBoxIds = new List<long>();
             foreach (var box in scheduledBoxes.Where(r => r.BoxTime.StartsWith(date)))
             {
-                if (int.TryParse(box.BoxTime.Substring(6, 2), out int hr))
+                if (int.TryParse(box.BoxTime.Substring(8, 2), out int hr))
                 {
                     if (hr < 18) afternoonBoxIds.Add(box.RowId);
                     else eveningBoxIds.Add(box.RowId);
                 }
             }
-
+            defchunks[1].BoxIds = afternoonBoxIds.ToArray();
+            defchunks[2].BoxIds = eveningBoxIds.ToArray();
             return defchunks;
         }
     }

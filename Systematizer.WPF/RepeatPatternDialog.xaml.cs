@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using Systematizer.Common;
 
 namespace Systematizer.WPF
@@ -197,6 +196,7 @@ namespace Systematizer.WPF
 
         void OK_Click(object sender, RoutedEventArgs e)
         {
+            VisualUtils.LoseRegainFocus();
             Result = Validate();
             if (Result != null) DialogResult = true;
         }
@@ -238,6 +238,21 @@ namespace Systematizer.WPF
                 return null;
             }
             return ret;
+        }
+
+        private void NDaysDetail_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VM.KindIsNDays = true;
+        }
+
+        private void DayOfMonthDetail_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VM.KindIsDayOfMonth = true;
+        }
+
+        private void WeekOfMonthDetail_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VM.KindIsWeekOfMonth = true;
         }
     }
 }

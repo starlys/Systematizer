@@ -37,7 +37,7 @@ Some design points:
 
 ## Installation
 
-* [Download the Windows installer](Systematizer-1.1.2.msi?raw=true). 
+* [Download the Windows installer for version 1.1.3](Systematizer-1.1.3.msi?raw=true). 
 * Windows will say the file is dangerous because we haven't done any of the security tasks for publishing software, so it's being helpful. You should only bypass the warning and run the installer if you trust the source, which in this case means you know the author. 
 * If you run it and it requests to install the "NET Core runtime", then go ahead and download it as requested, but be sure to run the "x86" version.
 
@@ -84,7 +84,7 @@ pane does not show that date, so that tasks are not shown in both places.
 
 ### Kinds of tasks
 
-In the task or note pane, there are 3 dropdown selections: schedule type, visibility, and priority.
+In the task or note pane, there are 3 dropdown selections: schedule type, visibility, and importance.
 
 * Schedule type is used to specify how accurately the task is scheduled:
   * Not scheduled: Use this for notes that are not tasks at all.
@@ -98,13 +98,13 @@ In the task or note pane, there are 3 dropdown selections: schedule type, visibi
   * Plan around: The default for tasks scheduled at an exact time that you would need to plan other things around (these are shown on the Agenda)
   * Highlight: Use this to give the task a bright color - more details below.
 
-* Priority
+* Importance
   * Optional: Use this for tuning into a broadcast or something that you do not necessarily need to do. If missed, it will automatically mark it as done.
   * Normal: The default (most things)
-  * High priority: Use this for things that it would be terrible to miss. It makes it harder to mark the task as done.
+  * Keep-alive: Use this for things that it would be terrible to miss. It forces an extra step to mark the task as done.
 
-This seems confusing maybe, but it's helpful to distinguish these three categorizations to keep the clutter down without losing sight of the important things.
-Visibility controls how you plan around the thing - where it shows up. Priority controls how easy it is to complete the task. Schedule type controls how
+This may seem confusing, but it's helpful to distinguish these three categorizations to keep the clutter down without losing sight of the important things.
+Visibility controls how you plan around the thing - where it shows up. Importance controls how easy it is to complete the task. Schedule type controls how
 it works with time and date.
 
 ### The "Agenda" pane

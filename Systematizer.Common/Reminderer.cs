@@ -30,7 +30,8 @@ namespace Systematizer.Common
         {
             string message = box.Title;
             if (isPrep) message = $"{box.PrepDuration}: {box.Title}";
-            Globals.UIAction.ShowToasterNotification(message);
+            bool extraTime = box.Importance == Constants.IMPORTANCE_HIGH;
+            Globals.UIAction.ShowToasterNotification(message, extraTime);
         }
 
     }

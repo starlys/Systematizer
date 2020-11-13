@@ -13,12 +13,18 @@ namespace Systematizer.Common
         /// <summary>
         /// Can be used for VM binding
         /// </summary>
-        public class Item
+        public class Item : IComparable
         {
             public long RowId;
             public string Name { get; set; }
             public Item Parent;
             public List<Item> Children { get; set; } //null ok
+
+            public int CompareTo(object obj)
+            {
+                var i2 = obj as Item;
+                return (Name ?? "").CompareTo(i2?.Name);
+            }
         }
 
         public List<Item> Roots;
@@ -55,7 +61,8 @@ namespace Systematizer.Common
                     }
                 }
             }
-            Roots = roots.ToList();
+            SortRecursive(roots);
+            Roots = roots;
         }
 
         /// <summary>
@@ -115,6 +122,14 @@ namespace Systematizer.Common
                 }
             }
             return null;
+        }
+
+        void SortRecursive(List<Item> list)
+        {
+            list.Sort();
+            foreach (var it in list)
+                if (it.Children != null)
+                    SortRecursive(it.Children);
         }
     }
 }

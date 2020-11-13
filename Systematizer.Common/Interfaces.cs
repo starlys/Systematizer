@@ -10,7 +10,8 @@ namespace Systematizer.Common
         /// <summary>
         /// Show OS level notification even when app is not showing
         /// </summary>
-        void ShowToasterNotification(string message);
+        /// <param name="extraTime">if true, shows for a long time for high importance</param>
+        void ShowToasterNotification(string message, bool extraTime);
 
         /// <summary>
         /// Set the UI in or out of idle mode; also see UIService.RequestWakeUp

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Systematizer.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="150" d:DesignWidth="200">
     <DockPanel>
         <StackPanel DockPanel.Dock="Left" Visibility="{Binding EditModeVisibility}">
             <Button IsTabStop="False" Command="{Binding HeadingFormat}" CommandTarget="{Binding ElementName=eRTB}" ToolTip="Heading">H</Button>

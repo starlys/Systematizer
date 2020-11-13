@@ -22,9 +22,9 @@ namespace Systematizer.WPF
                 {
                     return VisualUtils.GetByUid(this, "eTerm") as TextBox;
                 };
-                VM.GetResultsControl = () =>
+                VM.GetPreResultsControl = () =>
                  {
-                     return VisualUtils.GetByUid(this, "eResults") as ItemsControl;
+                     return VisualUtils.GetByUid(this, "eSearch") as Button;
                  };
             };
         }
@@ -32,6 +32,15 @@ namespace Systematizer.WPF
         void Search_Click(object sender, RoutedEventArgs e)
         {
             VM.SearchRequested();
+        }
+
+        private void Search_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                VM.SearchRequested();
+                e.Handled = true;
+            }
         }
     }
 }

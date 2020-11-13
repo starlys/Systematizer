@@ -12,14 +12,14 @@
         <RadioButton Margin="8" IsChecked="{Binding KindIsNDays}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Every "/>
-                <TextBox Text="{Binding NDaysArg}" Width="18"/>
+                <TextBox Text="{Binding NDaysArg}" GotFocus="NDaysDetail_GotFocus" Width="18"/>
                 <TextBlock Text=" day(s) "/>
             </StackPanel>
         </RadioButton>
         <RadioButton Margin="8" IsChecked="{Binding KindIsDayOfMonth}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Day "/>
-                <TextBox Text="{Binding DayOfMonthArg}" Width="18"/>
+                <TextBox Text="{Binding DayOfMonthArg}" GotFocus="DayOfMonthDetail_GotFocus" Width="18"/>
                 <TextBlock Text=" in every month "/>
             </StackPanel>
         </RadioButton>
@@ -27,7 +27,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Every "/>
                 <!-- we are ignoring the value of the ComboBox; it's only here to create a dropdown container-->
-                <ComboBox ItemsSource="{Binding WeeksOfMonth}" IsEditable="False" IsReadOnly="True" Width="16" Margin="4,0">
+                <ComboBox ItemsSource="{Binding WeeksOfMonth}" GotFocus="WeekOfMonthDetail_GotFocus" IsEditable="False" IsReadOnly="True" Width="16" Margin="4,0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Name}" />
@@ -35,7 +35,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock Text="{Binding WeeksOfMonthDisplay}"/>
-                <ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedValuePath="Value" DisplayMemberPath="Name" SelectedValue="{Binding WeekOfMonthArg1}" Margin="4,0"/>
+                <ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedValuePath="Value" DisplayMemberPath="Name" SelectedValue="{Binding WeekOfMonthArg1}" GotFocus="WeekOfMonthDetail_GotFocus" Margin="4,0"/>
                 <TextBlock Text=" of the momth "/>
             </StackPanel>
         </RadioButton>

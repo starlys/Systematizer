@@ -32,14 +32,15 @@ namespace Systematizer.WPF
             UIGlobals.Do.ShowHideIdleMode(idle);
         }
 
-        public void ShowToasterNotification(string message)
+        public void ShowToasterNotification(string message, bool extraTime)
         {
+            int seconds = extraTime ? 120 : 12;
             Toaster.ShowAsync(new NotificationContent
             {
                 Title = "Systematizer",
                 Message = message,
-                Type = NotificationType.Information
-            });
+                Type = NotificationType.Success
+            }, expirationTime: TimeSpan.FromSeconds(seconds));
             SystemSounds.Exclamation.Play();
         }
     }

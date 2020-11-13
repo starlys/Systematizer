@@ -346,7 +346,8 @@ namespace Systematizer.WPF
             if (doMarkDone)
             {
                 userMessage = "Task done!";
-                bool hasUndoneChildren = Globals.UI.CheckBoxesExist(parentRowId: VM.Persistent.Box.RowId, filterByNotDone: true);
+                long boxId = VM.Persistent.Box.RowId;
+                bool hasUndoneChildren = boxId > 0 && Globals.UI.CheckBoxesExist(parentRowId: boxId, filterByNotDone: true);
                 if (hasUndoneChildren)
                 {
                     doMarkDone = false;
@@ -355,7 +356,7 @@ namespace Systematizer.WPF
                 }
                 else if (VM.Importance == Constants.IMPORTANCE_HIGH)
                 {
-                    if (!VisualUtils.Confirm("Task is marked important. About to remove from calendar."))
+                    if (!VisualUtils.Confirm("Careful: task is marked as 'keep-alive'. About to remove from calendar!"))
                     {
                         doMarkDone = false;
                         doCollapseBlock = doRemoveBlock = false;
@@ -368,8 +369,24 @@ namespace Systematizer.WPF
                 VM.DoneDate = DateUtil.ToYMD(DateTime.Today);
             if (doCollapseBlock)
             {
-                ChangeMode(Mode.ReadOnly, true);
-                CollapseRequested(this, doRemoveBlock);
+                bool saveOK = ChangeMode(Mode.ReadOnly, true);
+                if (saveOK)
+                {
+                    CollapseRequested(this, doRemoveBlock);
+                }
+                else
+                {
+                    //edge case: save failed on a quicknote because it has no title, so create a title so it can be saved as done
+                    if (VM.IsUnclass && string.IsNullOrWhiteSpace(VM.Title))
+                    {
+                        VM.Title = "quick note";
+                        saveOK = ChangeMode(Mode.ReadOnly, true);
+                        if (saveOK)
+                            CollapseRequested(this, doRemoveBlock);
+                        else
+                            userMessage = "Saving failed, so cannot mark it as done";
+                    }
+                }
             }
             if (userMessage != null)
                 UIGlobals.Do.ShowTimedMessge(userMessage);
