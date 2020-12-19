@@ -47,7 +47,7 @@ namespace Systematizer.WPF
                 else
                     DisplayTime = "(Past)";
             }
-            else DisplayTime = "";
+            else DisplayTime = "---";
         }
 
         Brush _dragTargetColor = UIGlobals.TRANSPARENT_BRUSH;

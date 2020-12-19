@@ -194,6 +194,10 @@ namespace Systematizer.Common
             MenuSection = SECTION_BOXDETAIL,
             KeyShortcut = "CF6"
         };
+        public readonly Item CLEAREMAIL = new Item
+        {
+            Description = "Clear captured email"
+        };
 
         //SECTION_PERSONDETAIL
         public readonly Item EDITCATEGORIES = new Item
@@ -252,7 +256,7 @@ namespace Systematizer.Common
 
                 //SECTION_BOXDETAIL
                 CLASSIFY, RESCHEDULE, DONE, NEWLINKEDPERSON, SELECTFOLDER, OPENFOLDER, SELECTFILE, OPENFILE, CREATEFILE,
-                CAPTUREEMAIL, VIEWEMAIL,
+                CAPTUREEMAIL, CLEAREMAIL, VIEWEMAIL,
 
                 //SECTION_PERSONDETAIL
                 EDITCATEGORIES, SENDEMAIL, DELETEPERSON,

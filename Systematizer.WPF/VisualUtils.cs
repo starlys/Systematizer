@@ -41,6 +41,17 @@ namespace Systematizer.WPF
         }
 
         /// <summary>
+        /// Advance focus (as if user pressed tab)
+        /// </summary>
+        public static void FocusNext()
+        {
+            if (Keyboard.FocusedElement is Control ctrl)
+            {
+                ctrl.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
+
+        /// <summary>
         /// Make the current control lose then regain focus; use this to ensure binding is completed in the focused control
         /// </summary>
         public static void LoseRegainFocus()

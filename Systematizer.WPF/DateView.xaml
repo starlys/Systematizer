@@ -11,7 +11,7 @@
         <ToggleButton x:Name="eToggle" Click="CalendarToggle_Click" IsTabStop="False" Visibility="{Binding EditModeVisibility}" BorderThickness="0" Background="Transparent">
             <Image Source="pack://application:,,,/icons/calendar.png"/>
         </ToggleButton>
-        <Popup IsOpen="{Binding IsCalendarOpen}" Width="180" Height="164">
+        <Popup IsOpen="{Binding IsCalendarOpen}" Width="180" Height="164" StaysOpen="False" Closed="Popup_Closed">
             <Calendar x:Name="eCalendar" HorizontalAlignment="Stretch" SelectedDate="{Binding CalendarDate}" SelectedDatesChanged="Calendar_SelectedDatesChanged" />
         </Popup>
         <TextBlock Text="{Binding DateDisplay}" Margin="2"/>

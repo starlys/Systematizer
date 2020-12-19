@@ -26,5 +26,10 @@ namespace Systematizer.WPF
         {
             VM.HandleCommand?.Invoke(Globals.Commands.CAPTUREEMAIL);
         }
+
+        void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            VM.HandleCommand?.Invoke(Globals.Commands.CLEAREMAIL);
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace Systematizer.WPF
 
         /// <summary>
         /// The number of days to omit from the head of the agenda; used to hide today and tomorrow if those other views are open.
-        /// Caller must call Refresh after this
+        /// Caller must call Refresh after this is set. Ignored if viewing low clutter.
         /// </summary>
         public int NDaysToOmit
         {
@@ -105,8 +105,12 @@ namespace Systematizer.WPF
 
             VM.Rows.Clear();
 
+            //figure days to omit
+            int effectiveNDaysToOmit = NDaysToOmit;
+            if (VM.BoxVisibilityIncluded <= Constants.VISIBILITY_NORMAL) effectiveNDaysToOmit = 0;
+
             //figure date range to include
-            DateTime startDt = DateTime.Today.AddDays(NDaysToOmit), endDt = DateTime.Today.AddMonths(1);
+            DateTime startDt = DateTime.Today.AddDays(effectiveNDaysToOmit), endDt = DateTime.Today.AddMonths(1);
             if (Size == AgendaSize.TwoWeeks) endDt = DateTime.Today.AddDays(14);
             else if (Size == AgendaSize.All && agendaItems.Any())
                 endDt = DateUtil.ToDateTime(agendaItems.Last().Time).Value.AddMonths(1); //month past last item

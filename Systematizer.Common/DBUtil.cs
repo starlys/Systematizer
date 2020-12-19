@@ -156,14 +156,18 @@ namespace Systematizer.Common
             return LoadForCaching(db.Box.FromSqlRaw(sql));
         }
 
-        internal static IEnumerable<CachedBox> LoadBoxesByParent(SystematizerContext db, long parentId)
+        internal static IEnumerable<CachedBox> LoadBoxesByParent(SystematizerContext db, long parentId, bool onlyNotDone)
         {
-            return LoadForCaching(db.Box.Where(r => r.ParentId == parentId).OrderBy(r => r.Title));
+            var q = db.Box.Where(r => r.ParentId == parentId);
+            if (onlyNotDone) q = q.Where(r => r.DoneDate == null);
+            return LoadForCaching(q).OrderBy(r => r.Title);
         }
 
-        internal static long[] BoxesWithChildren(SystematizerContext db, long[] ids)
+        internal static long[] BoxesWithChildren(SystematizerContext db, long[] ids, bool onlyNotDone)
         {
-            var boxIdsWithChildren = db.Box.Where(b => ids.Contains(b.RowId) && db.Box.Any(b2 => b2.ParentId == b.RowId)).Select(b => b.RowId).ToArray();
+            var q = db.Box.Where(b => ids.Contains(b.RowId) && db.Box.Any(b2 => b2.ParentId == b.RowId));
+            if (onlyNotDone) q = db.Box.Where(b => ids.Contains(b.RowId) && db.Box.Any(b2 => b2.ParentId == b.RowId && b2.DoneDate == null));
+            var boxIdsWithChildren = q.Select(b => b.RowId).ToArray();
             return boxIdsWithChildren;
         }
 

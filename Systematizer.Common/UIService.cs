@@ -192,11 +192,11 @@ namespace Systematizer.Common
             }
         }
 
-        public CachedBox[] LoadBoxesByParent(long parentId)
+        public CachedBox[] LoadBoxesByParent(long parentId, bool onlyNotDone)
         {
             using (var db = new SystematizerContext())
             {
-                return DBUtil.LoadBoxesByParent(db, parentId).ToArray();
+                return DBUtil.LoadBoxesByParent(db, parentId, onlyNotDone).ToArray();
             }
         }
 
@@ -270,12 +270,12 @@ namespace Systematizer.Common
         /// <summary>
         /// Return a subset of rowIds given in the argument, including only those Box ids that have child boxes
         /// </summary>
-        public long[] BoxesWithChildren(long[] ids)
+        public long[] BoxesWithChildren(long[] ids, bool onlyNotDone)
         {
             if (ids.Length == 0) return new long[0];
             using (var db = new SystematizerContext())
             {
-                return DBUtil.BoxesWithChildren(db, ids);
+                return DBUtil.BoxesWithChildren(db, ids, onlyNotDone);
             }
         }
 

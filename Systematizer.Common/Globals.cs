@@ -6,7 +6,7 @@ namespace Systematizer.Common
     public static class Globals
     {
         //db info
-        public static string DatabasePath;
+        public static string DatabasePath; //null when db closed
         public static ConnectionWrapper Connection;
         public static BoxCache BoxCache = new BoxCache();
 

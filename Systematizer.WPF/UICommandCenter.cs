@@ -128,14 +128,15 @@ namespace Systematizer.WPF
         /// <summary>
         /// Find command that goes with the given key, or null - for keys to check before focus element sees it
         /// </summary>
-        public CommandCenter.Item KeyToItem_Early(Key key, bool isCtrl)
+        /// <param name="isCtrlOnly">true if ctrl but no other modifier is down</param>
+        public CommandCenter.Item KeyToItem_Early(Key key, bool isCtrlOnly)
         {
             //manual mapping of the commands that aren't ctrl+letter
-            if (key == Key.Space && isCtrl) return Globals.Commands.OPENMENU;
-            if (key == Key.Left && isCtrl) return Globals.Commands.NAVOTHERSTACK;
-            if (key == Key.Right && isCtrl) return Globals.Commands.NAVOTHERSTACK;
-            if (key == Key.Up && isCtrl) return Globals.Commands.NAVPRIORBLOCK;
-            if (key == Key.Down && isCtrl) return Globals.Commands.NAVNEXTBLOCK;
+            if (key == Key.Space && isCtrlOnly) return Globals.Commands.OPENMENU;
+            if (key == Key.Left && isCtrlOnly) return Globals.Commands.NAVOTHERSTACK;
+            if (key == Key.Right && isCtrlOnly) return Globals.Commands.NAVOTHERSTACK;
+            if (key == Key.Up && isCtrlOnly) return Globals.Commands.NAVPRIORBLOCK;
+            if (key == Key.Down && isCtrlOnly) return Globals.Commands.NAVNEXTBLOCK;
             return null;
 
         }

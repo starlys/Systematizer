@@ -68,6 +68,7 @@ namespace Systematizer.WPF
         /// </summary>
         public void UpdateText()
         {
+            if (TextBox == null) return;
             IsUpdatingText = true;
             string newText = FlowDocumentToText(TextBox.Document);
             if (newText != Text)

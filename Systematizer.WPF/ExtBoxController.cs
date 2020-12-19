@@ -241,9 +241,16 @@ namespace Systematizer.WPF
                 UIGlobals.Do.ShowTimedMessge("Email captured");
                 return true;
             }
+            if (command == Globals.Commands.CLEAREMAIL)
+            {
+                VM.RawEmail.Value = null;
+                VM.NotifyVisibilityDetails();
+                UIGlobals.Do.ShowTimedMessge("Email cleared");
+                return true;
+            }
             if (command == Globals.Commands.VIEWEMAIL)
             {
-                string s = Clipboard.GetText();
+                //string s = Clipboard.GetText();
                 if (!VM.RawEmail.HasValue)
                 {
                     VisualUtils.ShowMessageDialog("No email was captured into this task.");
@@ -376,10 +383,10 @@ namespace Systematizer.WPF
                 }
                 else
                 {
-                    //edge case: save failed on a quicknote because it has no title, so create a title so it can be saved as done
-                    if (VM.IsUnclass && string.IsNullOrWhiteSpace(VM.Title))
+                    //edge case: save failed because it has no title, so create a title so it can be saved as done
+                    if (string.IsNullOrWhiteSpace(VM.Title))
                     {
-                        VM.Title = "quick note";
+                        VM.Title = VM.IsUnclass ? "quick note" : "task";
                         saveOK = ChangeMode(Mode.ReadOnly, true);
                         if (saveOK)
                             CollapseRequested(this, doRemoveBlock);

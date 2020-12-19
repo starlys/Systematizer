@@ -24,8 +24,7 @@ namespace Systematizer.WPF
                 if (VM == null) return;
                 VM.GetMainControl = () =>
                 {
-                    var chunksView = VisualUtils.GetByUid(this, "eChunkList") as ItemsControl;
-                    var chunkView = chunksView.ItemContainerGenerator.ContainerFromIndex(0);
+                    var chunkView = ChunkList.ItemContainerGenerator.ContainerFromIndex(0);
                     if (chunkView == null) return null;
                     var chunkTitle = VisualUtils.GetByUid(chunkView, "eChunkTitle") as TextBox;
                     return chunkTitle;
@@ -37,8 +36,7 @@ namespace Systematizer.WPF
         {
             var tb = (TextBox)sender;
             tb.SelectAll();
-            var chunksView = VisualUtils.GetByUid(this, "eChunkList") as ItemsControl;
-            var chunkIdx = VisualUtils.IndexOfControlInItemsControl(chunksView, tb);
+            var chunkIdx = VisualUtils.IndexOfControlInItemsControl(ChunkList, tb);
             if (chunkIdx >= 0) VM.ChunkGotFocus(chunkIdx);
         }
 

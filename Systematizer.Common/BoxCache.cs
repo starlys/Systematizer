@@ -22,7 +22,8 @@ namespace Systematizer.Common
             using (var db = new SystematizerContext())
             {
                 ScheduledBoxes = DBUtil.LoadForCaching(db.Box.Where(r => r.BoxTime != null && r.DoneDate == null));
-                TopNotes = DBUtil.LoadForCaching(db.Box.Where(r => r.BoxTime == null && r.ParentId == null && r.IsUnclass == 0));
+                //note code duplication with next line and UpdateCacheAfterSave
+                TopNotes = DBUtil.LoadForCaching(db.Box.Where(r => r.BoxTime == null && r.ParentId == null && r.IsUnclass == 0 && r.DoneDate == null));
             }
 
             var projector = new RepeatProjector();
@@ -126,7 +127,7 @@ namespace Systematizer.Common
                 Agenda.AddRange(projector.Project(cb, true));
                 SortAgenda();
             }
-            else if (box.ParentId == null && box.DoneDate == null)
+            else if (box.BoxTime == null && box.ParentId == null && box.IsUnclass == 0 && box.DoneDate == null)
             {
                 var cb = FullBoxToCachedBox(box);
                 TopNotes.Add(cb);

@@ -9,6 +9,8 @@ namespace Systematizer.Common
     /// </summary>
     public class MultiDayChunkSet
     {
+        public const int STARTEVENINGHR = 18, STARTAFTERNOONHR = 12;
+
         public class Chunk
         {
             public string Title;
@@ -131,15 +133,27 @@ namespace Systematizer.Common
             var eveningBoxIds = new List<long>();
             foreach (var box in scheduledBoxes.Where(r => r.BoxTime.StartsWith(date)))
             {
-                if (int.TryParse(box.BoxTime.Substring(8, 2), out int hr))
-                {
-                    if (hr < 18) afternoonBoxIds.Add(box.RowId);
-                    else eveningBoxIds.Add(box.RowId);
-                }
+                int cidx = GetDefaultChunkIndex(box.BoxTime);
+                if (cidx == 2) eveningBoxIds.Add(box.RowId);
+                else if (cidx == 1) afternoonBoxIds.Add(box.RowId);
             }
             defchunks[1].BoxIds = afternoonBoxIds.ToArray();
             defchunks[2].BoxIds = eveningBoxIds.ToArray();
             return defchunks;
+        }
+
+        /// <summary>
+        /// Return 0 if the given time is unparsable or before noon; 1 if afternoon; 2 if evening
+        /// </summary>
+        public static int GetDefaultChunkIndex(string time)
+        {
+            if (time == null || time.Length < 12) return 0;
+            if (int.TryParse(time.Substring(8, 2), out int hr))
+            {
+                if (hr >= STARTEVENINGHR) return 2;
+                else if (hr >= STARTAFTERNOONHR) return 1;
+            }
+            return 0;
         }
     }
 }

@@ -47,7 +47,11 @@ namespace Systematizer.WPF
             };
             VM.RequestAddChunk = () =>
             {
-                VM.Chunks.Add(new TodayVM.ChunkVM { Title = VM.NewChunkTitle, IsDirty = true });
+                VM.Chunks.Add(new TodayVM.ChunkVM(VM, UserRemovedChunk)
+                {
+                    Title = VM.NewChunkTitle,
+                    IsDirty = true
+                });
                 VM.NewChunkTitle = "";
             };
             VM.DropOnChunkRequested = (BoxDragInfo di, TodayVM.ChunkVM chunkVM) =>
@@ -72,6 +76,7 @@ namespace Systematizer.WPF
             if (changes != null && !changes.IsAgendaChanged) return;
 
             string fourHours = DateUtil.ToYMDHM(DateTime.Now.AddHours(4));
+            bool anyChunkAssignments = false;
 
             //collect items from cache
             var agenda = Globals.BoxCache.GetAgenda();
@@ -108,21 +113,32 @@ namespace Systematizer.WPF
             {
                 //init VM's chunks
                 foreach (var c in chunkList.Chunks)
-                    VM.Chunks.Add(new TodayVM.ChunkVM
+                    VM.Chunks.Add(new TodayVM.ChunkVM(VM, UserRemovedChunk)
                     {
-                        Title = c.Title,
-                        Remove = UserRemovedChunk
+                        Title = c.Title
                     });
 
                 //init VM's boxes within chunks
                 foreach (var a in agendaItems)
                 {
-                    //chunk assignment can come from persistence, from DeferredBehavior, or default to first chunk
+                    //chunk assignment can come from persistence, from DeferredBehavior, from changes argument, or default to first chunk
                     var assignedChunk = chunkList.Chunks.FirstOrDefault(c => c.BoxIds != null && c.BoxIds.Contains(a.Box.RowId));
                     if (assignedChunk == null)
                     {
                         var ta = UIGlobals.Deferred.GetAndRemoveTaskAssign(a.Box.RowId);
-                        if (ta != null) assignedChunk = chunkList.Chunks.FirstOrDefault(c => c.Title == ta.ChunkTitle);
+                        if (ta != null)
+                        {
+                            assignedChunk = chunkList.Chunks.FirstOrDefault(c => c.Title == ta.ChunkTitle);
+                            anyChunkAssignments = true;
+                        }
+                        else if (changes != null && changes.NewBoxId == a.Box.RowId && changes.OldBoxTime == null)
+                        {
+                            //newly added task should go to the 2nd or 3rd chunk based on time of day
+                            int cidx = MultiDayChunkSet.GetDefaultChunkIndex(a.Time);
+                            if (cidx == 2 && chunkList.Chunks.Count > 2) assignedChunk = chunkList.Chunks[2];
+                            if (cidx == 1 && chunkList.Chunks.Count > 1) assignedChunk = chunkList.Chunks[1];
+                            anyChunkAssignments = true;
+                        }
                     }
                     if (assignedChunk == null) assignedChunk = chunkList.Chunks[0];
                     int chindex = chunkList.Chunks.IndexOf(assignedChunk);
@@ -135,6 +151,7 @@ namespace Systematizer.WPF
                     VM.Chunks[chindex].Items.Add(preview);
                 }
             }
+            if (anyChunkAssignments) SaveChunks(force: true);
         }
 
         /// <summary>

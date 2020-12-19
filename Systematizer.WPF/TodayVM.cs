@@ -13,6 +13,14 @@ namespace Systematizer.WPF
     {
         public class ChunkVM : BaseVM
         {
+            TodayVM Owner;
+
+            public ChunkVM(TodayVM owner, Action<ChunkVM> removeAction)
+            {
+                Owner = owner;
+                Remove = removeAction;
+            }
+
             string _title;
             public string Title
             {
@@ -22,7 +30,10 @@ namespace Systematizer.WPF
                     _title = value;
                     NotifyChanged();
                     if (string.IsNullOrEmpty(value) && Remove != null)
+                    {
                         Remove(this);
+                        VisualUtils.DelayThen(10, () => Owner.GetMainControl()?.Focus());
+                    }
                 }
             }
 
@@ -40,7 +51,7 @@ namespace Systematizer.WPF
             public ObservableCollection<BoxPreviewVM> Items { get; set; } = new ObservableCollection<BoxPreviewVM>();
 
             //actions injected by controller
-            public Action<ChunkVM> Remove;
+            readonly Action<ChunkVM> Remove;
         }
 
         /// <summary>
@@ -52,6 +63,9 @@ namespace Systematizer.WPF
         public Action RequestAddChunk;
         public Action<BoxDragInfo, ChunkVM> DropOnChunkRequested;
         public Action<int> ChunkGotFocus;
+
+        //actions injected by view
+        //public Action FocusFirstChunk
 
         /// <summary>
         /// Set up model with no agenda entries

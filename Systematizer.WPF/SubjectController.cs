@@ -113,7 +113,7 @@ namespace Systematizer.WPF
 
             //handle placeholders under those nodes that have actual children
             var rootIds = cachedRoots.Select(r => r.RowId).ToArray();
-            var withChildren = Globals.UI.BoxesWithChildren(rootIds);
+            var withChildren = Globals.UI.BoxesWithChildren(rootIds, true);
             foreach (var vm in VM.RootRows)
             {
                 bool hasChildren = withChildren.Contains(vm.Persistent.RowId);
@@ -147,7 +147,8 @@ namespace Systematizer.WPF
             if (rowVM.Status == SubjectVM.ChildrenStatus.No)
                 reloadNeeded = changes.NewParentId == thisId;
             else if (rowVM.Status == SubjectVM.ChildrenStatus.YesLoaded)
-                reloadNeeded = (changes.IsParentageChanged || changes.IsTitleChanged) && (changes.OldParentId == thisId || changes.NewParentId == thisId);
+                reloadNeeded = (changes.IsParentageChanged || changes.IsTitleChanged || changes.NewDoneDate != changes.OldDoneDate) 
+                    && (changes.OldParentId == thisId || changes.NewParentId == thisId);
             else if (rowVM.Status == SubjectVM.ChildrenStatus.YesPlaceholder)
                 reloadNeeded = false; //was: changes.IsParentageChanged && (changes.OldParentId == thisId || changes.NewParentId == thisId);
 
@@ -172,12 +173,12 @@ namespace Systematizer.WPF
         /// </summary>
         bool LoadChildrenOf(SubjectVM.RowVM parent)
         {
-            var children = Globals.UI.LoadBoxesByParent(parent.Persistent.RowId);
+            var children = Globals.UI.LoadBoxesByParent(parent.Persistent.RowId, true);
             parent.Status = children.Any() ? SubjectVM.ChildrenStatus.YesLoaded : SubjectVM.ChildrenStatus.No;
             parent.Children.AddRange(children.Select(r => new SubjectVM.RowVM(r, parent)));
 
             var ids = children.Select(r => r.RowId).ToArray();
-            var withChildren = Globals.UI.BoxesWithChildren(ids);
+            var withChildren = Globals.UI.BoxesWithChildren(ids, true);
             foreach (var id in withChildren)
             {
                 var child = parent.Children.FirstOrDefault(r => r.Persistent.RowId == id);

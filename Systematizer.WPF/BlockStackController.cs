@@ -235,6 +235,7 @@ namespace Systematizer.WPF
         /// </summary>
         public void FocusDelta(int delta)
         {
+            if (Controllers.Count == 0) return;
             int oldIdx = Controllers.IndexOf(FocusedChild); //could be -1
 
             //delta 0 case might need to be implemented as delta = 1

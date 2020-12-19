@@ -15,7 +15,7 @@ namespace Systematizer.Common
         {
             //note the initial values are set here to ensure that a new box will always show changes
 
-            public long BoxId;
+            public long OldBoxId, NewBoxId;
             public string OldTitle, NewTitle;
             public string OldDuration, NewDuration;
             public string OldBoxTime, NewBoxTime;
@@ -43,7 +43,7 @@ namespace Systematizer.Common
             /// <summary>
             /// True if the subject tree roots list is changed
             /// </summary>
-            public bool IsRootSubjectsChanged => InvolvesRootSubjects && (IsTitleChanged || IsParentageChanged);
+            public bool IsRootSubjectsChanged => InvolvesRootSubjects && (IsTitleChanged || IsParentageChanged || OldDoneDate != NewDoneDate);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Systematizer.Common
             Abandon(box.RowId); //ensure no double entries
             OpenItems.Add(new Item
             {
-                BoxId = box.RowId,
+                OldBoxId = box.RowId,
                 OldBoxTime = box.BoxTime,
                 OldDuration = box.Duration,
                 OldParentId = box.ParentId,
@@ -97,8 +97,9 @@ namespace Systematizer.Common
         /// <returns>null if not found</returns>
         internal Item CheckIn(Box box)
         {
-            var item = OpenItems.FirstOrDefault(b => b.BoxId == box.RowId);
+            var item = OpenItems.FirstOrDefault(b => b.OldBoxId == box.RowId);
             if (item == null) item = new Item(); //happens when this is a new box
+            item.NewBoxId = box.RowId;
             item.NewBoxTime = box.BoxTime;
             item.NewDuration = box.Duration;
             item.NewParentId = box.ParentId;
@@ -115,7 +116,7 @@ namespace Systematizer.Common
         /// </summary>
         internal void Abandon(long boxId)
         {
-            int idx = OpenItems.FindIndex(b => b.BoxId == boxId);
+            int idx = OpenItems.FindIndex(b => b.OldBoxId == boxId);
             if (idx >= 0) OpenItems.RemoveAt(idx);
         }
     }

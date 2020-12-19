@@ -34,8 +34,18 @@ namespace Systematizer.WPF
                     eCalendar.SelectedDate = current.Value;
                     eCalendar.DisplayDate = current.Value;
                 }
+                UIGlobals.WindowAffectsPopupAction = () => eToggle.IsChecked = false;
+            }
+            else
+            {
+                UIGlobals.WindowAffectsPopupAction = null;
             }
             VM.IsCalendarOpen = isOpen;
+        }
+
+        private void Win_LocationChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -51,6 +61,13 @@ namespace Systematizer.WPF
         {
             await Task.Delay(100);
             VM.InstaChange = "";
+        }
+
+        //this is called on any UI event outside the popup, because StaysOpen=false
+        private void Popup_Closed(object sender, EventArgs e)
+        {
+            eToggle.IsChecked = false;
+            //CalendarToggle_Click(null, null);
         }
     }
 }

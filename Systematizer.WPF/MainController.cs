@@ -55,11 +55,15 @@ namespace Systematizer.WPF
             Win.eRecordLinks.DataContext = UIGlobals.RecordLinkController.VM;
 
             //open default db or show settings dialog to select file
+            redoAutoOpen:
             string path = RecentFilesList.GetFileToAutoOpen();
             if (path == null)
                 HandleGlobalCommand(Globals.Commands.SETTINGS);
             else
                 OpenDatabaseWithErrorReporting(path);
+
+            //force open/create something
+            if (Globals.DatabasePath == null) goto redoAutoOpen;
 
             //set up 30s timer
             Timer30 = new DispatcherTimer();
@@ -194,10 +198,16 @@ namespace Systematizer.WPF
             Win.SizeChanged += (s, e) =>
             {
                 ResizeContents(e.NewSize.Width);
+                UIGlobals.WindowAffectsPopupAction?.Invoke();
+            };
+            Win.LocationChanged += (s, e) =>
+            {
+                UIGlobals.WindowAffectsPopupAction?.Invoke();
             };
             Win.StateChanged += (s, e) =>
             {
                 ShowHideIdleMode(false);
+                UIGlobals.WindowAffectsPopupAction?.Invoke();
             };
             Win.eMenuButton.Click += (s, e) =>
             {
@@ -212,7 +222,9 @@ namespace Systematizer.WPF
             {
                 UIGlobals.LastActivityUtc = DateTime.UtcNow;
                 bool isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-                var item = Commands.KeyToItem_Early(e.Key, isCtrl);
+                bool isShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                bool isCtrlOnly = isCtrl && !isShift;
+                var item = Commands.KeyToItem_Early(e.Key, isCtrlOnly);
                 if (item != null)
                 {
                     if (HandleGlobalCommand(item))

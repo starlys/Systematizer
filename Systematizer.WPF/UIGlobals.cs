@@ -13,6 +13,7 @@ namespace Systematizer.WPF
 
         //tracking user activity
         public static DateTime LastActivityUtc = DateTime.UtcNow;
+        public static Action WindowAffectsPopupAction; //when nonnull, any window movement will call this; can be set to do things for the currently open popup
 
         //constants
         public static readonly Brush[] HIGHLIGHT_COLORS = new[]
