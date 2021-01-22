@@ -190,8 +190,10 @@ namespace Systematizer.WPF
         /// Note that this should called after many operations in case the views need to show tasks that came into view since the last refresh.
         /// </summary>
         /// <param name="changes">can be null if this is called just because of elapsed time; otherwise it holds the edit that was made</param>
-        public void RebuildViews(BoxEditingPool.Item changes)
+        public void RebuildViews(BoxEditingPool.Item changes, bool isNewDay)
         {
+            if (isNewDay)
+                HomeStackController.InitializeHomeStack();
             HomeStackController.RefreshAllLists(changes);
         }
 

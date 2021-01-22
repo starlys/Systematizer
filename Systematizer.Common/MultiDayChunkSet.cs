@@ -80,7 +80,8 @@ namespace Systematizer.Common
             //this should not happen but if db is bad, start over
             bool todayBad = Days.Count > 0 && Days[0].Date != today;
             bool tomorrowBad = Days.Count > 1 && Days[1].Date != tomorrow;
-            if (todayBad || tomorrowBad || Days.Count > 2) Days.Clear();
+            if (todayBad || tomorrowBad || Days.Count > 2) 
+                Days.Clear();
             bool anychanges = Days.Count != 2;
 
             //ensure today is at [0], tomorrow at [1]

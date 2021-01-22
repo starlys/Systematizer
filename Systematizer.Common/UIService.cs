@@ -64,7 +64,7 @@ namespace Systematizer.Common
                 Globals.Connection?.NotifyIdle();
             if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15)
             {
-                Globals.UIAction.SetIdleMode(true);
+                Globals.UIAction.SetIdleMode(true, false);
             }
             Reminderer.CheckAndSend();
         }
@@ -76,9 +76,9 @@ namespace Systematizer.Common
         {
             Globals.UIState.IsIdle = false;
             Globals.BoxCache.AutoCompleteTasks();
-            if (Globals.DayChunks.ResetForToday(Globals.BoxCache.GetScheduledBoxes()))
-                SaveDayChunks();
-            Globals.UIAction.SetIdleMode(false);
+            bool isNewDay = Globals.DayChunks.ResetForToday(Globals.BoxCache.GetScheduledBoxes());
+            if (isNewDay) SaveDayChunks();
+            Globals.UIAction.SetIdleMode(false, isNewDay);
         }
 
         /// <summary>

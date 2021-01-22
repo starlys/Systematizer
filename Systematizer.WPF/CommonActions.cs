@@ -14,10 +14,10 @@ namespace Systematizer.WPF
 
         public void BoxCacheChanged(BoxEditingPool.Item changes)
         {
-            UIGlobals.Do.RebuildViews(changes);
+            UIGlobals.Do.RebuildViews(changes, false);
         }
 
-        public void SetIdleMode(bool idle)
+        public void SetIdleMode(bool idle, bool isNewDay)
         {
             if (idle)
             {
@@ -26,7 +26,7 @@ namespace Systematizer.WPF
             } 
             else //wakeup
             {
-                UIGlobals.Do.RebuildViews(null);
+                UIGlobals.Do.RebuildViews(null, isNewDay);
             }
 
             UIGlobals.Do.ShowHideIdleMode(idle);

@@ -16,7 +16,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Set the UI in or out of idle mode; also see UIService.RequestWakeUp
         /// </summary>
-        void SetIdleMode(bool idle);
+        void SetIdleMode(bool idle, bool isNewDay);
 
         /// <summary>
         /// Called when any box changed

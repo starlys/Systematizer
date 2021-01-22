@@ -11,7 +11,7 @@ namespace Systematizer.WPF
     {
         void FocusTopBlock();
         void UserActionCompleted(bool potentialChange);
-        void RebuildViews(BoxEditingPool.Item changes);
+        void RebuildViews(BoxEditingPool.Item changes, bool isNewDay);
         bool SaveAll(bool includeUserExplicit);
         void ShowHideIdleMode(bool idle);
         void ShowTimedMessge(string msg);

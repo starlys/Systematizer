@@ -103,7 +103,7 @@ namespace Systematizer.WPF
 
             //exit now if no changes
             int hash = HashContent(agendaItems, chunkList);
-            bool wasChanged = hash != priorContentHash;
+            bool wasChanged = hash != priorContentHash || chunkList == null;
             priorContentHash = hash;
             if (!wasChanged) return;
 
@@ -161,6 +161,7 @@ namespace Systematizer.WPF
         /// </summary>
         int HashContent(List<AgendaEntry> agendaItems, MultiDayChunkSet.DayChunkSet chunkList)
         {
+            if (chunkList == null || agendaItems == null) return 0;
             unchecked
             {
                 int hash = 0;

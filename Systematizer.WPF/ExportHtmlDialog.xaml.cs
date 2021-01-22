@@ -142,7 +142,7 @@ namespace Systematizer.WPF
             {
                 VisualUtils.ShowMessageDialog("Importing failed: " + ex.Message);
             }
-            UIGlobals.Do.RebuildViews(BoxEditingPool.CreateUniversalChangeItem());
+            UIGlobals.Do.RebuildViews(BoxEditingPool.CreateUniversalChangeItem(), false);
         }
 
         void ExportHtml_Click(object sender, RoutedEventArgs e)
