@@ -21,8 +21,10 @@ namespace Systematizer.WPF
         public AgendaController(Action<BlockController> blockGotFocusHandler, Action<BlockController, bool> collapseRequested, int initialOmitDays)
             : base(blockGotFocusHandler, collapseRequested)
         {
-            VM = new AgendaVM(VMGotFocus);
-            VM.AllowRequestMore = true;
+            VM = new AgendaVM(VMGotFocus)
+            {
+                AllowRequestMore = true
+            };
 
             //hook up VM events
             VM.PropertyChanged += (s, e) =>

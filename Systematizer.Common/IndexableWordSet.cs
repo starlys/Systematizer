@@ -10,9 +10,9 @@ namespace Systematizer.Common
     /// </summary>
     public class IndexableWordSet
     {
-        static Regex BADLETTERS = new Regex("[^a-zA-Z0-9]");
+        static readonly Regex BADLETTERS = new Regex("[^a-zA-Z0-9]");
 
-        static string[] STOPWORDS = new[] {  "A", "ALL", "AM", "AN", "AND", "ANY", "ARE", "ARENT", "AS", "AT", "BE", "BEEN", "BEFORE", "BEING", "BELOW", "BOTH", "BUT", "BY",
+        static readonly string[] STOPWORDS = new[] {  "A", "ALL", "AM", "AN", "AND", "ANY", "ARE", "ARENT", "AS", "AT", "BE", "BEEN", "BEFORE", "BEING", "BELOW", "BOTH", "BUT", "BY",
             "CANT", "CANNOT", "COULD", "COULDNT", "DID", "DIDNT", "DO", "DOES", "DOESNT", "DOING", "DONT", "DOWN", "DURING", "EACH", "FEW", "FOR", "FROM", "HAD", "HADNT",
             "HAS", "HASNT", "HAVE", "HAVENT", "HAVING", "HE", "HED", "HES", "HER", "HERE", "HERES", "HERS", "HIM", "HIS", "HOW", "HOWS", "I", "ID", "ILL", "IM", "IVE", "IF",
             "IN", "INTO", "IS", "ISNT", "IT", "ITS", "LETS", "ME", "MORE", "MOST", "MY", "NO", "NOR", "NOT", "OF", "OFF", "ON", "ONCE", "ONLY", "OR", "OTHER", "OUGHT", "OUR",
@@ -21,7 +21,7 @@ namespace Systematizer.Common
             "VERY", "WAS", "WASNT", "WE", "WED", "WELL", "WERE", "WEVE", "WERE", "WERENT", "WHAT", "WHATS", "WHEN", "WHENS", "WHERE", "WHERES", "WHICH", "WHILE", "WHO",
             "WHOS", "WHOM", "WHY", "WHYS", "WITH", "WONT", "WOULD", "WOULDNT", "YOU", "YOUD", "YOULL", "YOURE", "YOUVE", "YOUR", "YOURS" };
 
-        HashSet<string> Words = new HashSet<string>(); //uppercase, max 8 chars
+        readonly HashSet<string> Words = new HashSet<string>(); //uppercase, max 8 chars
 
         /// <summary>
         /// Add arbitrarily long text

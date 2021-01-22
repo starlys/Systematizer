@@ -140,7 +140,6 @@ namespace Systematizer.WPF
                 CallerVM = callerVM
             };
             var vm = new VM { Owner = dialog };
-            string today = DateUtil.ToYMDHM(DateTime.Today);
             vm.AddedDate.Date = DateUtil.ToYMDHM(DateTime.Today);
             vm.AddedDate.IsEditMode = true;
             vm.AddedTime.Time = defaultTime; 

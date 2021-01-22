@@ -38,7 +38,7 @@ namespace Systematizer.WPF
             CollapseRequested = collapseRequested;
         }
 
-        protected void VMGotFocus(BaseBlockVM vm) 
+        protected void VMGotFocus(BaseBlockVM _) 
         {
             BlockGotFocus(this);
             UIGlobals.RecordLinkController.BlockActivated(this);

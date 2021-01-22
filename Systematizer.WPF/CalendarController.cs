@@ -18,22 +18,23 @@ namespace Systematizer.WPF
         public CalendarController(Action<BlockController> blockGotFocusHandler, Action<BlockController, bool> collapseRequested)
             : base(blockGotFocusHandler, collapseRequested)
         {
-            VM = new CalendarVM(VMGotFocus);
-
-            //inject VM behaviors
-            VM.ControlResized = width =>
+            VM = new CalendarVM(VMGotFocus)
             {
-                Width = width;
-                RefreshDefinitely();
-            };
-            VM.OpenRequested = barVM =>
-            {
-                try
+                //inject VM behaviors
+                ControlResized = width =>
                 {
-                    var ebox = Globals.UI.LoadBoxForEditing(barVM.RowId);
-                    if (ebox != null) UIGlobals.Do.AddBoxToEditStack(ebox);
+                    Width = width;
+                    RefreshDefinitely();
+                },
+                OpenRequested = barVM =>
+                {
+                    try
+                    {
+                        var ebox = Globals.UI.LoadBoxForEditing(barVM.RowId);
+                        if (ebox != null) UIGlobals.Do.AddBoxToEditStack(ebox);
+                    }
+                    catch { }
                 }
-                catch { }
             };
         }
 

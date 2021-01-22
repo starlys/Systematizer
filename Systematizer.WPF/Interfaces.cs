@@ -23,6 +23,7 @@ namespace Systematizer.WPF
         bool HandleGlobalCommand(CommandCenter.Item item);
         void NavigateBlock(bool goToOtherStack, int delta);
         void OpenBlockFromLink(LinkType link, long rowId);
+        void EnsureNotMinimized();
     }
 
     /// <summary>

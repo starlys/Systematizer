@@ -49,7 +49,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Boxes currently being edited, with the old values filled in
         /// </summary>
-        List<Item> OpenItems = new List<Item>();
+        readonly List<Item> OpenItems = new List<Item>();
 
         /// <summary>
         /// Create Item that forces all changes, using mock data

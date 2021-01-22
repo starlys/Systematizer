@@ -32,9 +32,11 @@ namespace Systematizer.WPF
         /// </summary>
         public static CatCache.Item SelectCat(string caption)
         {
-            var dialog = new CatSelectDialog();
-            dialog.Owner = App.Current.MainWindow;
-            dialog.DataContext = new VM();
+            var dialog = new CatSelectDialog
+            {
+                Owner = App.Current.MainWindow,
+                DataContext = new VM()
+            };
             dialog.eCaption.Text = caption;
             if (dialog.ShowDialog() != true) return null;
             return dialog.SelectedCat;

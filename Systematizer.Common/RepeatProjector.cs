@@ -78,7 +78,7 @@ namespace Systematizer.Common
                     (int hr, int mi) = DateUtil.ToHourMinute(pat.Time, 9, 0);
                     DateTime? running = DateUtil.ToDateTime(box.BoxTime);
                     if (running == null) continue;
-                    while (true)
+                    for (int iter = 0; iter < 500; ++iter) //infinite loop control
                     {
                         running = NextTime(running.Value, max.Value, pat, hr, mi);
                         if (running == null) break;
@@ -124,7 +124,7 @@ namespace Systematizer.Common
                 do { d = d.AddDays(1); } while (d.DayOfWeek != dow);
 
                 //advance by weeks until we get to the right week of the month
-                while (true)
+                for (int iter = 0; iter < 200; ++iter) //infinite loop control
                 {
                     int weekOfMonth = (d.Day - 1) / 7; //0..4
                     if (r.Arg2[weekOfMonth]) break;

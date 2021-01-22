@@ -11,17 +11,15 @@ namespace Systematizer.WPF
     /// </summary>
     class BlockStackController : BaseController
     {
-        WholeVM.Stack VM;
-        BlockStackView View;
-        List<BaseController> Controllers = new List<BaseController>(); //parallel list with VM.Blocks
+        readonly WholeVM.Stack VM;
+        readonly List<BaseController> Controllers = new List<BaseController>(); //parallel list with VM.Blocks
         BlockController FocusedChild; //null if none; still set even if stack does not have focus
         bool StackHasFocus;
-        Action StackGotFocus;
+        readonly Action StackGotFocus;
 
-        public BlockStackController(WholeVM.Stack vm, BlockStackView view, Action gotFocusAction)
+        public BlockStackController(WholeVM.Stack vm, Action gotFocusAction)
         {
             VM = vm;
-            View = view;
             StackGotFocus = gotFocusAction;
         }
 
@@ -211,7 +209,7 @@ namespace Systematizer.WPF
         /// </summary>
         void FocusByIndex(int i)
         {
-            VisualUtils.DelayThen(100, () =>
+            VisualUtils.DelayThen(10, () =>
             {
                 //there is a chance the index changes since this was called, so re-check
                 if (i >= VM.Blocks.Count || i < 0) return;
@@ -247,7 +245,7 @@ namespace Systematizer.WPF
 
             oldIdx = Math.Max(oldIdx, 0);
             int newIdx = oldIdx;
-            while (true)
+            for (int iter = 0; iter < 50; ++iter) //infinite loop control
             {
                 newIdx = (newIdx + delta + Controllers.Count) % Controllers.Count;
                 if (newIdx == oldIdx || delta == 0) break; //wrapped around
@@ -337,20 +335,6 @@ namespace Systematizer.WPF
             bool todayIsVisible = Controllers.OfType<TodayController>().Any(c => c.IsToday);
             bool tomorrowIsVisible = Controllers.OfType<TodayController>().Any(c => !c.IsToday);
             agenda.NDaysToOmit = tomorrowIsVisible ? 2 : (todayIsVisible ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Get the first index in a list satisfying predicate, but only look at members of the given member type
-        /// </summary>
-        /// <returns>-1 if not found</returns>
-        int FirstIndexWhere<TElement, TMember>(ObservableCollection<TElement> list, Func<TMember, bool> predicate)
-        {
-            for (int i = 0; i < list.Count; ++i)
-            {
-                if (!(list[i] is TMember elem)) continue;
-                if (predicate(elem)) return i;
-            }
-            return -1;
         }
     }
 }

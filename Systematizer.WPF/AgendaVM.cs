@@ -9,7 +9,7 @@ namespace Systematizer.WPF
     {
         public class RowVM : BaseVM
         {
-            bool IsHeading;
+            readonly bool IsHeading;
             public AgendaEntry AgendaEntry { get; private set; }
 
             /// <summary>

@@ -26,8 +26,6 @@ namespace Systematizer.WPF
             };
         }
 
-        ItemsControl Bars => VisualUtils.GetByUid(this, "eBars") as ItemsControl;
-
         void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             VM.ControlResized?.Invoke(e.NewSize.Width - 2);

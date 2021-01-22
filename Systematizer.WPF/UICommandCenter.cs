@@ -12,7 +12,7 @@ namespace Systematizer.WPF
     /// </summary>
     class UICommandCenter
     {
-        Dictionary<CommandCenter.Item, Func<bool>> Handlers = new Dictionary<CommandCenter.Item, Func<bool>>();
+        readonly Dictionary<CommandCenter.Item, Func<bool>> Handlers = new Dictionary<CommandCenter.Item, Func<bool>>();
 
         public UICommandCenter()
         {
@@ -59,9 +59,11 @@ namespace Systematizer.WPF
             Handlers[Globals.Commands.NEWITEM] = () =>
             {
                 //build presets list (BoxCreator values are offset by 2 in the options list)
-                var options = new List<string>();
-                options.Add("Quick note");
-                options.Add("Note");
+                var options = new List<string>
+                {
+                    "Quick note",
+                    "Note"
+                };
                 if (Globals.AllowTasks) options.AddRange(BoxCreator.NAMES);
 
                 //ask which preset to use

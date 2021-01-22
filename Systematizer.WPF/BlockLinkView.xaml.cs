@@ -16,8 +16,7 @@ namespace Systematizer.WPF
 
         void Link_Click(object sender, RoutedEventArgs e)
         {
-            var vm = ((TextBlock)sender).DataContext as BlockLinkVM.ItemVM;
-            if (vm != null)
+            if (((TextBlock)sender).DataContext is BlockLinkVM.ItemVM vm)
                 vm.LinkClicked?.Invoke(vm);
         }
     }

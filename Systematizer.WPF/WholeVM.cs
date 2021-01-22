@@ -8,7 +8,7 @@ namespace Systematizer.WPF
     /// </summary>
     class WholeVM
     {
-        public class Stack
+        public class Stack : BaseVM
         {
             public ObservableCollection<BaseBlockVM> Blocks { get; set; } = new ObservableCollection<BaseBlockVM>();
         }

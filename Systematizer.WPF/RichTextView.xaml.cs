@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace Systematizer.WPF
 {
     /// <summary>
@@ -40,14 +42,12 @@ namespace Systematizer.WPF
         {
             VM?.UpdateText();
         }
-
+        
         void OnPaste(object sender, DataObjectPastingEventArgs e)
         {
             if (!e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText)) return;
-            string s = e.SourceDataObject.GetData(DataFormats.UnicodeText) as string;
-            if (s == null) return;
-            Clipboard.SetText(s);
-            //eRTB.Paste();
+            if (e.SourceDataObject.GetData(DataFormats.UnicodeText) is string s)
+                Clipboard.SetText(s);
         }
 
         void CommandBinding_Disabled(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)

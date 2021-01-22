@@ -37,8 +37,10 @@ namespace Systematizer.WPF
                 if (i < 9) vm[i].Text = $"_{i + 1} {items[i]}";
             }
 
-            var dlg = new SelectDialog();
-            dlg.Owner = App.Current.MainWindow;
+            var dlg = new SelectDialog
+            {
+                Owner = App.Current.MainWindow
+            };
             dlg.eList.ItemsSource = vm;
             dlg.ShowDialog();
             return dlg.SelectedIndex;

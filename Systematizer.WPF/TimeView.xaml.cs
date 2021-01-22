@@ -10,8 +10,6 @@ namespace Systematizer.WPF
     /// </summary>
     public partial class TimeView : UserControl
     {
-        TimeVM VM => DataContext as TimeVM;
-
         public TimeView()
         {
             InitializeComponent();

@@ -90,7 +90,7 @@ namespace Systematizer.WPF
             if (File.Exists(path)) lines = File.ReadAllLines(path);
             var fs = lines.Select(line =>
             {
-                if (line.StartsWith("!")) return new FileEntry { IsOpen = true, Path = line.Substring(1) };
+                if (line.StartsWith("!")) return new FileEntry { IsOpen = true, Path = line[1..] };
                 return new FileEntry { Path = line };
             }).ToList();
             if (omitPath != null)

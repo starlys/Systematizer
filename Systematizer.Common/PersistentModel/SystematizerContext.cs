@@ -145,7 +145,7 @@ namespace Systematizer.Common.PersistentModel
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            string msg = formatter(state, exception);
+            //string msg = formatter(state, exception);
             //System.IO.File.AppendAllText(@"c:\temp\systematizer_log.txt", msg + "\r\n", encoding: System.Text.Encoding.UTF8);
         }
     }

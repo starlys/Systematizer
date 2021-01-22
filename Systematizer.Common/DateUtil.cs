@@ -109,8 +109,8 @@ namespace Systematizer.Common
         public static TimeSpan? ParseDuration(string dur)
         {
             if (dur == null || dur.Length < 2) return null;
-            char unit  = dur[dur.Length - 1];
-            if (!int.TryParse(dur.Substring(0, dur.Length - 1), out int num)) return null;
+            char unit  = dur[^1];
+            if (!int.TryParse(dur[0..^1], out int num)) return null;
             if (unit == 'm') return TimeSpan.FromMinutes(num);
             if (unit == 'h') return TimeSpan.FromHours(num);
             if (unit == 'd') return TimeSpan.FromDays(num);

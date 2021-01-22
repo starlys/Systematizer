@@ -19,8 +19,10 @@ namespace Systematizer.WPF
         {
             string versionNo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
-            var dlg = new AboutWindow();
-            dlg.Owner = App.Current.MainWindow;
+            var dlg = new AboutWindow
+            {
+                Owner = App.Current.MainWindow
+            };
             dlg.eVersion.Text = "Version: " + versionNo;
             dlg.ShowDialog();
         }

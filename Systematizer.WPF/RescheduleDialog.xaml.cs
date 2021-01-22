@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Systematizer.Common;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace Systematizer.WPF
 {
     /// <summary>
@@ -25,8 +27,10 @@ namespace Systematizer.WPF
         /// <returns>null if canceled</returns>
         public static string ShowDialog(string date)
         {
-            var dlg = new RescheduleDialog();
-            dlg.Owner = App.Current.MainWindow;
+            var dlg = new RescheduleDialog
+            {
+                Owner = App.Current.MainWindow
+            };
             dlg.Loaded += (s, e) => dlg.eCommand.Focus();
             if (dlg.ShowDialog() != true) return null;
             return DateUtil.AdvanceByShortcutKey(date, dlg.AdvanceChar);

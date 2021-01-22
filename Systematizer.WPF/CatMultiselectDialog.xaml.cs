@@ -96,9 +96,11 @@ namespace Systematizer.WPF
         /// </summary>
         public static bool SelectCats(ExtPerson ep)
         {
-            var dialog = new CatMultiselectDialog();
-            dialog.Owner = App.Current.MainWindow;
-            dialog._VM = new VM(ep.SelectedCatIds);
+            var dialog = new CatMultiselectDialog
+            {
+                Owner = App.Current.MainWindow,
+                _VM = new VM(ep.SelectedCatIds)
+            };
             dialog.DataContext = dialog._VM;
             dialog.eCaption.Text = $"Choose categories for {ep.Person.Name}";
             if (dialog.ShowDialog() != true) return false;
@@ -111,10 +113,14 @@ namespace Systematizer.WPF
         /// </summary>
         public static long[] SelectCats(bool allowNonLeafSelection, string caption)
         {
-            var dialog = new CatMultiselectDialog();
-            dialog.Owner = App.Current.MainWindow;
-            dialog._VM = new VM(new long[0]);
-            dialog._VM.ShowNonLeafCheckboxes = allowNonLeafSelection;
+            var dialog = new CatMultiselectDialog
+            {
+                Owner = App.Current.MainWindow,
+                _VM = new VM(new long[0])
+                {
+                    ShowNonLeafCheckboxes = allowNonLeafSelection
+                }
+            };
             dialog.DataContext = dialog._VM;
             dialog.eCaption.Text = caption;
             if (dialog.ShowDialog() != true) return null;

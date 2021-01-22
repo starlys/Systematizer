@@ -13,7 +13,7 @@ namespace Systematizer.WPF
     {
         public class ChunkVM : BaseVM
         {
-            TodayVM Owner;
+            readonly TodayVM Owner;
 
             public ChunkVM(TodayVM owner, Action<ChunkVM> removeAction)
             {
@@ -79,7 +79,7 @@ namespace Systematizer.WPF
             _blockTitle = title;
         }
 
-        string _blockTitle;
+        readonly string _blockTitle;
         public override string BlockTitle => _blockTitle;
 
         public ObservableCollection<ChunkVM> Chunks { get; set; } = new ObservableCollection<ChunkVM>();

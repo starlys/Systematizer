@@ -29,9 +29,11 @@ namespace Systematizer.WPF
 
         public static void ManageCats()
         {
-            var dialog = new CatManageDialog();
-            dialog.Owner = App.Current.MainWindow;
-            dialog.DataContext = new VM();
+            var dialog = new CatManageDialog
+            {
+                Owner = App.Current.MainWindow,
+                DataContext = new VM()
+            };
             dialog.ShowDialog();
         }
 

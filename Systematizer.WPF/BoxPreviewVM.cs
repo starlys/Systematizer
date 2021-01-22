@@ -7,7 +7,7 @@ namespace Systematizer.WPF
 {
     class BoxPreviewVM : BaseVM
     {
-        string ContextDate; //YYMMDD for the date showing in the parent of this view, or null to assume always is context date
+        readonly string ContextDate; //YYMMDD for the date showing in the parent of this view, or null to assume always is context date
 
         //view can also bind to Persistent.Box.Title and Persistent.Box.SmallNotes
         public AgendaEntry Persistent { get; set; }

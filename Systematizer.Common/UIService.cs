@@ -116,12 +116,10 @@ namespace Systematizer.Common
         public bool CheckBoxesExist(long parentRowId = 0, bool filterByNotDone = false)
         {
             if (parentRowId == 0) throw new Exception("invalid arguments");
-            using (var db = new SystematizerContext())
-            {
-                IQueryable<Box> boxes = db.Box.Where(r => r.ParentId == parentRowId);
-                if (filterByNotDone) boxes = boxes.Where(r => r.DoneDate == null);
-                return boxes.Any();
-            }
+            using var db = new SystematizerContext();
+            IQueryable<Box> boxes = db.Box.Where(r => r.ParentId == parentRowId);
+            if (filterByNotDone) boxes = boxes.Where(r => r.DoneDate == null);
+            return boxes.Any();
         }
 
         /// <summary>
@@ -130,14 +128,12 @@ namespace Systematizer.Common
         /// <returns>null if not found</returns>
         public ExtBox LoadBoxForEditing(long boxId)
         {
-            using (var db = new SystematizerContext())
-            {
-                var box = db.Box.Find(boxId);
-                if (box == null) return null;
-                Globals.BoxEditingPool.CheckOut(box);
-                var links = DBUtil.LoadLinksFor(db, box).ToList();
-                return new ExtBox(box, links);
-            }
+            using var db = new SystematizerContext();
+            var box = db.Box.Find(boxId);
+            if (box == null) return null;
+            Globals.BoxEditingPool.CheckOut(box);
+            var links = DBUtil.LoadLinksFor(db, box).ToList();
+            return new ExtBox(box, links);
         }
 
         /// <summary>
@@ -145,11 +141,9 @@ namespace Systematizer.Common
         /// </summary>
         public void UpdateLinks(ExtBox ebox)
         {
-            using (var db = new SystematizerContext())
-            {
-                var links = DBUtil.LoadLinksFor(db, ebox.Box).ToList();
-                ebox.Links = links;
-            }
+            using var db = new SystematizerContext();
+            var links = DBUtil.LoadLinksFor(db, ebox.Box).ToList();
+            ebox.Links = links;
         }
 
         /// <summary>
@@ -157,11 +151,9 @@ namespace Systematizer.Common
         /// </summary>
         public void UpdateLinks(ExtPerson ep)
         {
-            using (var db = new SystematizerContext())
-            {
-                var links = DBUtil.LoadLinksFor(db, ep.Person).ToList();
-                ep.Links = links;
-            }
+            using var db = new SystematizerContext();
+            var links = DBUtil.LoadLinksFor(db, ep.Person).ToList();
+            ep.Links = links;
         }
 
         /// <summary>
@@ -170,12 +162,10 @@ namespace Systematizer.Common
         /// <param name="ids">either null to include all non-done boxes or a specific list</param>
         public Box[] LoadBoxesForExport(long[] ids)
         {
-            using (var db = new SystematizerContext())
-            {
-                if (ids == null)
-                    return db.Box.Where(r => r.DoneDate == null).ToArray();
-                return db.Box.Where(r => ids.Contains(r.RowId)).ToArray();
-            }
+            using var db = new SystematizerContext();
+            if (ids == null)
+                return db.Box.Where(r => r.DoneDate == null).ToArray();
+            return db.Box.Where(r => ids.Contains(r.RowId)).ToArray();
         }
 
         /// <summary>
@@ -184,20 +174,16 @@ namespace Systematizer.Common
         /// <param name="ids">either null to include all or a specific list</param>
         public Person[] LoadPersonsForExport(long[] ids)
         {
-            using (var db = new SystematizerContext())
-            {
-                if (ids == null)
-                    return db.Person.ToArray();
-                return db.Person.Where(r => ids.Contains(r.RowId)).ToArray();
-            }
+            using var db = new SystematizerContext();
+            if (ids == null)
+                return db.Person.ToArray();
+            return db.Person.Where(r => ids.Contains(r.RowId)).ToArray();
         }
 
         public CachedBox[] LoadBoxesByParent(long parentId, bool onlyNotDone)
         {
-            using (var db = new SystematizerContext())
-            {
-                return DBUtil.LoadBoxesByParent(db, parentId, onlyNotDone).ToArray();
-            }
+            using var db = new SystematizerContext();
+            return DBUtil.LoadBoxesByParent(db, parentId, onlyNotDone).ToArray();
         }
 
         /// <summary>
@@ -205,12 +191,10 @@ namespace Systematizer.Common
         /// </summary>
         public CachedBox[] LoadBoxesByKeyword(string term, bool includeDetails, string doneSince)
         {
-            using (var db = new SystematizerContext())
-            {
-                var boxes = DBUtil.BoxesByKeyword(db, term, includeDetails, doneSince);
-                if (boxes == null) return null;
-                return boxes.ToArray();
-            }
+            using var db = new SystematizerContext();
+            var boxes = DBUtil.BoxesByKeyword(db, term, includeDetails, doneSince);
+            if (boxes == null) return null;
+            return boxes.ToArray();
         }
 
         /// <summary>
@@ -219,12 +203,10 @@ namespace Systematizer.Common
         /// <param name="catIds">null or catIds to match</param>
         public Person[] LoadFilteredPersons(string term, bool includeDetails, long[] catIds, bool forExport)
         {
-            using (var db = new SystematizerContext())
-            {
-                var a = DBUtil.LoadFilteredPersons(db, term, includeDetails, catIds, allowLoadUnfiltered: true, limit100: !forExport);
-                if (a == null) a = new Person[0];
-                return a.ToArray();
-            }
+            using var db = new SystematizerContext();
+            var a = DBUtil.LoadFilteredPersons(db, term, includeDetails, catIds, allowLoadUnfiltered: true, limit100: !forExport);
+            if (a == null) a = new Person[0];
+            return a.ToArray();
         }
 
         /// <summary>
@@ -273,10 +255,8 @@ namespace Systematizer.Common
         public long[] BoxesWithChildren(long[] ids, bool onlyNotDone)
         {
             if (ids.Length == 0) return new long[0];
-            using (var db = new SystematizerContext())
-            {
-                return DBUtil.BoxesWithChildren(db, ids, onlyNotDone);
-            }
+            using var db = new SystematizerContext();
+            return DBUtil.BoxesWithChildren(db, ids, onlyNotDone);
         }
 
         /// <summary>
@@ -285,14 +265,12 @@ namespace Systematizer.Common
         /// <returns>null if not found</returns>
         public ExtPerson LoadPerson(long id)
         {
-            using (var db = new SystematizerContext())
-            {
-                var person = db.Person.Find(id);
-                if (person == null) return null;
-                var links = DBUtil.LoadLinksFor(db, person).ToList();
-                var catIds = db.PersonCat.Where(r => r.PersonId == id).Select(r => r.CatId);
-                return new ExtPerson(person, links, catIds.ToArray());
-            }
+            using var db = new SystematizerContext();
+            var person = db.Person.Find(id);
+            if (person == null) return null;
+            var links = DBUtil.LoadLinksFor(db, person).ToList();
+            var catIds = db.PersonCat.Where(r => r.PersonId == id).Select(r => r.CatId);
+            return new ExtPerson(person, links, catIds.ToArray());
         }
 
         /// <summary>
@@ -322,10 +300,8 @@ namespace Systematizer.Common
         /// </summary>
         public void WritePersonLink(LinkInstruction cmd)
         {
-            using (var db = new SystematizerContext())
-            {
-                DBUtil.WritePersonLink(db, cmd);
-            }
+            using var db = new SystematizerContext();
+            DBUtil.WritePersonLink(db, cmd);
         }
 
         /// <summary>
@@ -335,21 +311,19 @@ namespace Systematizer.Common
         /// <param name="modify">function to modify it</param>
         public void ModifyCat(long rowId, Action<Cat> modify)
         {
-            using (var db = new SystematizerContext())
+            using var db = new SystematizerContext();
+            Cat cat;
+            if (rowId == 0)
             {
-                Cat cat;
-                if (rowId == 0)
-                {
-                    cat = new Cat();
-                    db.Cat.Add(cat);
-                }
-                else
-                    cat = db.Cat.Find(rowId);
-                if (cat == null) return;
-                modify(cat);
-                db.SaveChanges();
-                Globals.AllCats = new CatCache(db.Cat);
+                cat = new Cat();
+                db.Cat.Add(cat);
             }
+            else
+                cat = db.Cat.Find(rowId);
+            if (cat == null) return;
+            modify(cat);
+            db.SaveChanges();
+            Globals.AllCats = new CatCache(db.Cat);
         }
 
         /// <summary>
@@ -364,16 +338,14 @@ namespace Systematizer.Common
                 return (false, "No such category");
             if (cat.Children != null && cat.Children.Any())
                 return (false, "Category cannot be deleted because it has sub-categories. Delete the sub-categories first.");
-            using (var db = new SystematizerContext())
-            {
-                int n = db.PersonCat.Count(r => r.CatId == rowId);
-                if (n == 0)
-                    return (true, null);
-                if (cat.Parent == null)
-                    return (true, $"Deleting top level. {n} records will have the category removed.");
-                else
-                    return (true, $"Deleting sub-category. {n} records will be promoted to the containing category.");
-            }
+            using var db = new SystematizerContext();
+            int n = db.PersonCat.Count(r => r.CatId == rowId);
+            if (n == 0)
+                return (true, null);
+            if (cat.Parent == null)
+                return (true, $"Deleting top level. {n} records will have the category removed.");
+            else
+                return (true, $"Deleting sub-category. {n} records will be promoted to the containing category.");
         }
 
         /// <summary>
@@ -382,37 +354,33 @@ namespace Systematizer.Common
         /// <param name="rowId"></param>
         public void DeleteCategory(long rowId)
         {
-            using (var db = new SystematizerContext())
-            {
-                var catRec = db.Cat.Find(rowId);
-                if (catRec == null) return;
-                db.Cat.Remove(catRec);
-                long? promoteTo = null;
-                if (catRec.ParentId != null) promoteTo = catRec.ParentId;
+            using var db = new SystematizerContext();
+            var catRec = db.Cat.Find(rowId);
+            if (catRec == null) return;
+            db.Cat.Remove(catRec);
+            long? promoteTo = null;
+            if (catRec.ParentId != null) promoteTo = catRec.ParentId;
 
-                var q = db.PersonCat.Where(r => r.CatId == rowId).ToArray();
-                foreach (var link in q)
+            var q = db.PersonCat.Where(r => r.CatId == rowId).ToArray();
+            foreach (var link in q)
+            {
+                if (promoteTo == null)
+                    db.PersonCat.Remove(link);
+                else
                 {
-                    if (promoteTo == null)
-                        db.PersonCat.Remove(link);
-                    else
-                    {
-                        var existing = db.PersonCat.FirstOrDefault(r => r.PersonId == link.PersonId && r.CatId == promoteTo.Value);
-                        if (existing == null)
-                            db.PersonCat.Add(new PersonCat { PersonId = link.PersonId, CatId = promoteTo.Value });
-                    }
+                    var existing = db.PersonCat.FirstOrDefault(r => r.PersonId == link.PersonId && r.CatId == promoteTo.Value);
+                    if (existing == null)
+                        db.PersonCat.Add(new PersonCat { PersonId = link.PersonId, CatId = promoteTo.Value });
                 }
-                db.SaveChanges();
-                Globals.AllCats = new CatCache(db.Cat);
             }
+            db.SaveChanges();
+            Globals.AllCats = new CatCache(db.Cat);
         }
 
         public void DeletePerson(long rowId)
         {
-            using (var db = new SystematizerContext())
-            {
-                DBUtil.DeletePerson(db, rowId);
-            }    
+            using var db = new SystematizerContext();
+            DBUtil.DeletePerson(db, rowId);
         }
 
         /// <summary>

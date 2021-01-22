@@ -7,7 +7,7 @@ namespace Systematizer.WPF
 {
     class SimpleCommand : ICommand
     {
-        Action<object> Handler;
+        readonly Action<object> Handler;
         public event EventHandler CanExecuteChanged;
 
         public SimpleCommand(Action<object> handler)

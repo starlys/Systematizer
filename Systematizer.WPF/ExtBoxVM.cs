@@ -99,7 +99,7 @@ namespace Systematizer.WPF
             string combinedDateTime = null;
             if (BoxTime_Date.Date != null)
             {
-                string time = BoxTime_Time.Time == null ? DateUtil.DEFAULT_TIME : BoxTime_Time.Time;
+                string time = BoxTime_Time.Time ?? DateUtil.DEFAULT_TIME;
                 combinedDateTime = BoxTime_Date.Date + time;
                 if (combinedDateTime.Length != 12) combinedDateTime = null;
             }

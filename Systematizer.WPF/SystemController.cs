@@ -21,8 +21,10 @@ namespace Systematizer.WPF
         public void ShowDialog()
         {
             //init dialog
-            SysDlg = new SystemDialog();
-            SysDlg.Owner = App.Current.MainWindow;
+            SysDlg = new SystemDialog
+            {
+                Owner = App.Current.MainWindow
+            };
             foreach (string path in RecentFilesList.GetRecentFiles())
                 SysDlg.eFileList.Items.Add(path);
             SysDlg.eOptionsPanel.Visibility = Globals.DatabasePath == null ? Visibility.Collapsed : Visibility.Visible;
@@ -36,25 +38,31 @@ namespace Systematizer.WPF
             //handle events
             SysDlg.eCreateButton.Click += (s, e) =>
             {
-                var saveAs = new SaveFileDialog();
-                saveAs.Filter = FILEFILTER;
+                var saveAs = new SaveFileDialog
+                {
+                    Filter = FILEFILTER
+                };
                 if (saveAs.ShowDialog(SysDlg) != true) return;
 
                 if (!CopyTemplateDatabaseTo(saveAs.FileName)) return;
                 if (!UIGlobals.Do.OpenDatabaseWithErrorReporting(saveAs.FileName)) return;
                 SysDlg.Close();
             };
-            SysDlg.eFileList.MouseDoubleClick += (s, e) =>
+            void openFromList()
             {
-                var sel = SysDlg.eFileList.SelectedItem as string;
-                if (sel == null) return;
+                if (!(SysDlg.eFileList.SelectedItem is string sel)) return;
                 if (!UIGlobals.Do.OpenDatabaseWithErrorReporting(sel)) return;
                 SysDlg.Close();
             };
-            SysDlg.eOpenButton.Click += (s, e) =>
+            SysDlg.eFileList.MouseDoubleClick += (s, e) => openFromList();
+            SysDlg.eOpenSelectedButton.Click += (s, e) => openFromList();
+
+            SysDlg.eOpenOtherButton.Click += (s, e) =>
             {
-                var open = new OpenFileDialog();
-                open.Filter = FILEFILTER;
+                var open = new OpenFileDialog
+                {
+                    Filter = FILEFILTER
+                };
                 if (open.ShowDialog(SysDlg) != true) return;
 
                 if (!UIGlobals.Do.OpenDatabaseWithErrorReporting(open.FileName)) return;
@@ -62,8 +70,7 @@ namespace Systematizer.WPF
             };
             SysDlg.eForgetButton.Click += (s, e) =>
             {
-                var sel = SysDlg.eFileList.SelectedItem as string;
-                if (sel == null) return;
+                if (!(SysDlg.eFileList.SelectedItem is string sel)) return;
                 SysDlg.eFileList.Items.RemoveAt(SysDlg.eFileList.SelectedIndex);
                 RecentFilesList.ForgetPath(sel);
             };

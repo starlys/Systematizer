@@ -93,7 +93,7 @@ In the task or note pane, there are 3 dropdown selections: schedule type, visibi
   * Exact time: Use this for appointments.
 
 * Visibility
-  * Low clutter: Use this for tasks that you will never plan other things around because they are quick, such as taking medicine or feeing your seven cats.
+  * Low clutter: Use this for tasks that you will never plan other things around because they are quick, such as taking medicine or feeding your seven cats.
   * Normal visibility: The default for tasks not scheduled for an exact time
   * Plan around: The default for tasks scheduled at an exact time that you would need to plan other things around (these are shown on the Agenda)
   * Highlight: Use this to give the task a bright color - more details below.

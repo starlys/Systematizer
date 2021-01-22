@@ -14,16 +14,14 @@ namespace Systematizer.Common
         /// </summary>
         internal static void ReadSettings()
         {
-            using (var db = new SystematizerContext())
-            {
-                var settings = db.Setting.First();
-                Globals.PersonCustomLabels = new[] { settings.Custom1Label, settings.Custom2Label, settings.Custom3Label, settings.Custom4Label, settings.Custom5Label };
-                Globals.DayChunks = new MultiDayChunkSet();
-                Globals.DayChunks.Initialize(settings.ChunkInfo ?? "");
-                Globals.AllowTasks = settings.AllowTasks != 0;
+            using var db = new SystematizerContext();
+            var settings = db.Setting.First();
+            Globals.PersonCustomLabels = new[] { settings.Custom1Label, settings.Custom2Label, settings.Custom3Label, settings.Custom4Label, settings.Custom5Label };
+            Globals.DayChunks = new MultiDayChunkSet();
+            Globals.DayChunks.Initialize(settings.ChunkInfo ?? "");
+            Globals.AllowTasks = settings.AllowTasks != 0;
 
-                Globals.AllCats = new CatCache(db.Cat);
-            }
+            Globals.AllCats = new CatCache(db.Cat);
         }
 
         /// <summary>
@@ -31,12 +29,10 @@ namespace Systematizer.Common
         /// </summary>
         public static void WriteSettings(Action<Setting> modify)
         {
-            using (var db = new SystematizerContext())
-            {
-                var settings = db.Setting.First();
-                modify(settings);
-                db.SaveChanges();
-            }
+            using var db = new SystematizerContext();
+            var settings = db.Setting.First();
+            modify(settings);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -47,15 +43,13 @@ namespace Systematizer.Common
         /// <param name="afterWrite">optional action to run after writing record; any context changes are saved again after this is run</param>
         internal static void WriteAny(BaseTable record, Func<SystematizerContext, bool> beforeWrite, Action<SystematizerContext> afterWrite)
         {
-            using (var db = new SystematizerContext())
-            {
-                if (beforeWrite?.Invoke(db) == false) return;
-                var entry = db.Attach(record);
-                entry.State = record.RowId == 0 ? EntityState.Added : EntityState.Modified; 
-                db.SaveChanges();
-                afterWrite?.Invoke(db);
-                db.SaveChanges();
-            }
+            using var db = new SystematizerContext();
+            if (beforeWrite?.Invoke(db) == false) return;
+            var entry = db.Attach(record);
+            entry.State = record.RowId == 0 ? EntityState.Added : EntityState.Modified;
+            db.SaveChanges();
+            afterWrite?.Invoke(db);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -230,14 +224,12 @@ namespace Systematizer.Common
         /// </summary>
         internal static void DeleteVeryOldBoxes()
         {
-            using (var db = new SystematizerContext())
-            {
-                DateTime cutoff = DateTime.Today.AddYears(-1);
-                string cutoffS = DateUtil.ToYMD(cutoff);
-                var boxes = db.Box.FromSqlRaw($"select RowId,* from Box where DoneDate is not null and DoneDate < '{cutoffS}'");
-                db.Box.RemoveRange(boxes);
-                db.SaveChanges();
-            }
+            using var db = new SystematizerContext();
+            DateTime cutoff = DateTime.Today.AddYears(-1);
+            string cutoffS = DateUtil.ToYMD(cutoff);
+            var boxes = db.Box.FromSqlRaw($"select RowId,* from Box where DoneDate is not null and DoneDate < '{cutoffS}'");
+            db.Box.RemoveRange(boxes);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -267,9 +259,11 @@ namespace Systematizer.Common
         {
             if (parentId == null) return false;
             if (parentId.Value == boxId) return true;
-            var encountered = new HashSet<long>();
-            encountered.Add(boxId);
-            encountered.Add(parentId.Value);
+            var encountered = new HashSet<long>
+            {
+                boxId,
+                parentId.Value
+            };
             for (int i = 0; i < 20; ++i)
             {
                 parentId = db.Box.Where(r => r.RowId == parentId.Value).Select(r => r.ParentId).FirstOrDefault();

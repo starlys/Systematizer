@@ -37,7 +37,7 @@ namespace Systematizer.Common
             {
                 if (segment.Length < 9) continue;
                 string date = segment.Substring(0, 8);
-                string[] idsAndTitle = segment.Substring(8).Split(new char[] { ';' }, 2);
+                string[] idsAndTitle = segment[8..].Split(new char[] { ';' }, 2);
                 if (idsAndTitle.Length != 2) continue;
 
                 var boxIds = new List<long>();

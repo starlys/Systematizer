@@ -11,8 +11,9 @@
         <TextBlock Text="Recent Files" />
         <ListBox x:Name="eFileList" Height="100" Width="400" />
         <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Margin="5" x:Name="eOpenSelectedButton">Open</Button>
             <Button Margin="5" x:Name="eCreateButton">Create New Database</Button>
-            <Button Margin="5" x:Name="eOpenButton">Open Another Database</Button>
+            <Button Margin="5" x:Name="eOpenOtherButton">Open Another Database</Button>
             <Button Margin="5" x:Name="eForgetButton">Remove From List</Button>
         </StackPanel>
         <GroupBox x:Name="eOptionsPanel">

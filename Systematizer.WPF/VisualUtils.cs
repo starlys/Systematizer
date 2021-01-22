@@ -109,8 +109,7 @@ namespace Systematizer.WPF
             int count = VisualTreeHelper.GetChildrenCount(rootElement);
             for (int i = 0; i < count; i++)
             {
-                UIElement el = VisualTreeHelper.GetChild(rootElement, i) as UIElement;
-                if (el != null)
+                if (VisualTreeHelper.GetChild(rootElement, i) is UIElement el)
                 {
                     if (el.Uid == uid) return el;
                     el = GetByUid(el, uid);

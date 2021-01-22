@@ -32,14 +32,12 @@ namespace Systematizer.Common
 
         public Person[] PersonFromCsv(TextReader rdr)
         {
-            using (var parser = new CsvHelper.CsvReader(rdr, CultureInfo.InvariantCulture))
-            {
-                parser.Configuration.HeaderValidated = null;
-                parser.Configuration.MissingFieldFound = null;
-                parser.Configuration.IgnoreBlankLines = false;
-                var ret = parser.GetRecords<Person>();
-                return ret.ToArray();
-            }
+            using var parser = new CsvHelper.CsvReader(rdr, CultureInfo.InvariantCulture);
+            parser.Configuration.HeaderValidated = null;
+            parser.Configuration.MissingFieldFound = null;
+            parser.Configuration.IgnoreBlankLines = false;
+            var ret = parser.GetRecords<Person>();
+            return ret.ToArray();
         }
 
         public IEnumerable<string> ToCsv(IEnumerable<Box> boxes)
@@ -62,18 +60,16 @@ namespace Systematizer.Common
 
         public Box[] BoxFromCsv(TextReader rdr)
         {
-            using (var parser = new CsvHelper.CsvReader(rdr, CultureInfo.InvariantCulture))
+            using var parser = new CsvHelper.CsvReader(rdr, CultureInfo.InvariantCulture);
+            parser.Configuration.HeaderValidated = null;
+            parser.Configuration.MissingFieldFound = null;
+            parser.Configuration.IgnoreBlankLines = false;
+            var ret = parser.GetRecords<Box>().ToArray();
+            foreach (var b in ret)
             {
-                parser.Configuration.HeaderValidated = null;
-                parser.Configuration.MissingFieldFound = null;
-                parser.Configuration.IgnoreBlankLines = false;
-                var ret = parser.GetRecords<Box>().ToArray();
-                foreach (var b in ret)
-                {
-                    if (b.BoxTime == "") b.BoxTime = null;
-                }
-                return ret;
+                if (b.BoxTime == "") b.BoxTime = null;
             }
+            return ret;
         }
 
         string AsQuoted(string s)

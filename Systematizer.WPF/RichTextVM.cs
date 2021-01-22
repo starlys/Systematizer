@@ -53,7 +53,7 @@ namespace Systematizer.WPF
                 range.Text = "";
                 var list = new List(new ListItem(new Paragraph(new Run(plain))));
                 Block newPara = range.Start.Paragraph;
-                if (newPara.Parent is ListItem) newPara = ((List)((ListItem)(newPara.Parent)).Parent);
+                if (newPara.Parent is ListItem p2) newPara = ((List)p2.Parent);
                 TextBox.Document.Blocks.InsertAfter(newPara, list);
             });
             InitializeFromPersistent();
@@ -164,7 +164,7 @@ namespace Systematizer.WPF
                     }
                     var para = new Paragraph();
                     activeList.ListItems.Add(new ListItem(para));
-                    addAsString(para, line.Substring(2));
+                    addAsString(para, line[2..]);
                 }
                 else
                 {
@@ -176,7 +176,7 @@ namespace Systematizer.WPF
                     {
                         para.FontSize = 14;
                         para.FontWeight = BOLD;
-                        addAsString(para, line.Substring(2));
+                        addAsString(para, line[2..]);
                     }
                     else
                         addAsString(para, line);
@@ -236,7 +236,7 @@ namespace Systematizer.WPF
 
         static IEnumerable<Inline> StringToRunsWithHyperlinks(string s)
         {
-            while (true)
+            for (int iter = 0; iter < 500; ++iter) //infinite loop control
             {
                 var m = URL_REGEX.Match(s);
                 if (m == null || !m.Success) //no more urls
@@ -246,7 +246,7 @@ namespace Systematizer.WPF
                 }
                 string s0 = s.Substring(0, m.Index),
                     url = s.Substring(m.Index, m.Length),
-                    s1 = s.Substring(m.Index + m.Length);
+                    s1 = s[(m.Index + m.Length)..];
                 if (s0.Length > 0) yield return new Run(s0);
                 var hlink = new Hyperlink(new Run(url)) { NavigateUri = new Uri(url) };
                 hlink.RequestNavigate += (s, e) =>

@@ -51,7 +51,7 @@ namespace Systematizer.Common
                 if (meaning == 'e')
                 {
                     if (segment.Length == 14)
-                        parsed.EndTime = segment.Substring(2);
+                        parsed.EndTime = segment[2..];
                 }
                 else if (meaning == 'x')
                 {
@@ -66,7 +66,7 @@ namespace Systematizer.Common
                             {
                                 Kind = RepeatKind.NDays,
                                 Time = segment.Substring(3, 4),
-                                Arg1 = DateUtil.ParseInt(segment.Substring(6), 1)
+                                Arg1 = DateUtil.ParseInt(segment[6..], 1)
                             });
                         else if (segment[1] == 'w' && segment.Length > 11)
                             parsed.Entries.Add(new RepeatEntry
@@ -74,14 +74,14 @@ namespace Systematizer.Common
                                 Kind = RepeatKind.WeekOfMonth,
                                 Time = segment.Substring(3, 4),
                                 Arg2 = new[] { segment[7] == 'Y', segment[8] == 'Y', segment[9] == 'Y', segment[10] == 'Y', segment[11] == 'Y' },
-                                Arg1 = DateUtil.ParseInt(segment.Substring(12), 1)
+                                Arg1 = DateUtil.ParseInt(segment[12..], 1)
                             });
                         if (segment[1] == 'm')
                             parsed.Entries.Add(new RepeatEntry
                             {
                                 Kind = RepeatKind.DayOfMonth,
                                 Time = segment.Substring(3, 4),
-                                Arg1 = DateUtil.ParseInt(segment.Substring(7), 1)
+                                Arg1 = DateUtil.ParseInt(segment[7..], 1)
                             });
                     }
                 }
@@ -123,8 +123,10 @@ namespace Systematizer.Common
         /// </summary>
         public string PackForStorage()
         {
-            var segments = new List<string>();
-            segments.Add($"e={EndTime}");
+            var segments = new List<string>
+            {
+                $"e={EndTime}"
+            };
             if (AutoExtend) segments.Add("x");
             foreach (var entry in Entries)
             {

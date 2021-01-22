@@ -60,7 +60,7 @@ namespace Systematizer.WPF
             };
             VM.FocusBarClicked = () =>
             {
-                VisualUtils.DelayThen(100, () =>
+                VisualUtils.DelayThen(30, () =>
                 {
                     VM.GetMainControl?.Invoke()?.Focus();
                 });
@@ -143,11 +143,13 @@ namespace Systematizer.WPF
                     if (assignedChunk == null) assignedChunk = chunkList.Chunks[0];
                     int chindex = chunkList.Chunks.IndexOf(assignedChunk);
 
-                    var preview = new BoxPreviewVM(a, Date, ItemGotFocus);
-                    preview.TimeClicked = HandleTimeClicked;
-                    preview.DragStartRequested = DragStartRequested;
-                    preview.MouseOpenRequested = MouseOpenRequested;
-                    preview.DropUnderBoxRequested = DropUnderBox;
+                    var preview = new BoxPreviewVM(a, Date, ItemGotFocus)
+                    {
+                        TimeClicked = HandleTimeClicked,
+                        DragStartRequested = DragStartRequested,
+                        MouseOpenRequested = MouseOpenRequested,
+                        DropUnderBoxRequested = DropUnderBox
+                    };
                     VM.Chunks[chindex].Items.Add(preview);
                 }
             }

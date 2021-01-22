@@ -57,11 +57,13 @@ namespace Systematizer.WPF
             VM.IsCalendarOpen = false;
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         async void eInstaChange_LostFocus(object sender, RoutedEventArgs e)
         {
             await Task.Delay(100);
             VM.InstaChange = "";
         }
+#pragma warning restore IDE1006 // Naming Styles
 
         //this is called on any UI event outside the popup, because StaysOpen=false
         private void Popup_Closed(object sender, EventArgs e)

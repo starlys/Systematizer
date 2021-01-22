@@ -13,65 +13,63 @@ namespace Systematizer.Common
         /// </summary>
         public static void ExportHtml(string fileName, bool inclAllPersons, long? includeThisCatPersons, bool inclTasks, bool inclNotes, bool inclPasswords)
         {
-            using (var db = new SystematizerContext())
-            using (var w = new StreamWriter(fileName))
+            using var db = new SystematizerContext();
+            using var w = new StreamWriter(fileName);
+            //write style sheet
+            w.Write("<html><head><style>body{font-family:trebuchet,arial}h1{background:tan;border-top:solid black 3px;font-size:1.5em}h2{font-size:1.1em}</style></head><body>");
+
+            if (inclAllPersons || includeThisCatPersons != null)
             {
-                //write style sheet
-                w.Write("<html><head><style>body{font-family:trebuchet,arial}h1{background:tan;border-top:solid black 3px;font-size:1.5em}h2{font-size:1.1em}</style></head><body>");
-
-                if (inclAllPersons || includeThisCatPersons != null)
+                w.WriteHeading(1, "People");
+                IQueryable<Person> q;
+                if (inclAllPersons) q = db.Person;
+                else
                 {
-                    w.WriteHeading(1, "People");
-                    IQueryable<Person> q;
-                    if (inclAllPersons) q = db.Person;
-                    else
-                    {
-                        var catids = Globals.AllCats.GetDescendantIds(includeThisCatPersons.Value);
-                        q = db.Person.Where(r => db.PersonCat.Any(c => c.PersonId == r.RowId && catids.Contains(c.CatId)));
-                    }
-                    q = q.OrderBy(r => r.Name);
-                    foreach (var person in q)
-                    {
-                        w.WriteHeading(2, person.Name);
-                        w.StartTable();
-                        w.TableRow("Phone", person.MainPhone);
-                        w.TableRow("Email", person.MainEmail);
-                        w.TableRow("Address", person.Address);
-                        w.TableRow("Notes", person.Notes);
-                        w.TableRow(Globals.PersonCustomLabels[0], person.Custom1);
-                        w.TableRow(Globals.PersonCustomLabels[1], person.Custom2);
-                        w.TableRow(Globals.PersonCustomLabels[2], person.Custom3);
-                        w.TableRow(Globals.PersonCustomLabels[3], person.Custom4);
-                        w.TableRow(Globals.PersonCustomLabels[4], person.Custom5);
-                        w.EndTable();
-                    }
+                    var catids = Globals.AllCats.GetDescendantIds(includeThisCatPersons.Value);
+                    q = db.Person.Where(r => db.PersonCat.Any(c => c.PersonId == r.RowId && catids.Contains(c.CatId)));
                 }
-
-                if (inclTasks)
+                q = q.OrderBy(r => r.Name);
+                foreach (var person in q)
                 {
-                    w.WriteHeading(1, "Schedule");
-                    var q = db.Box.Where(r => r.DoneDate == null && r.TimeType != 0).OrderBy(r => r.BoxTime);
-                    foreach (var box in q)
-                    {
-                        w.WriteHeading(2, $"{DateUtil.ToReadableDate(box.BoxTime)} {DateUtil.ToReadableTime(box.BoxTime)} -- {box.Title}");
-                        WriteBoxDetail(inclPasswords, w, box);
-                    }
+                    w.WriteHeading(2, person.Name);
+                    w.StartTable();
+                    w.TableRow("Phone", person.MainPhone);
+                    w.TableRow("Email", person.MainEmail);
+                    w.TableRow("Address", person.Address);
+                    w.TableRow("Notes", person.Notes);
+                    w.TableRow(Globals.PersonCustomLabels[0], person.Custom1);
+                    w.TableRow(Globals.PersonCustomLabels[1], person.Custom2);
+                    w.TableRow(Globals.PersonCustomLabels[2], person.Custom3);
+                    w.TableRow(Globals.PersonCustomLabels[3], person.Custom4);
+                    w.TableRow(Globals.PersonCustomLabels[4], person.Custom5);
+                    w.EndTable();
                 }
-
-                if (inclNotes)
-                {
-                    w.WriteHeading(1, "Notes");
-                    var q = db.Box.Where(r => r.DoneDate == null && r.TimeType == 0 && r.ParentId == null).OrderBy(r => r.Title).ToArray();
-                    foreach (var box in q)
-                    {
-                        WriteNoteBoxWithChildren(db, 2, inclPasswords, w, box);
-                    }
-                }
-
-                //end document
-                w.Write("</body></html>");
-                w.Flush();
             }
+
+            if (inclTasks)
+            {
+                w.WriteHeading(1, "Schedule");
+                var q = db.Box.Where(r => r.DoneDate == null && r.TimeType != 0).OrderBy(r => r.BoxTime);
+                foreach (var box in q)
+                {
+                    w.WriteHeading(2, $"{DateUtil.ToReadableDate(box.BoxTime)} {DateUtil.ToReadableTime(box.BoxTime)} -- {box.Title}");
+                    WriteBoxDetail(inclPasswords, w, box);
+                }
+            }
+
+            if (inclNotes)
+            {
+                w.WriteHeading(1, "Notes");
+                var q = db.Box.Where(r => r.DoneDate == null && r.TimeType == 0 && r.ParentId == null).OrderBy(r => r.Title).ToArray();
+                foreach (var box in q)
+                {
+                    WriteNoteBoxWithChildren(db, 2, inclPasswords, w, box);
+                }
+            }
+
+            //end document
+            w.Write("</body></html>");
+            w.Flush();
         }
 
         static void WriteNoteBoxWithChildren(SystematizerContext db, int recurLevel, bool inclPasswords, StreamWriter w, Box box)

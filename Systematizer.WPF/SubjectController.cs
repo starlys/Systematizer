@@ -17,30 +17,31 @@ namespace Systematizer.WPF
         public SubjectController(Action<BlockController> blockGotFocusHandler, Action<BlockController, bool> collapseRequested)
             : base(blockGotFocusHandler, collapseRequested)
         {
-            VM = new SubjectVM(VMGotFocus);
-
-            VM.ItemGotFocus = rowVM =>
+            VM = new SubjectVM(VMGotFocus)
             {
-                LastFocusedBoxId = rowVM.Persistent?.RowId ?? -1;
-            };
-            VM.ItemExpanded = (rowVM, isExpanded) =>
-            {
-                if (isExpanded)
+                ItemGotFocus = rowVM =>
                 {
-                    LastFocusedBoxId = rowVM.Persistent.RowId;
-                    if (rowVM.Status == SubjectVM.ChildrenStatus.No)
-                        HandleCommand(Globals.Commands.OPEN);
-                    else if (rowVM.Status == SubjectVM.ChildrenStatus.YesPlaceholder)
-                        LoadChildrenOf(rowVM);
-                }
-                else
+                    LastFocusedBoxId = rowVM.Persistent?.RowId ?? -1;
+                },
+                ItemExpanded = (rowVM, isExpanded) =>
                 {
-                    UnloadChildrenOf(rowVM);
+                    if (isExpanded)
+                    {
+                        LastFocusedBoxId = rowVM.Persistent.RowId;
+                        if (rowVM.Status == SubjectVM.ChildrenStatus.No)
+                            HandleCommand(Globals.Commands.OPEN);
+                        else if (rowVM.Status == SubjectVM.ChildrenStatus.YesPlaceholder)
+                            LoadChildrenOf(rowVM);
+                    }
+                    else
+                    {
+                        UnloadChildrenOf(rowVM);
+                    }
+                },
+                OpenRequested = () =>
+                {
+                    HandleCommand(Globals.Commands.OPEN);
                 }
-            };
-            VM.OpenRequested = () =>
-            {
-                HandleCommand(Globals.Commands.OPEN);
             };
 
             Refresh(null);

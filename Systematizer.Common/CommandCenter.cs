@@ -27,7 +27,7 @@ namespace Systematizer.Common
                 if (KeyDescriptionOverride != null) return KeyDescriptionOverride;
                 if (KeyShortcut != null)
                 {
-                    if (KeyShortcut[0] == 'C') return "Ctrl-" + KeyShortcut.Substring(1);
+                    if (KeyShortcut[0] == 'C') return "Ctrl-" + KeyShortcut[1..];
                     return KeyShortcut;
                 }
                 return "";

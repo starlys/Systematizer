@@ -36,7 +36,7 @@ namespace Systematizer.WPF
         void FinishConstructor(ExtPerson ep, bool editMode)
         {
             //get label and ensure no blanks
-            string customLabel(int idx)
+            static string customLabel(int idx)
             {
                 string s = Globals.PersonCustomLabels[idx];
                 if (string.IsNullOrEmpty(s)) return null;
@@ -57,7 +57,7 @@ namespace Systematizer.WPF
             VM.FocusBarClicked = () =>
             {
                 ChangeMode(Mode.Edit, false);
-                VisualUtils.DelayThen(100, () =>
+                VisualUtils.DelayThen(10, () =>
                 {
                     VM.GetMainControl?.Invoke()?.Focus();
                 });

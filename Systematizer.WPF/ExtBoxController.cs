@@ -49,7 +49,7 @@ namespace Systematizer.WPF
             VM.FocusBarClicked = () =>
             {
                 ChangeMode(Mode.Edit, false);
-                VisualUtils.DelayThen(100, () =>
+                VisualUtils.DelayThen(10, () =>
                 {
                     VM.GetMainControl?.Invoke()?.Focus();
                 });
@@ -406,8 +406,10 @@ namespace Systematizer.WPF
             if (box.IsUnclass == 0) return;
 
             //build presets list (BoxCreator values are offset by 1 in the options list)
-            var options = new List<string>();
-            options.Add("Note");
+            var options = new List<string>
+            {
+                "Note"
+            };
             if (Globals.AllowTasks) options.AddRange(BoxCreator.NAMES);
 
             //ask which preset to use

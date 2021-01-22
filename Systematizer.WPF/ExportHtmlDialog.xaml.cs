@@ -41,16 +41,20 @@ namespace Systematizer.WPF
 
         string AskForExportFileName(bool isHtml)
         {
-            var fileDlg = new SaveFileDialog();
-            fileDlg.Filter = isHtml ? "HTML|*.html" : "CSV|*.csv";
+            var fileDlg = new SaveFileDialog
+            {
+                Filter = isHtml ? "HTML|*.html" : "CSV|*.csv"
+            };
             if (fileDlg.ShowDialog(App.Current.MainWindow) != true) return null;
             return fileDlg.FileName;
         }
 
         string AskForImportFileName(bool isHtml)
         {
-            var fileDlg = new OpenFileDialog();
-            fileDlg.Filter = isHtml ? "HTML|*.html" : "CSV|*.csv";
+            var fileDlg = new OpenFileDialog
+            {
+                Filter = isHtml ? "HTML|*.html" : "CSV|*.csv"
+            };
             if (fileDlg.ShowDialog(App.Current.MainWindow) != true) return null;
             return fileDlg.FileName;
         }
@@ -94,18 +98,16 @@ namespace Systematizer.WPF
             var cvt = new CsvConverter();
             try
             {
-                using (var rdr = new StreamReader(filename))
+                using var rdr = new StreamReader(filename);
+                var persons = cvt.PersonFromCsv(rdr).ToArray();
+                foreach (var person in persons)
                 {
-                    var persons = cvt.PersonFromCsv(rdr).ToArray();
-                    foreach (var person in persons)
-                    {
-                        var eperson = new ExtPerson(person, null, null);
-                        if (autocCatId != null)
-                            eperson.SelectedCatIds = new long[] { autocCatId.Value };
-                        Globals.UI.SavePerson(eperson);
-                    }
-                    VisualUtils.ShowMessageDialog($"Imported {persons.Length} record(s)");
+                    var eperson = new ExtPerson(person, null, null);
+                    if (autocCatId != null)
+                        eperson.SelectedCatIds = new long[] { autocCatId.Value };
+                    Globals.UI.SavePerson(eperson);
                 }
+                VisualUtils.ShowMessageDialog($"Imported {persons.Length} record(s)");
             }
             catch (Exception ex)
             {
@@ -130,13 +132,11 @@ namespace Systematizer.WPF
             var cvt = new CsvConverter();
             try
             {
-                using (var rdr = new StreamReader(filename))
-                {
-                    var boxes = cvt.BoxFromCsv(rdr).ToArray();
-                    foreach (var box in boxes)
-                        Globals.UI.SaveBox(new ExtBox(box, null), false);
-                    VisualUtils.ShowMessageDialog($"Imported {boxes.Length} record(s)");
-                }
+                using var rdr = new StreamReader(filename);
+                var boxes = cvt.BoxFromCsv(rdr).ToArray();
+                foreach (var box in boxes)
+                    Globals.UI.SaveBox(new ExtBox(box, null), false);
+                VisualUtils.ShowMessageDialog($"Imported {boxes.Length} record(s)");
             }
             catch (Exception ex)
             {

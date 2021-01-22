@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using Systematizer.Common;
 
@@ -16,7 +18,7 @@ namespace Systematizer.WPF
     {
         MainWindow Win;
         bool IsBigMode = true;
-        WholeVM WholeVM = new WholeVM();
+        readonly WholeVM WholeVM = new WholeVM();
         DispatcherTimer Timer30; //30s timer as required by common layer
         readonly UICommandCenter Commands = new UICommandCenter();
         BlockStackController FocusedStack;
@@ -38,14 +40,14 @@ namespace Systematizer.WPF
             Globals.UIAction = UIGlobals.CommonActions;
 
             //connect controller/view/viewmodel tree (with no vm data yet)
-            HomeStackController = new BlockStackController(WholeVM.HomeStack, Win.eHomeStack,
+            HomeStackController = new BlockStackController(WholeVM.HomeStack, 
                 () =>
                 {
                     EditStackController.LoseFocus();
                     FocusedStack = HomeStackController;
                 });
             Win.eHomeStack.DataContext = WholeVM.HomeStack;
-            EditStackController = new BlockStackController(WholeVM.EditStack, Win.eEditStack,
+            EditStackController = new BlockStackController(WholeVM.EditStack, 
                 () =>
                 {
                     HomeStackController.LoseFocus();
@@ -72,7 +74,7 @@ namespace Systematizer.WPF
                 double idleSeconds = DateTime.UtcNow.Subtract(UIGlobals.LastActivityUtc).TotalSeconds;
                 Globals.UI.Ping30((int)idleSeconds);
             };
-            Timer30.Interval = TimeSpan.FromSeconds(30);
+            Timer30.Interval = TimeSpan.FromSeconds(30); 
             Timer30.Start();
         }
 
@@ -274,7 +276,7 @@ namespace Systematizer.WPF
         {
             bool isMenuOpen = Win.eMenu.Visibility == Visibility.Visible;
             if (mode == isMenuOpen) return;
-            bool shouldOpen = mode.HasValue ? mode.Value : !isMenuOpen;
+            bool shouldOpen = mode ?? !isMenuOpen;
             if (shouldOpen)
             {
                 if (Win.eMenu.eMenuRoot.Children.Count == 0) InitializeMenu();
@@ -401,6 +403,22 @@ namespace Systematizer.WPF
         {
             var stack = goToOtherStack ? (FocusedStack == HomeStackController ? EditStackController : HomeStackController) : FocusedStack;
             stack.FocusDelta(delta);
+        }
+
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+        public void EnsureNotMinimized()
+        {
+            const UInt32 SWP_NORESIZE = 0x0001;
+            const UInt32 SWP_NOMOVE = 0x0002;
+            if (Win.WindowState == WindowState.Minimized)
+            {
+                IntPtr HWND_BOTTOM = new IntPtr(1);
+                Win.WindowState = WindowState.Normal;
+                var hWnd = new WindowInteropHelper(Win).Handle;
+                SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NORESIZE | SWP_NOMOVE);
+            }
         }
     }
 }

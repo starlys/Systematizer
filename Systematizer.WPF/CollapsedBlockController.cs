@@ -7,8 +7,8 @@ namespace Systematizer.WPF
     {
         public Type OriginalControllerType { get; private set; }
         public ICollapseBlockData Data; //can be null
-        DateTime ExpiresAtUtc; //after this time, should remove collapsed block from stack
-        Action<CollapsedBlockController> ExpansionRequested;
+        readonly DateTime ExpiresAtUtc; //after this time, should remove collapsed block from stack
+        readonly Action<CollapsedBlockController> ExpansionRequested;
 
         public override BaseBlockVM GenericVM => VM;
 

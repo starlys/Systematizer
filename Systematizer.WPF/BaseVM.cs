@@ -15,7 +15,7 @@ namespace Systematizer.WPF
     /// </summary>
     abstract class BaseVM : INotifyPropertyChanged 
     {
-        static BooleanToVisibilityConverter BooleanToVisibility = new BooleanToVisibilityConverter();
+        //static readonly BooleanToVisibilityConverter BooleanToVisibility = new BooleanToVisibilityConverter();
 
         bool _isDirty;
         public virtual bool IsDirty

@@ -27,22 +27,19 @@ namespace Systematizer.WPF
 
         void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var rowVM = e.NewValue as SubjectVM.RowVM;
-            if (rowVM != null)
+            if (e.NewValue is SubjectVM.RowVM rowVM)
                 VM.ItemGotFocus?.Invoke(rowVM);
         }
 
         void TreeView_Expanded(object sender, RoutedEventArgs e)
         {
-            var rowVM = ((TreeViewItem)e.OriginalSource).DataContext as SubjectVM.RowVM;
-            if (rowVM != null)
+            if (((TreeViewItem)e.OriginalSource).DataContext is SubjectVM.RowVM rowVM)
                 VM.ItemExpanded?.Invoke(rowVM, true);
         }
 
         void TreeView_Collapsed(object sender, RoutedEventArgs e)
         {
-            var rowVM = ((TreeViewItem)e.OriginalSource).DataContext as SubjectVM.RowVM;
-            if (rowVM != null)
+            if (((TreeViewItem)e.OriginalSource).DataContext is SubjectVM.RowVM rowVM)
                 VM.ItemExpanded?.Invoke(rowVM, false);
         }
 

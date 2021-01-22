@@ -12,7 +12,7 @@ namespace Systematizer.Common
     public class BoxCache
     {
         List<CachedBox> ScheduledBoxes, TopNotes;
-        List<AgendaEntry> Agenda = new List<AgendaEntry>(); //always keep this sorted by time
+        readonly List<AgendaEntry> Agenda = new List<AgendaEntry>(); //always keep this sorted by time
 
         /// <summary>
         /// Load cache
@@ -102,11 +102,9 @@ namespace Systematizer.Common
             }
 
             if (toDelete.Count == 0) return;
-            using (var db = new SystematizerContext())
-            {
-                string rowids = string.Join(',', toDelete);
-                db.Database.ExecuteSqlRaw($"update Box set DoneDate='{cutoffS}' where RowId in ({rowids})");
-            }
+            using var db = new SystematizerContext();
+            string rowids = string.Join(',', toDelete);
+            db.Database.ExecuteSqlRaw($"update Box set DoneDate='{cutoffS}' where RowId in ({rowids})");
         }
 
         /// <summary>

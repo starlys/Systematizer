@@ -10,7 +10,7 @@ namespace Systematizer.WPF
     /// </summary>
     class CommonActions : IUIAction
     {
-        NotificationManager Toaster = new NotificationManager();
+        readonly NotificationManager Toaster = new NotificationManager();
 
         public void BoxCacheChanged(BoxEditingPool.Item changes)
         {
@@ -34,6 +34,9 @@ namespace Systematizer.WPF
 
         public void ShowToasterNotification(string message, bool extraTime)
         {
+            //the toast component doesn't show if app is minimized, so fix that
+            UIGlobals.Do.EnsureNotMinimized();
+
             int seconds = extraTime ? 120 : 12;
             Toaster.ShowAsync(new NotificationContent
             {

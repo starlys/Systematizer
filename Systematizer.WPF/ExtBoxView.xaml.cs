@@ -21,8 +21,7 @@ namespace Systematizer.WPF
                 if (VM == null) return;
                 VM.FocusMinuteRequested = () =>
                 {
-                    var eTime = VisualUtils.GetByUid(this, "eTime") as ItemsControl;
-                    if (eTime == null) return;
+                    if (!(VisualUtils.GetByUid(this, "eTime") is ItemsControl eTime)) return;
                     VisualUtils.DelayThen(250, () => 
                     { 
                         eTime.Focus();

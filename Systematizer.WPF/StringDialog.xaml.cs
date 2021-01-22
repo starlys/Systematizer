@@ -18,8 +18,10 @@ namespace Systematizer.WPF
         /// </summary>
         public static string GetInput(string caption, string initialValue, int maxLength)
         {
-            var dialog = new StringDialog();
-            dialog.Owner = App.Current.MainWindow;
+            var dialog = new StringDialog
+            {
+                Owner = App.Current.MainWindow
+            };
             dialog.eCaption.Text = caption;
             dialog.eValue.MaxLength = maxLength;
             dialog.eValue.Text = initialValue;
