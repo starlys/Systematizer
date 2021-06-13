@@ -172,7 +172,7 @@ namespace Systematizer.WPF
         /// <summary>
         /// Load children and return true if any found
         /// </summary>
-        bool LoadChildrenOf(SubjectVM.RowVM parent)
+        static bool LoadChildrenOf(SubjectVM.RowVM parent)
         {
             var children = Globals.UI.LoadBoxesByParent(parent.Persistent.RowId, true);
             parent.Status = children.Any() ? SubjectVM.ChildrenStatus.YesLoaded : SubjectVM.ChildrenStatus.No;
@@ -189,7 +189,7 @@ namespace Systematizer.WPF
             return parent.Status == SubjectVM.ChildrenStatus.YesLoaded;
         }
 
-        void UnloadChildrenOf(SubjectVM.RowVM parent)
+        static void UnloadChildrenOf(SubjectVM.RowVM parent)
         {
             if (parent.Status == SubjectVM.ChildrenStatus.YesLoaded)
                 parent.Status = SubjectVM.ChildrenStatus.YesPlaceholder;

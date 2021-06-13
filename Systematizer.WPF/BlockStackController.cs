@@ -12,7 +12,7 @@ namespace Systematizer.WPF
     class BlockStackController : BaseController
     {
         readonly WholeVM.Stack VM;
-        readonly List<BaseController> Controllers = new List<BaseController>(); //parallel list with VM.Blocks
+        readonly List<BaseController> Controllers = new(); //parallel list with VM.Blocks
         BlockController FocusedChild; //null if none; still set even if stack does not have focus
         bool StackHasFocus;
         readonly Action StackGotFocus;

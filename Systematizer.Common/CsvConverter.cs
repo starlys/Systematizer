@@ -72,10 +72,13 @@ namespace Systematizer.Common
             return ret;
         }
 
+        /// <summary>
+        /// quote field if it contains quote, comma, or newline
+        /// </summary>
         string AsQuoted(string s)
         {
             if (s == null) return "";
-            if (!s.Contains(QUOTE) && !s.Contains('\n')) return s;
+            if (!s.Contains(QUOTE) && !s.Contains('\n') && !s.Contains(',')) return s;
             s = s.Replace(QUOTE, $"{QUOTE}{QUOTE}");
             return $"{QUOTE}{s}{QUOTE}";
         }

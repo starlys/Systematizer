@@ -22,8 +22,8 @@ namespace Systematizer.WPF
             {
                 _value = value; 
                 NotifyChanged(); 
-                NotifyChanged("HasValue");
-                NotifyChanged("IsViewVisible");
+                NotifyChanged(nameof(HasValue));
+                NotifyChanged(nameof(IsViewVisible));
             }
         }
 

@@ -7,9 +7,9 @@ namespace Systematizer.WPF
     {
         //single instances
         public static IGlobalBehaviors Do;
-        public static readonly CommonActions CommonActions = new CommonActions();
-        public static readonly DeferredBehaviors Deferred = new DeferredBehaviors();
-        public static RecordLinkController RecordLinkController = new RecordLinkController();
+        public static readonly CommonActions CommonActions = new();
+        public static readonly DeferredBehaviors Deferred = new();
+        public static RecordLinkController RecordLinkController = new();
 
         //tracking user activity
         public static DateTime LastActivityUtc = DateTime.UtcNow;

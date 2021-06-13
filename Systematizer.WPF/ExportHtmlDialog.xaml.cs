@@ -39,7 +39,7 @@ namespace Systematizer.WPF
             dialog.ShowDialog();
         }
 
-        string AskForExportFileName(bool isHtml)
+        static string AskForExportFileName(bool isHtml)
         {
             var fileDlg = new SaveFileDialog
             {
@@ -49,7 +49,7 @@ namespace Systematizer.WPF
             return fileDlg.FileName;
         }
 
-        string AskForImportFileName(bool isHtml)
+        static string AskForImportFileName(bool isHtml)
         {
             var fileDlg = new OpenFileDialog
             {
@@ -62,7 +62,7 @@ namespace Systematizer.WPF
         /// <summary>
         /// Write all lines to file and inform user
         /// </summary>
-        void WriteLinesTo(string writeToPath, IEnumerable<string> lines)
+        static void WriteLinesTo(string writeToPath, IEnumerable<string> lines)
         {
             using (var stream = new StreamWriter(writeToPath))
             {

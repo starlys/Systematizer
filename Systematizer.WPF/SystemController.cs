@@ -50,7 +50,7 @@ namespace Systematizer.WPF
             };
             void openFromList()
             {
-                if (!(SysDlg.eFileList.SelectedItem is string sel)) return;
+                if (SysDlg.eFileList.SelectedItem is not string sel) return;
                 if (!UIGlobals.Do.OpenDatabaseWithErrorReporting(sel)) return;
                 SysDlg.Close();
             };
@@ -70,7 +70,7 @@ namespace Systematizer.WPF
             };
             SysDlg.eForgetButton.Click += (s, e) =>
             {
-                if (!(SysDlg.eFileList.SelectedItem is string sel)) return;
+                if (SysDlg.eFileList.SelectedItem is not string sel) return;
                 SysDlg.eFileList.Items.RemoveAt(SysDlg.eFileList.SelectedIndex);
                 RecentFilesList.ForgetPath(sel);
             };
@@ -97,7 +97,7 @@ namespace Systematizer.WPF
             SysDlg.ShowDialog();
         }
 
-        void SaveCustomLabel(object sender, int labelNo)
+        static void SaveCustomLabel(object sender, int labelNo)
         {
             string oldLabel = Globals.PersonCustomLabels[labelNo - 1];
             string newLabel = ((TextBox)sender).Text;
@@ -116,7 +116,7 @@ namespace Systematizer.WPF
         }
 
         //true on success
-        bool CopyTemplateDatabaseTo(string fileName)
+        static bool CopyTemplateDatabaseTo(string fileName)
         {
             try
             {

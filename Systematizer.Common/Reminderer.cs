@@ -28,8 +28,8 @@ namespace Systematizer.Common
 
         static void SendOne(CachedBox box, bool isPrep)
         {
-            string message = box.Title;
-            if (isPrep) message = $"{box.PrepDuration}: {box.Title}";
+            string message = isPrep ? $"{box.PrepDuration}: {box.Title}"
+                : $"Now: {box.Title}";
             bool extraTime = box.Importance == Constants.IMPORTANCE_HIGH;
             Globals.UIAction.ShowToasterNotification(message, extraTime);
         }

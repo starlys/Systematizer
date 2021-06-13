@@ -26,7 +26,7 @@ namespace Systematizer.WPF
                 private set
                 {
                     _entry = value;
-                    NotifyChanged("Description");
+                    NotifyChanged(nameof(Description));
                 }
             }
 
@@ -51,7 +51,7 @@ namespace Systematizer.WPF
                 }
             }
 
-            string Arg2ToText(bool[] arg2)
+            static string Arg2ToText(bool[] arg2)
             {
                 if (arg2 == null || arg2.Length != 5) return "";
                 var words = new List<string>();
@@ -63,7 +63,7 @@ namespace Systematizer.WPF
                 return string.Join(",", words);
             }
 
-            string DowToText(int dow)
+            static string DowToText(int dow)
             {
                 return ((DayOfWeek)dow).ToString();
             }
@@ -88,9 +88,9 @@ namespace Systematizer.WPF
 
             Entries.CollectionChanged += (s, e) =>
             {
-                NotifyChanged("NoEntriesTextVisibility");
-                NotifyChanged("CondensedEntriesDescription");
-                NotifyChanged("AddExceptionVisibility");
+                NotifyChanged(nameof(NoEntriesTextVisibility));
+                NotifyChanged(nameof(CondensedEntriesDescription));
+                NotifyChanged(nameof(AddExceptionVisibility));
                 IsDirty = true;
             };
         }
@@ -99,9 +99,9 @@ namespace Systematizer.WPF
         {
             EndDate.IsEditMode = IsEditMode;
             EndTime.IsEditMode = IsEditMode;
-            NotifyChanged("ReadOnlyVisibility");
-            NotifyChanged("AddExceptionVisibility");
-            NotifyChanged("EndDateVisibility");
+            NotifyChanged(nameof(ReadOnlyVisibility));
+            NotifyChanged(nameof(AddExceptionVisibility));
+            NotifyChanged(nameof(EndDateVisibility));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Systematizer.WPF
             {
                 _hasEndDate = value;
                 NotifyChanged();
-                NotifyChanged("EndDateVisibility");
+                NotifyChanged(nameof(EndDateVisibility));
             }
         }
 

@@ -137,7 +137,7 @@ namespace Systematizer.WPF
 
             public void WeekOfMonthChanged()
             {
-                NotifyChanged("WeeksOfMonthDisplay");
+                NotifyChanged(nameof(WeeksOfMonthDisplay));
             }
         }
 

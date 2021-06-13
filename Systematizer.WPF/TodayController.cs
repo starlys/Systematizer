@@ -159,7 +159,7 @@ namespace Systematizer.WPF
         /// <summary>
         /// loose hashing algorithm to detect changes in a set of displayable data
         /// </summary>
-        int HashContent(List<AgendaEntry> agendaItems, MultiDayChunkSet.DayChunkSet chunkList)
+        static int HashContent(List<AgendaEntry> agendaItems, MultiDayChunkSet.DayChunkSet chunkList)
         {
             if (chunkList == null || agendaItems == null) return 0;
             unchecked

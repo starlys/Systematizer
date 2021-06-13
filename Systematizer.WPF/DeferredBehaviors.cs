@@ -50,7 +50,7 @@ namespace Systematizer.WPF
         /// List of deferred chunk assignments: these are added when the today view creates a task, and then used after the task is saved
         /// and when the today view is rebuilding with that task in it
         /// </summary>
-        public List<TaskAssignBehavior> TaskAssigns = new List<TaskAssignBehavior>();
+        public List<TaskAssignBehavior> TaskAssigns = new();
 
         /// <summary>
         /// Caller can create or clear this with the instruction for the box controller. The command handler that allows cancelation must clear this

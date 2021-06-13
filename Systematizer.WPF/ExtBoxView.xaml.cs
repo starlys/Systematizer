@@ -21,7 +21,7 @@ namespace Systematizer.WPF
                 if (VM == null) return;
                 VM.FocusMinuteRequested = () =>
                 {
-                    if (!(VisualUtils.GetByUid(this, "eTime") is ItemsControl eTime)) return;
+                    if (VisualUtils.GetByUid(this, "eTime") is not ItemsControl eTime) return;
                     VisualUtils.DelayThen(250, () => 
                     { 
                         eTime.Focus();
@@ -73,6 +73,6 @@ namespace Systematizer.WPF
             VisualUtils.DelayThen(20, () => ctrl?.FocusMainControl());
         }
 
-        bool IsCtrlDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+        static bool IsCtrlDown => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
     }
 }

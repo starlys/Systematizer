@@ -12,7 +12,7 @@ namespace Systematizer.WPF
     /// </summary>
     class UICommandCenter
     {
-        readonly Dictionary<CommandCenter.Item, Func<bool>> Handlers = new Dictionary<CommandCenter.Item, Func<bool>>();
+        readonly Dictionary<CommandCenter.Item, Func<bool>> Handlers = new();
 
         public UICommandCenter()
         {
@@ -131,7 +131,7 @@ namespace Systematizer.WPF
         /// Find command that goes with the given key, or null - for keys to check before focus element sees it
         /// </summary>
         /// <param name="isCtrlOnly">true if ctrl but no other modifier is down</param>
-        public CommandCenter.Item KeyToItem_Early(Key key, bool isCtrlOnly)
+        public static CommandCenter.Item KeyToItem_Early(Key key, bool isCtrlOnly)
         {
             //manual mapping of the commands that aren't ctrl+letter
             if (key == Key.Space && isCtrlOnly) return Globals.Commands.OPENMENU;
@@ -145,7 +145,7 @@ namespace Systematizer.WPF
         /// <summary>
         /// Find command that goes with the given key, or null - for keys to check after not handled by focus element
         /// </summary>
-        public CommandCenter.Item KeyToItem_Late(Key key, bool isCtrl)
+        public static CommandCenter.Item KeyToItem_Late(Key key, bool isCtrl)
         {
             //manual mapping of the commands that aren't ctrl+letter/number/function key
             if (key == Key.Enter && isCtrl) return Globals.Commands.ENDEDITS;
@@ -178,7 +178,7 @@ namespace Systematizer.WPF
         /// <summary>
         /// Map from Key constants to strings as defined by CommandCenter.Item.KeyShortcut, or null
         /// </summary>
-        string KeyToKeyShortcut(Key key, bool isCtrl, bool isFunc, Key startOfRange1, char startOfRange2)
+        static string KeyToKeyShortcut(Key key, bool isCtrl, bool isFunc, Key startOfRange1, char startOfRange2)
         {
             if (isFunc)
             {

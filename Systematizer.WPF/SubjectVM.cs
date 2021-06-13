@@ -38,7 +38,7 @@ namespace Systematizer.WPF
                     if (_status == ChildrenStatus.YesPlaceholder)
                        Children.Add(new RowVM(null, this));
                     NotifyChanged();
-                    NotifyChanged("IsExpanded");
+                    NotifyChanged(nameof(IsExpanded));
                 }
             }
 
@@ -56,7 +56,7 @@ namespace Systematizer.WPF
             /// </summary>
             public void Touch()
             {
-                NotifyChanged("Title");
+                NotifyChanged(nameof(Title));
             }
 
             public string Title => Persistent?.Title ?? "-";

@@ -67,7 +67,7 @@ namespace Systematizer.WPF
             {
                 _isActive = value;
                 NotifyChanged();
-                NotifyChanged("WholeVisibility");
+                NotifyChanged(nameof(WholeVisibility));
             }
         }
 

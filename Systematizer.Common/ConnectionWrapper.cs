@@ -37,7 +37,10 @@ namespace Systematizer.Common
             {
                 LastUsedUtc = DateTime.UtcNow;
                 if (OpenInstance == null)
+                {
                     OpenInstance = new SqliteConnection($"Data Source={Globals.DatabasePath};Mode=ReadWrite;");
+                    OpenInstance.Open();
+                }
                 return OpenInstance;
             }
         }

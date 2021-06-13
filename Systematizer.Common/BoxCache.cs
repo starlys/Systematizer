@@ -30,7 +30,7 @@ namespace Systematizer.Common
             foreach (var box in ScheduledBoxes)
             {
                 box.Repeats = ParsedRepeatInfo.Build(box.RepeatInfo);
-                Agenda.AddRange(projector.Project(box, true));
+                Agenda.AddRange(projector.Project(box, true, true));
             }
             AssignHighlights();
             SortAgenda();
@@ -122,7 +122,7 @@ namespace Systematizer.Common
                 var cb = FullBoxToCachedBox(box);
                 ScheduledBoxes.Add(cb);
                 var projector = new RepeatProjector();
-                Agenda.AddRange(projector.Project(cb, true));
+                Agenda.AddRange(projector.Project(cb, true, true));
                 SortAgenda();
             }
             else if (box.BoxTime == null && box.ParentId == null && box.IsUnclass == 0 && box.DoneDate == null)

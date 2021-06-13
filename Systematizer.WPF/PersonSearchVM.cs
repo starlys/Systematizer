@@ -27,7 +27,7 @@ namespace Systematizer.WPF
         {
             OpenRequested = openRequested;
             SearchRequested = searchRequested;
-            Results.CollectionChanged += (s, e) => NotifyChanged("EmptyMessageVisibility");
+            Results.CollectionChanged += (s, e) => NotifyChanged(nameof(EmptyMessageVisibility));
         }
 
         public Visibility EmptyMessageVisibility => ToVisibility(!Results.Any());

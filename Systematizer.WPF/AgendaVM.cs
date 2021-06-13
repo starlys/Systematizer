@@ -121,7 +121,7 @@ namespace Systematizer.WPF
             {
                 _boxVisibilityIncluded = value;
                 NotifyChanged();
-                NotifyChanged("SliderToolTip");
+                NotifyChanged(nameof(SliderToolTip));
             }
         }
 
@@ -133,7 +133,7 @@ namespace Systematizer.WPF
             {
                 _allowRequestMore = value;
                 NotifyChanged();
-                NotifyChanged("RequestMoreVisibility");
+                NotifyChanged(nameof(RequestMoreVisibility));
             }
         }
 

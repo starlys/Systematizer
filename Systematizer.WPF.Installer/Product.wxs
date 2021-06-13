@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-	<Product Id="53894F00-11A7-426D-8F56-3DADA559B9EA"
-           Name="Systematizer v1.1.6" 
+	<Product Id="07B9528F-ED9A-4C4B-A98A-3A7F656087E6"
+           Name="Systematizer v1.2.0" 
            Language="1033" 
-           Version="1.1.6" 
+           Version="1.2.0" 
            Manufacturer="Divergent Labs" 
            UpgradeCode="5201E674-EC37-439C-8229-2A4A80BADB04">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="Systematizer Installer"/>
@@ -29,6 +29,9 @@
       <Component Id="templatedb" Guid="46E81A3A-4849-465C-B256-D2F6E610DB36">
         <File Id="templatedb" Name="template.sqlite" Source="/dev/Systematizer/template.sqlite" KeyPath="yes" />
       </Component>
+      <Component Id="dbdriver" Guid="84241CC1-CD41-482A-8634-43083863DCB6">
+        <File Id="dbdriver" Name="e_sqlite3.dll" Source="/Stage/SystematizerPublish/e_sqlite3.dll" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
     
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -42,6 +45,7 @@
     <Feature Id="ProductFeature" Title="Systematizer" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION">
 			<ComponentRef Id="Systematizer.exe" />
 			<ComponentRef Id="templatedb" />
+			<ComponentRef Id="dbdriver" />
       <ComponentRef Id="ApplicationShortcut" />
 		</Feature>
 

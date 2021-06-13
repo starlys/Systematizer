@@ -156,15 +156,17 @@ namespace Systematizer.WPF
         /// <summary>
         /// loose hashing algorithm to detect changes in a set of displayable data
         /// </summary>
-        int HashContent(AgendaEntry[] agendaItems)
+        static int HashContent(AgendaEntry[] agendaItems)
         {
             unchecked
             {
                 int hash = 0;
                 foreach (var a in agendaItems)
                 {
-                    hash += (int)a.Box.RowId + a.Box.Title.GetHashCode() + a.Box.BoxTime.GetHashCode();
+                    hash += (int)a.Box.RowId + a.Box.Title.GetHashCode() + a.Box.BoxTime.GetHashCode()
+                        + a.Box.Visibility.GetHashCode() + a.Box.TimeType.GetHashCode();
                     if (a.Box.Duration != null) hash += a.Box.Duration.GetHashCode();
+                    if (a.Box.RepeatInfo != null) hash += a.Box.RepeatInfo.GetHashCode();
                 }
                 return hash;
             }

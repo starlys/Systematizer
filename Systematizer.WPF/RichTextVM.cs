@@ -17,8 +17,8 @@ namespace Systematizer.WPF
     {
         const string HEADINGPREFIX = "--", BULLETPREFIX = "* ";
         static readonly FontWeight BOLD = FontWeight.FromOpenTypeWeight(800);
-        static readonly Regex URL_REGEX = new Regex(@"((http|https|mailto|file):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
-        static readonly Regex BULLET_REGEX = new Regex(@".\t");
+        static readonly Regex URL_REGEX = new(@"((http|https|mailto|file):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
+        static readonly Regex BULLET_REGEX = new(@".\t");
 
         /// <summary>
         /// Hack! This gets set by the code-behind when text box got focus

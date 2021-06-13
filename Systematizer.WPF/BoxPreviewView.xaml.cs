@@ -32,6 +32,7 @@ namespace Systematizer.WPF
             DragStartPos = e.GetPosition(null);
             dragPending = true;
             VM.TimeClicked?.Invoke(VM, (FrameworkElement)sender);
+            UIGlobals.LastActivityUtc = DateTime.UtcNow;
         }
 
         void Time_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

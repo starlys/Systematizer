@@ -61,7 +61,7 @@ namespace Systematizer.WPF
         /// </summary>
         public void Touch()
         {
-            NotifyChanged("WholeVisibility");
+            NotifyChanged(nameof(WholeVisibility));
         }
     }
 }

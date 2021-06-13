@@ -50,7 +50,7 @@ namespace Systematizer.WPF
         {
             _blockTitle = (TimeType == Constants.TIMETYPE_NONE ? "Note" : "Task")
                 + ": " + Title;
-            NotifyChanged("BlockTitle");
+            NotifyChanged(nameof(BlockTitle));
         }
 
         public override void InitializeFromPersistent()
@@ -77,10 +77,10 @@ namespace Systematizer.WPF
 
             //needed here because the classify command calls this and some of the properties are based on Persistent.Box properties,
             //so this updates the screen in that case
-            NotifyChanged("ClassifyButtonVisibility");
-            NotifyChanged("ClassificationPanelVisibility");
-            NotifyChanged("BoxTime_DateVisibility");
-            NotifyChanged("BoxTime_TimeVisibility");
+            NotifyChanged(nameof(ClassifyButtonVisibility));
+            NotifyChanged(nameof(ClassificationPanelVisibility));
+            NotifyChanged(nameof(BoxTime_DateVisibility));
+            NotifyChanged(nameof(BoxTime_TimeVisibility));
         }
 
         public void InitializeLinksFromPersistent()
@@ -131,13 +131,13 @@ namespace Systematizer.WPF
             RawEmail.IsEditMode = IsEditMode;
             Notes.IsEditMode = IsEditMode;
             Repeats.IsEditMode = IsEditMode;
-            NotifyChanged("ClassifyButtonVisibility");
+            NotifyChanged(nameof(ClassifyButtonVisibility));
             if (!IsEditMode) ShowAllChecked = false;
         }
 
-        public IEnumerable<KeyValuePair<short, string>> TimeTypeOptions => Constants.TIMETYPE_UICHOICES;
-        public IEnumerable<KeyValuePair<short, string>> ImportanceOptions => Constants.IMPORTANCE_UICHOICES;
-        public IEnumerable<KeyValuePair<short, string>> VisibilityOptions => Constants.VISIBILITY_UICHOICES;
+        public static IEnumerable<KeyValuePair<short, string>> TimeTypeOptions => Constants.TIMETYPE_UICHOICES;
+        public static IEnumerable<KeyValuePair<short, string>> ImportanceOptions => Constants.IMPORTANCE_UICHOICES;
+        public static IEnumerable<KeyValuePair<short, string>> VisibilityOptions => Constants.VISIBILITY_UICHOICES;
 
         bool _showAllChecked;
         public bool ShowAllChecked
@@ -153,11 +153,11 @@ namespace Systematizer.WPF
 
         public void NotifyVisibilityDetails()
         {
-            NotifyChanged("RefDirVisibility");
-            NotifyChanged("RefFileVisibility");
-            NotifyChanged("PasswordVisibility");
-            NotifyChanged("RawEmailVisibility");
-            NotifyChanged("RepeatsVisibility");
+            NotifyChanged(nameof(RefDirVisibility));
+            NotifyChanged(nameof(RefFileVisibility));
+            NotifyChanged(nameof(PasswordVisibility));
+            NotifyChanged(nameof(RawEmailVisibility));
+            NotifyChanged(nameof(RepeatsVisibility));
         }
 
         public WinVisibility RefDirVisibility => ToVisibility(_refDir != null || ShowAllChecked);
@@ -206,11 +206,11 @@ namespace Systematizer.WPF
                 if (_timeType == Constants.TIMETYPE_MINUTE && _visibility < Constants.VISIBILITY_PLANAROUND)
                     Visibility = Constants.VISIBILITY_PLANAROUND;
                 NotifyChanged();
-                NotifyChanged("BoxTime_DateVisibility");
-                NotifyChanged("BoxTime_TimeVisibility");
-                NotifyChanged("DurationVisibility");
+                NotifyChanged(nameof(BoxTime_DateVisibility));
+                NotifyChanged(nameof(BoxTime_TimeVisibility));
+                NotifyChanged(nameof(DurationVisibility));
                 SetBlockTitle();
-                NotifyChanged("BlockTitle");
+                NotifyChanged(nameof(BlockTitle));
                 if (isChangingToMinute) FocusMinuteRequested?.Invoke();
             }
         }

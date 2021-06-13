@@ -88,7 +88,7 @@ namespace Systematizer.WPF
                 return;
             }
             DateDisplay = DateUtil.ToReadableDate(_date, includeDOW: true);
-            NotifyChanged("DateDisplay");
+            NotifyChanged(nameof(DateDisplay));
         }
     }
 }

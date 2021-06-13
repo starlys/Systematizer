@@ -15,7 +15,7 @@ namespace Systematizer.Common
         public string SmallNotes { get; set; }
 
         /// <summary>
-        /// Null if non-repeating or the RepeatInfo parsed out 
+        /// Null if non-repeating, or the parsed RepeatInfo
         /// </summary>
         public ParsedRepeatInfo Repeats { get; set; }
 

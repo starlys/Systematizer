@@ -18,7 +18,7 @@ namespace Systematizer.Common
             //simulate cached box, knowing that Project function only looks at BoxTime and Repeats members
             var simulatedBox = new CachedBox { BoxTime = boxTime, Repeats = repeats };
 
-            var seq = Project(simulatedBox, false).OrderBy(r => r.Time);
+            var seq = Project(simulatedBox, false, false).OrderBy(r => r.Time);
             try
             {
                 var next = seq.First();
@@ -35,7 +35,8 @@ namespace Systematizer.Common
         /// </summary>
         /// <param name="box">Only inspects box.BoxTime and Repeats</param>
         /// <param name="includeCurrent">if true, includes the time the box is currently scheduled for</param>
-        public IEnumerable<AgendaEntry> Project(CachedBox box, bool includeCurrent)
+        /// <param name="allowAbortOnLowClutter">if true, will skip projections after the currently scheduled time, if low clutter</param>
+        public IEnumerable<AgendaEntry> Project(CachedBox box, bool includeCurrent, bool allowAbortOnLowClutter)
         {
             //include the specific time it is now scheduled for whether repeating or not
             if (includeCurrent)
@@ -50,7 +51,9 @@ namespace Systematizer.Common
                 };
             }
 
-            if (box.Repeats != null)
+            bool doProjections = box.Repeats != null;
+            if (allowAbortOnLowClutter && box.Visibility == Constants.VISIBILITY_LOWCLUTTER) doProjections = false;
+            if (doProjections)
             {
                 DateTime? max = DateUtil.ToDateTime(box.Repeats.EndTime);
                 if (max == null) max = DateTime.Today;

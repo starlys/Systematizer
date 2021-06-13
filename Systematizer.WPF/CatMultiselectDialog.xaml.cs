@@ -53,7 +53,7 @@ namespace Systematizer.WPF
                 return selectedIds.ToArray();
             }
 
-            Item ToItem(CatCache.Item it, long[] selectedCatIds) => new Item(this)
+            Item ToItem(CatCache.Item it, long[] selectedCatIds) => new(this)
             {
                 RowId = it.RowId,
                 IsExpanded = true,
@@ -116,7 +116,7 @@ namespace Systematizer.WPF
             var dialog = new CatMultiselectDialog
             {
                 Owner = App.Current.MainWindow,
-                _VM = new VM(new long[0])
+                _VM = new VM(Array.Empty<long>())
                 {
                     ShowNonLeafCheckboxes = allowNonLeafSelection
                 }

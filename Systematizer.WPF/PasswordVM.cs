@@ -20,8 +20,8 @@ namespace Systematizer.WPF
             {
                 _isRevealedExplicitly = value;
                 NotifyChanged(); 
-                NotifyChanged("ValueVisibility");
-                NotifyChanged("RevealButtonVisibility");
+                NotifyChanged(nameof(ValueVisibility));
+                NotifyChanged(nameof(RevealButtonVisibility));
             }
         }
 

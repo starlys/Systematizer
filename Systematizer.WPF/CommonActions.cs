@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Media;
 using Systematizer.Common;
-using Notifications.Wpf.Core;
+using System.Windows;
+
+using Toast = ToastNotifications;
+using ToastL = ToastNotifications.Lifetime;
+using ToastP = ToastNotifications.Position;
+using ToastM = ToastNotifications.Messages;
+using ToastC = ToastNotifications.Core;
 
 namespace Systematizer.WPF
 {
@@ -10,7 +16,25 @@ namespace Systematizer.WPF
     /// </summary>
     class CommonActions : IUIAction
     {
-        readonly NotificationManager Toaster = new NotificationManager();
+        Toast.Notifier ShortToaster;
+        Toast.Notifier LongToaster;
+
+        /// <summary>
+        /// Clean up resources to prepare for exit
+        /// </summary>
+        public void Cleanup()
+        {
+            if (LongToaster != null)
+            {
+                LongToaster.Dispose();
+                LongToaster = null;
+            }
+            if (ShortToaster != null)
+            {
+                ShortToaster.Dispose();
+                ShortToaster = null;
+            }
+        }
 
         public void BoxCacheChanged(BoxEditingPool.Item changes)
         {
@@ -34,16 +58,37 @@ namespace Systematizer.WPF
 
         public void ShowToasterNotification(string message, bool extraTime)
         {
-            //the toast component doesn't show if app is minimized, so fix that
-            UIGlobals.Do.EnsureNotMinimized();
-
-            int seconds = extraTime ? 120 : 12;
-            Toaster.ShowAsync(new NotificationContent
+            //create on first use
+            if (LongToaster == null)
             {
-                Title = "Systematizer",
-                Message = message,
-                Type = NotificationType.Success
-            }, expirationTime: TimeSpan.FromSeconds(seconds));
+                LongToaster = new Toast.Notifier(cfg =>
+                {
+                    cfg.PositionProvider = new ToastP.PrimaryScreenPositionProvider(ToastP.Corner.BottomRight, 10, 10);
+                    cfg.LifetimeSupervisor = new ToastL.TimeAndCountBasedLifetimeSupervisor(TimeSpan.FromSeconds(120), ToastL.MaximumNotificationCount.FromCount(8));
+                    cfg.Dispatcher = Application.Current.Dispatcher;
+                    cfg.DisplayOptions.TopMost = true;
+                    cfg.DisplayOptions.Width = 600;
+                });
+            }
+            if (ShortToaster == null)
+            {
+                ShortToaster = new Toast.Notifier(cfg =>
+                {
+                    cfg.PositionProvider = new ToastP.PrimaryScreenPositionProvider(ToastP.Corner.BottomRight, 10, 10);
+                    cfg.LifetimeSupervisor = new ToastL.TimeAndCountBasedLifetimeSupervisor(TimeSpan.FromSeconds(12), ToastL.MaximumNotificationCount.FromCount(8));
+                    cfg.Dispatcher = Application.Current.Dispatcher;
+                    cfg.DisplayOptions.TopMost = true;
+                    cfg.DisplayOptions.Width = 600;
+                });
+            }
+
+            message += " (Systematizer)";
+            var options = new ToastC.MessageOptions { FontSize = 15 };
+            if (extraTime)
+                ToastM.InformationExtensions.ShowInformation(LongToaster, message, options);
+            else
+                ToastM.InformationExtensions.ShowInformation(ShortToaster, message, options);
+
             SystemSounds.Exclamation.Play();
         }
     }

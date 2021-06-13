@@ -25,7 +25,7 @@ namespace Systematizer.WPF
             DoneMode = doneMode;
             SearchRequested = searchRequested;
             DoneSinceCri.IsEditMode = true;
-            Results.CollectionChanged += (s, e) => NotifyChanged("EmptyMessageVisibility");
+            Results.CollectionChanged += (s, e) => NotifyChanged(nameof(EmptyMessageVisibility));
         }
 
         public Visibility EmptyMessageVisibility => ToVisibility(!Results.Any());

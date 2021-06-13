@@ -18,9 +18,9 @@ namespace Systematizer.WPF
     {
         MainWindow Win;
         bool IsBigMode = true;
-        readonly WholeVM WholeVM = new WholeVM();
+        readonly WholeVM WholeVM = new();
         DispatcherTimer Timer30; //30s timer as required by common layer
-        readonly UICommandCenter Commands = new UICommandCenter();
+        readonly UICommandCenter Commands = new();
         BlockStackController FocusedStack;
         bool IsIdlePanelShowing;
 
@@ -228,7 +228,7 @@ namespace Systematizer.WPF
                 bool isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
                 bool isShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
                 bool isCtrlOnly = isCtrl && !isShift;
-                var item = Commands.KeyToItem_Early(e.Key, isCtrlOnly);
+                var item = UICommandCenter.KeyToItem_Early(e.Key, isCtrlOnly);
                 if (item != null)
                 {
                     if (HandleGlobalCommand(item))
@@ -239,7 +239,7 @@ namespace Systematizer.WPF
             Win.KeyDown += (s, e) =>
             {
                 bool isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-                var item = Commands.KeyToItem_Late(e.Key, isCtrl);
+                var item = UICommandCenter.KeyToItem_Late(e.Key, isCtrl);
                 if (item != null)
                 {
                     if (HandleGlobalCommand(item))
@@ -256,6 +256,7 @@ namespace Systematizer.WPF
                 }
                 ShowTimedMessge("Ciao!");
                 Timer30.IsEnabled = false;
+                UIGlobals.CommonActions.Cleanup();
                 App.Current.Shutdown();
             };
             Win.eWakeUp.Click += (s, e) => ShowHideIdleMode(false);
@@ -405,22 +406,6 @@ namespace Systematizer.WPF
         {
             var stack = goToOtherStack ? (FocusedStack == HomeStackController ? EditStackController : HomeStackController) : FocusedStack;
             stack.FocusDelta(delta);
-        }
-
-        [DllImport("user32.dll")]
-        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
-
-        public void EnsureNotMinimized()
-        {
-            const UInt32 SWP_NORESIZE = 0x0001;
-            const UInt32 SWP_NOMOVE = 0x0002;
-            if (Win.WindowState == WindowState.Minimized)
-            {
-                IntPtr HWND_BOTTOM = new IntPtr(1);
-                Win.WindowState = WindowState.Normal;
-                var hWnd = new WindowInteropHelper(Win).Handle;
-                SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NORESIZE | SWP_NOMOVE);
-            }
         }
     }
 }

@@ -63,12 +63,12 @@ namespace Systematizer.WPF
 
             void NotifyRadioButtons()
             {
-                NotifyChanged("IsAdd");
-                NotifyChanged("IsDelete");
-                NotifyChanged("IsAddDelete");
-                NotifyChanged("AddVisibility");
-                NotifyChanged("DeleteVisibility");
-                NotifyChanged("IsValid");
+                NotifyChanged(nameof(IsAdd));
+                NotifyChanged(nameof(IsDelete));
+                NotifyChanged(nameof(IsAddDelete));
+                NotifyChanged(nameof(AddVisibility));
+                NotifyChanged(nameof(DeleteVisibility));
+                NotifyChanged(nameof(IsValid));
             }
 
             List<ProjectedTime> _instances;
@@ -90,7 +90,7 @@ namespace Systematizer.WPF
                 {
                     _selectedIdx = value;
                     NotifyChanged();
-                    NotifyChanged("IsValid");
+                    NotifyChanged(nameof(IsValid));
                 }
             }
 
@@ -176,7 +176,7 @@ namespace Systematizer.WPF
             var projector = new RepeatProjector();
             var ri = CallerVM.ToParsedRepeatInfo();
             var cbox = new CachedBox { BoxTime = CallerVM.Ebox.Box.BoxTime, Repeats = ri };
-            var agendaEntries = projector.Project(cbox, false);
+            var agendaEntries = projector.Project(cbox, false, false);
             return agendaEntries
                 .OrderBy(r => r.Time)
                 .Select(r => new ProjectedTime

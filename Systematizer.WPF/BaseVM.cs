@@ -43,7 +43,7 @@ namespace Systematizer.WPF
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected Visibility ToVisibility(bool b)
+        protected static Visibility ToVisibility(bool b)
         {
             return b ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -87,7 +87,7 @@ namespace Systematizer.WPF
             {
                 _hasBlockFocus = value;
                 NotifyChanged();
-                NotifyChanged("FocusBarColor");
+                NotifyChanged(nameof(FocusBarColor));
             }
         }
 
@@ -123,9 +123,9 @@ namespace Systematizer.WPF
             {
                 _isEditMode = value;
                 NotifyChanged();
-                NotifyChanged("IsReadOnly");
-                NotifyChanged("BlockBackground");
-                NotifyChanged("EditModeVisibility");
+                NotifyChanged(nameof(IsReadOnly));
+                NotifyChanged(nameof(BlockBackground));
+                NotifyChanged(nameof(EditModeVisibility));
                 EditModeChanged();
             }
         }
@@ -158,8 +158,8 @@ namespace Systematizer.WPF
             {
                 _isEditMode = value;
                 NotifyChanged();
-                NotifyChanged("IsReadOnly");
-                NotifyChanged("EditModeVisibility");
+                NotifyChanged(nameof(IsReadOnly));
+                NotifyChanged(nameof(EditModeVisibility));
                 EditModeChanged();
             }
         }

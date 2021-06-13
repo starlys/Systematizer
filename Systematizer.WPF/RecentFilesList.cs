@@ -86,7 +86,7 @@ namespace Systematizer.WPF
         static List<FileEntry> GetContent(string omitPath = null)
         {
             string path = RecentFilesFileName();
-            var lines = new string[0];
+            var lines = Array.Empty<string>();
             if (File.Exists(path)) lines = File.ReadAllLines(path);
             var fs = lines.Select(line =>
             {

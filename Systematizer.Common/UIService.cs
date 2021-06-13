@@ -59,14 +59,22 @@ namespace Systematizer.Common
         /// <param name="idleSeconds">seconds since last user activity</param>
         public void Ping30(int idleSeconds)
         {
-            //idle tests
-            if (idleSeconds > 30)
-                Globals.Connection?.NotifyIdle();
-            if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15)
+            try
             {
-                Globals.UIAction.SetIdleMode(true, false);
+                //idle tests
+                if (idleSeconds > 30)
+                    Globals.Connection?.NotifyIdle();
+                if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15)
+                {
+                    Globals.UIAction.SetIdleMode(true, false);
+                }
+                Reminderer.CheckAndSend();
             }
-            Reminderer.CheckAndSend();
+            catch (Exception ex)
+            {
+                //This is here on the suspicion that some bug in the 30 s timer is responsible for crashing the app
+                Globals.UIAction.ShowToasterNotification("Unexpected error: " + ex.Message, false);
+            }
         }
 
         /// <summary>
