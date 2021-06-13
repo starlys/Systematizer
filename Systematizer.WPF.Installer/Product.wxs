@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-	<Product Id="07B9528F-ED9A-4C4B-A98A-3A7F656087E6"
+	<Product Id="2FCC65A0-387D-46DD-8587-FC7A74209767"
            Name="Systematizer v1.2.0" 
            Language="1033" 
            Version="1.2.0" 

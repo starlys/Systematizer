@@ -202,7 +202,6 @@ namespace Systematizer.Common
                         }
                     }
                 }
-                previousEnds[box.HighlightColor] = box.HighlightEndTime;
 
                 //if no possible color found, just cycle through them
                 if (box.HighlightColor < 0)
@@ -210,6 +209,8 @@ namespace Systematizer.Common
                     lastAssignedColorNo = (lastAssignedColorNo + 1) % Constants.NHIGHLIGHT_COLORS;
                     box.HighlightColor = lastAssignedColorNo;
                 }
+
+                previousEnds[box.HighlightColor] = box.HighlightEndTime;
             }
         }
     }

@@ -146,7 +146,7 @@ namespace Systematizer.Common
             if (keyFilter == null && !doneMode) return null;
             string sql = $"select RowId,* from Box where {doneFilter}";
             if (keyFilter != null) sql += $" and {keyFilter}";
-            sql += " limit 100";
+            sql += " order by BoxTime limit 100";
             return LoadForCaching(db.Box.FromSqlRaw(sql));
         }
 
@@ -275,71 +275,79 @@ namespace Systematizer.Common
         }
 
         /// <summary>
-        /// With deferred execution, get all kinds of links from the given box.
+        /// Get all kinds of links from the given box.
         /// </summary>
         internal static IEnumerable<LinkRecord> LoadLinksFor(SystematizerContext db, Box box)
         {
+            var ret = new List<LinkRecord>();
+
             //parent box
             if (box.ParentId != null)
             {
                 var parent = db.Box.Find(box.ParentId);
-                if (parent != null)
-                    yield return new LinkRecord
+                if (parent != null && parent.DoneDate == null)
+                    ret.Add(new LinkRecord
                     {
                         Link = LinkType.FromBoxToParentBox,
                         OtherId = box.ParentId.Value,
                         Description = parent.Title
-                    };
+                    });
             }
 
             //child boxes
-            var childBoxes = db.Box.Where(r => r.ParentId == box.RowId).Select(r => new { r.RowId, r.Title });
+            var childBoxes = db.Box.Where(r => r.ParentId == box.RowId && r.DoneDate == null).Select(r => new { r.RowId, r.Title });
             foreach (var b2 in childBoxes)
-                yield return new LinkRecord
+                ret.Add(new LinkRecord
                 {
                     Link = LinkType.FromBoxToChildBox,
                     OtherId = b2.RowId,
                     Description = b2.Title
-                };
+                });
 
             //linked persons
             var persons = db.Person.FromSqlRaw("select Person.RowId,Name from Person inner join BoxPerson on Person.RowId=BoxPerson.PersonId where BoxId=" + box.RowId)
                 .Select(r => new { r.RowId, r.Name });
             foreach (var person in persons)
-                yield return new LinkRecord
+                ret.Add(new LinkRecord
                 {
                     Link = LinkType.FromBoxToPerson,
                     OtherId = person.RowId,
                     Description = person.Name
-                };
+                });
+
+            return ret;
         }
 
         /// <summary>
-        /// With deferred execution, get all kinds of links from the given person.
+        /// Get all kinds of links from the given person.
         /// </summary>
         internal static IEnumerable<LinkRecord> LoadLinksFor(SystematizerContext db, Person person)
         {
+            var ret = new List<LinkRecord>();
+
             //boxes
-            var boxes = db.Box.FromSqlRaw("select Box.RowId,Title from Box inner join BoxPerson on Box.RowId=BoxPerson.BoxId where PersonId=" + person.RowId)
+            var boxes = db.Box.FromSqlRaw("select Box.RowId,Title from Box inner join BoxPerson on Box.RowId=BoxPerson.BoxId where DoneDate is null and PersonId=" + person.RowId)
                 .Select(r => new { r.RowId, r.Title });
             foreach (var b2 in boxes)
-                yield return new LinkRecord
+                ret.Add(new LinkRecord
                 {
                     Link = LinkType.FromPersonToBox,
                     OtherId = b2.RowId,
                     Description = b2.Title
-                };
+                });
 
             //persons
             var persons = db.Person.FromSqlRaw("select Person.RowId,Name from Person inner join PersonPerson on Person.RowId=PersonPerson.Person1Id where Person2Id=" + person.RowId)
                 .Select(r => new { r.RowId, r.Name });
             foreach (var person2 in persons)
-                yield return new LinkRecord
+                ret.Add(new LinkRecord
                 {
                     Link = LinkType.FromPersonToPerson,
                     OtherId = person2.RowId,
                     Description = person2.Name
-                };
+                });
+
+            return ret;
         }
 
         /// <summary>

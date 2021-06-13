@@ -20,11 +20,6 @@ namespace Systematizer.WPF
             var c = new MainController();
             UIGlobals.Do = c;
             c.Initialize(this);
-
-            //DEBUG
-            //var timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(4) };
-            //timer.Tick += (s, e) => UIGlobals.CommonActions.ShowToasterNotification("test debug", false);
-            //timer.Start();
         }
     }
 }

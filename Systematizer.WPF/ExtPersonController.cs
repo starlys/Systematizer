@@ -7,7 +7,7 @@ namespace Systematizer.WPF
     class ExtPersonController : BlockController
     {
         /// <summary>
-        /// Data container to store box info while block is collapsed
+        /// Data container to store info while block is collapsed
         /// </summary>
         public class CollapseData : ICollapseBlockData
         {

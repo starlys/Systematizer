@@ -199,6 +199,8 @@ namespace Systematizer.WPF
 
         void HookupEventHandlers()
         {
+            Application.Current.Activated += (s, e) => ShowHideIdleMode(false);
+
             Win.SizeChanged += (s, e) =>
             {
                 ResizeContents(e.NewSize.Width);
@@ -224,6 +226,7 @@ namespace Systematizer.WPF
             };
             Win.PreviewKeyDown += (s, e) =>
             {
+                ShowHideIdleMode(false);
                 UIGlobals.LastActivityUtc = DateTime.UtcNow;
                 bool isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
                 bool isShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
@@ -299,7 +302,9 @@ namespace Systematizer.WPF
                 Win.eNonIdlePanel.Visibility = Visibility.Collapsed;
                 Win.eIdlePanel.Visibility = Visibility.Visible;
                 IsIdlePanelShowing = true;
-                VisualUtils.DelayThen(100, () => Win.eWakeUp.Focus());
+
+                //not focusing button because it causes Application.Current.Activate event
+                //VisualUtils.DelayThen(100, () => Win.eWakeUp.Focus());
             }
             else
             {

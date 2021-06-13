@@ -5,8 +5,7 @@ using Systematizer.Common.PersistentModel;
 namespace Systematizer.Common
 {
     /// <summary>
-    /// Box from database with extra parsed info. This is used for detail load and saves from the UI layer.
-    /// Also see CachedBox which is used for readonly access to lists of boxes to build the schedule.
+    /// Person from database with extra parsed info. 
     /// </summary>
     public class ExtPerson
     {
