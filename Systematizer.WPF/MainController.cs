@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Systematizer.WPF
         readonly UICommandCenter Commands = new();
         BlockStackController FocusedStack;
         bool IsIdlePanelShowing;
+        List<(string, DateTime)> timedMessages = new(); //messages showing and their expiration time in UTC
 
         BlockStackController HomeStackController;
         BlockStackController EditStackController;
@@ -226,7 +228,12 @@ namespace Systematizer.WPF
             };
             Win.PreviewKeyDown += (s, e) =>
             {
-                ShowHideIdleMode(false);
+                if (IsIdlePanelShowing)
+                {
+                    ShowHideIdleMode(false);
+                    e.Handled = true;
+                    return;
+                }
                 UIGlobals.LastActivityUtc = DateTime.UtcNow;
                 bool isCtrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
                 bool isShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
@@ -262,19 +269,36 @@ namespace Systematizer.WPF
                 UIGlobals.CommonActions.Cleanup();
                 App.Current.Shutdown();
             };
-            Win.eWakeUp.Click += (s, e) => ShowHideIdleMode(false);
+            Win.eWakeUp.Click += (s, e) =>
+            {
+                ShowHideIdleMode(false);
+                e.Handled = true;
+            };
         }
 
         /// <summary>
         /// show timed message in screen top bar; also see CommonActions for notifications off screen
         /// </summary>
-        /// <param name="msg"></param>
         public async void ShowTimedMessge(string msg)
         {
-            Win.eMessage.Text = msg;
+            string formatMsgs() => string.Join(" | ", timedMessages.Select(r => r.Item1));
+
+            //add new timed message and display
+            timedMessages.Add((msg, DateTime.UtcNow.AddSeconds(6)));
+            Win.eMessage.Text = formatMsgs();
             Win.eMessage.Visibility = Visibility.Visible;
-            await Task.Delay(6000);
-            Win.eMessage.Visibility = Visibility.Collapsed;
+
+            //wait, and note that other messages could come or be expired in this time
+            await Task.Delay(7000);
+
+            //redisplay remaining messages or clear
+            for (int i = timedMessages.Count - 1; i >= 0; --i)
+                if (DateTime.UtcNow > timedMessages[i].Item2)
+                    timedMessages.RemoveAt(i);
+            if (timedMessages.Count > 0)
+                Win.eMessage.Text = formatMsgs();
+            else
+                Win.eMessage.Visibility = Visibility.Collapsed;
         }
 
         /// <param name="mode">true to open, false to close, null to switch</param>
@@ -377,6 +401,7 @@ namespace Systematizer.WPF
                 if (!IsBigMode)
                 {
                     IsBigMode = true;
+                    Win.eMenuButton.Focus(); //richtext controls fail to update VM if parentage changes
                     Win.eTopEditContainer.Children.Remove(Win.eEditStack);
                     Win.eSideEditContainer.Children.Add(Win.eEditStack);
                 }
@@ -389,6 +414,7 @@ namespace Systematizer.WPF
                 if (IsBigMode)
                 {
                     IsBigMode = false;
+                    Win.eMenuButton.Focus(); //richtext controls fail to update VM if parentage changes
                     Win.eSideEditContainer.Children.Remove(Win.eEditStack);
                     Win.eTopEditContainer.Children.Add(Win.eEditStack);
                 }

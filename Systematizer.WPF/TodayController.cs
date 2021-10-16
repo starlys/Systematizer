@@ -246,8 +246,11 @@ namespace Systematizer.WPF
             }
             if (!di.Box.BoxTime.StartsWith(Date))
             {
-                UIGlobals.Do.ShowTimedMessge("Cannot drag task to a different day");
-                return;
+                if (!VM.ContainsBoxId(di.Box.RowId))
+                {
+                    UIGlobals.Do.ShowTimedMessge("Cannot drag task to a different day");
+                    return;
+                }
             }
 
             //get target chunk and position of this target previewbox in that chunk
@@ -301,6 +304,12 @@ namespace Systematizer.WPF
         /// </summary>
         void MoveBoxToChunk(CachedBox box, TodayVM.ChunkVM chunk, bool rebulidViews)
         {
+            if (!VM.ContainsBoxId(box.RowId))
+            {
+                UIGlobals.Do.ShowTimedMessge("Cannot drag task to a different day");
+                return;
+            }
+
             //remove box from all chunks
             foreach (var c in VM.Chunks)
             {

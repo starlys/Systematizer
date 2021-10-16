@@ -64,7 +64,7 @@ namespace Systematizer.Common
                 //idle tests
                 if (idleSeconds > 30)
                     Globals.Connection?.NotifyIdle();
-                if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15) 
+                if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15)
                 {
                     Globals.UIAction.SetIdleMode(true, false);
                 }

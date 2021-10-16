@@ -35,9 +35,9 @@ namespace Systematizer.Common
 
                 //switch from detail-only to title or vice versa
                 if (record.IsDetail != 0 && foundInTitle)
-                    record.IsDetail = 1;
-                else if (record.IsDetail == 0 && foundInDetail)
                     record.IsDetail = 0;
+                else if (record.IsDetail == 0 && foundInDetail && !foundInTitle)
+                    record.IsDetail = 1;
 
                 if (foundInTitle || foundInDetail)
                     records.RemoveAt(ridx);

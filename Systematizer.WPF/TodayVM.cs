@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Systematizer.Common;
@@ -52,6 +53,8 @@ namespace Systematizer.WPF
 
             //actions injected by controller
             readonly Action<ChunkVM> Remove;
+
+            public bool ContainsBoxId(long id) => Items.Any(i => i.Persistent.Box.RowId == id);
         }
 
         /// <summary>
@@ -99,5 +102,7 @@ namespace Systematizer.WPF
                     RequestAddChunk?.Invoke();
             }
         }
+
+        public bool ContainsBoxId(long id) => Chunks.Any(i => i.ContainsBoxId(id));
     }
 }
