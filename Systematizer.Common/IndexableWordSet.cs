@@ -43,7 +43,7 @@ namespace Systematizer.Common
             s = BADLETTERS.Replace(s, "");
 
             //only keep 8 chars and omit stopwords
-            if (s.Length > 8) s = s.Substring(0, 8);
+            if (s.Length > 8) s = s[..8];
             s = s.ToUpperInvariant();
             if (s.Length == 0 || STOPWORDS.Contains(s)) return null;
 

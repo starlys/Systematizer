@@ -84,7 +84,7 @@ namespace Systematizer.WPF
         /// </summary>
         public static int IndexOfControlInItemsControl(ItemsControl ic, DependencyObject el)
         {
-            while (!(el is ContentPresenter) && el != null)
+            while (el is not ContentPresenter && el != null)
                 el = VisualTreeHelper.GetParent(el);
             if (el == null) return -1;
             return ic.ItemContainerGenerator.IndexFromContainer(el);

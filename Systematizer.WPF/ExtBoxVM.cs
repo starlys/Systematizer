@@ -32,7 +32,6 @@ namespace Systematizer.WPF
 
         //injected behaviors
         public readonly Func<CommandCenter.Item, bool> HandleCommand;
-        public Action FocusMinuteRequested; //injected by code-behind!
         public Action<BlockLinkVM.ItemVM> LinkClicked;
 
         public ExtBoxVM(ExtBox persistent, Action<BaseBlockVM> gotFocusAction, Func<CommandCenter.Item, bool> handleCommand) : base(gotFocusAction)
@@ -196,7 +195,6 @@ namespace Systematizer.WPF
             get => _timeType;
             set
             {
-                bool isChangingToMinute = _timeType != Constants.TIMETYPE_MINUTE && value == Constants.TIMETYPE_MINUTE;
                 _timeType = value; 
                 if (_timeType == Constants.TIMETYPE_NONE)
                 {
@@ -211,7 +209,6 @@ namespace Systematizer.WPF
                 NotifyChanged(nameof(DurationVisibility));
                 SetBlockTitle();
                 NotifyChanged(nameof(BlockTitle));
-                if (isChangingToMinute) FocusMinuteRequested?.Invoke();
             }
         }
 
@@ -271,10 +268,19 @@ namespace Systematizer.WPF
             set { _refFile = value; NotifyChanged(); }
         }
 
-        public DateVM BoxTime_Date { get; set; }
+        DateVM _boxTime_date;
+        public DateVM BoxTime_Date {
+            get => _boxTime_date;
+            set { _boxTime_date = value; NotifyChanged(); }
+        }
 
-        public TimeVM BoxTime_Time { get; set; }
-        
+        TimeVM _boxTime_time;
+        public TimeVM BoxTime_Time
+        {
+            get => _boxTime_time;
+            set { _boxTime_time = value; NotifyChanged(); }
+        }
+
         public RichTextVM Notes { get; set; }
 
         public PasswordVM Password { get; set; }

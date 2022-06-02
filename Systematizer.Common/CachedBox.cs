@@ -25,7 +25,7 @@ namespace Systematizer.Common
         internal void TruncateSmallNotes()
         {
             if (SmallNotes != null && SmallNotes.Length > 100)
-                SmallNotes = SmallNotes.Substring(0, 100);
+                SmallNotes = SmallNotes[..100];
             if (SmallNotes != null)
                 SmallNotes = SmallNotes.Replace("\r\n", " / ");
         }

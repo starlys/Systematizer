@@ -244,7 +244,7 @@ namespace Systematizer.WPF
                     if (s.Length > 0) yield return new Run(s);
                     break;
                 }
-                string s0 = s.Substring(0, m.Index),
+                string s0 = s[..m.Index],
                     url = s.Substring(m.Index, m.Length),
                     s1 = s[(m.Index + m.Length)..];
                 if (s0.Length > 0) yield return new Run(s0);

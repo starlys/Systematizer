@@ -39,7 +39,6 @@ namespace Systematizer.Common
 
             //classify the segments
             var parsed = new ParsedRepeatInfo();
-            parsed = new ParsedRepeatInfo();
             var segments = packedValue.Split('|', StringSplitOptions.RemoveEmptyEntries);
             string maxEndTime = DateUtil.ToYMDHM(DateTime.Today.AddYears(1));
             parsed.EndTime = maxEndTime;

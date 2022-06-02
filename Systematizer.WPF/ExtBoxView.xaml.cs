@@ -19,14 +19,6 @@ namespace Systematizer.WPF
             DataContextChanged += (s, e) =>
             {
                 if (VM == null) return;
-                VM.FocusMinuteRequested = () =>
-                {
-                    if (VisualUtils.GetByUid(this, "eTime") is not ItemsControl eTime) return;
-                    VisualUtils.DelayThen(250, () => 
-                    { 
-                        eTime.Focus();
-                    });
-                };
                 VM.GetMainControl = () =>
                 {
                     return VisualUtils.GetByUid(this, "eTitle") as TextBox;

@@ -154,7 +154,7 @@ namespace Systematizer.WPF
                 ret.Add(new ParsedRepeatInfo.RepeatEntry
                 {
                     Kind = ParsedRepeatInfo.RepeatKind.DeleteSpecific,
-                    Date = dt.Substring(0, 8),
+                    Date = dt[..8],
                     Time = dt.Substring(8, 4)
                 });
             }

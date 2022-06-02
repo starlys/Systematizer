@@ -24,7 +24,7 @@ namespace Systematizer.WPF
                 }
                 else
                 {
-                    if (d.Length > 8) d = d.Substring(0, 8);
+                    if (d.Length > 8) d = d[..8];
                     _date = d;
                     CalendarDate = DateUtil.ToDateTime(d);
                     if (_pristineDate == null) _pristineDate = _date;

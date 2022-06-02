@@ -136,7 +136,7 @@ namespace Systematizer.WPF
                 if (d.Item2 != null)
                     row = new AgendaVM.RowVM(d.Item2);
                 else
-                    row = new AgendaVM.RowVM(d.Item1.Substring(0, 8), DateUtil.ToReadableDate(d.Item1, includeDOW: true));
+                    row = new AgendaVM.RowVM(d.Item1[..8], DateUtil.ToReadableDate(d.Item1, includeDOW: true));
                 rowVMs.Add(row);
             }
             VM.Rows.AddRange(rowVMs);

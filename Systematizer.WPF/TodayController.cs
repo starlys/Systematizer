@@ -75,6 +75,8 @@ namespace Systematizer.WPF
             //(but we still might need to refresh if there was no change)
             if (changes != null && !changes.IsAgendaChanged) return;
 
+            SaveChunks();
+
             string fourHours = DateUtil.ToYMDHM(DateTime.Now.AddHours(4));
             bool anyChunkAssignments = false;
 

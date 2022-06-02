@@ -24,7 +24,7 @@ namespace Systematizer.WPF
         readonly UICommandCenter Commands = new();
         BlockStackController FocusedStack;
         bool IsIdlePanelShowing;
-        List<(string, DateTime)> timedMessages = new(); //messages showing and their expiration time in UTC
+        readonly List<(string, DateTime)> timedMessages = new(); //messages showing and their expiration time in UTC
 
         BlockStackController HomeStackController;
         BlockStackController EditStackController;
@@ -59,7 +59,6 @@ namespace Systematizer.WPF
             Win.eRecordLinks.DataContext = UIGlobals.RecordLinkController.VM;
 
             //open default db or show settings dialog to select file
-            redoAutoOpen:
             string path = RecentFilesList.GetFileToAutoOpen();
             if (path == null)
                 HandleGlobalCommand(Globals.Commands.SETTINGS);
@@ -67,7 +66,7 @@ namespace Systematizer.WPF
                 OpenDatabaseWithErrorReporting(path);
 
             //force open/create something
-            if (Globals.DatabasePath == null) goto redoAutoOpen;
+            while (Globals.DatabasePath == null) HandleGlobalCommand(Globals.Commands.SETTINGS);
 
             //set up 30s timer
             Timer30 = new DispatcherTimer();

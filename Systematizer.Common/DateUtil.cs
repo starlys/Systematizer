@@ -24,7 +24,7 @@ namespace Systematizer.Common
         public static string ToReadableDate(string d, bool includeDOW = false)
         {
             if (d == null || d.Length < 8) return "";
-            string ret = $"{d.Substring(0, 4)}-{d.Substring(4, 2)}-{d.Substring(6, 2)}";
+            string ret = $"{d[..4]}-{d.Substring(4, 2)}-{d.Substring(6, 2)}";
             if (includeDOW) ret += " - " + ToDateTime(d).Value.ToString("ddd");
             return ret;
         }
@@ -39,7 +39,7 @@ namespace Systematizer.Common
             if (dt == null) return "";
             if (dt.Length == 12) dt = dt.Substring(8, 4);
             else if (dt.Length != 4) return "";
-            return $"{dt.Substring(0, 2)}:{dt.Substring(2, 2)}";
+            return $"{dt[..2]}:{dt.Substring(2, 2)}";
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Systematizer.Common
         public static DateTime? ToDateTime(string s)
         {
             if (s == null || s.Length < 8) return null;
-            int yr = ParseInt(s.Substring(0, 4), -1);
+            int yr = ParseInt(s[..4], -1);
             int mo = ParseInt(s.Substring(4, 2), -1);
             int dy = ParseInt(s.Substring(6, 2), -1);
             int hr = 0, mi = 0;
@@ -72,7 +72,7 @@ namespace Systematizer.Common
             {
                 if (s.Length == 4)
                 {
-                    h = ParseInt(s.Substring(0, 2), defaultHour);
+                    h = ParseInt(s[..2], defaultHour);
                     m = ParseInt(s.Substring(2, 2), defaultMinute);
                 }
                 else if (s.Length == 12)
@@ -182,7 +182,7 @@ namespace Systematizer.Common
                 if (hourAndMinute.Length == 3)
                 {
                     //hour 0..9 and minute 00..59
-                    int h = int.Parse(hourAndMinute.Substring(0, 1));
+                    int h = int.Parse(hourAndMinute[..1]);
                     int m = int.Parse(hourAndMinute.Substring(1, 2));
                     if (m > 59) return DEFAULT_TIME;
                     return $"0{hourAndMinute}";
@@ -190,7 +190,7 @@ namespace Systematizer.Common
                 if (hourAndMinute.Length == 4)
                 {
                     //hour 10..23 and minute 00.59 (or hour 00..09)
-                    int h = int.Parse(hourAndMinute.Substring(0, 2));
+                    int h = int.Parse(hourAndMinute[..2]);
                     int m = int.Parse(hourAndMinute.Substring(2, 2));
                     if (h > 23 || m > 59) return DEFAULT_TIME;
                     return hourAndMinute;

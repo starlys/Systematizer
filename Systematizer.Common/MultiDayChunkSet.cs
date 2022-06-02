@@ -36,7 +36,7 @@ namespace Systematizer.Common
             foreach (string segment in segments)
             {
                 if (segment.Length < 9) continue;
-                string date = segment.Substring(0, 8);
+                string date = segment[..8];
                 string[] idsAndTitle = segment[8..].Split(new char[] { ';' }, 2);
                 if (idsAndTitle.Length != 2) continue;
 
