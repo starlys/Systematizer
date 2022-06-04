@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-	<Product Id="5BBA5BE2-CCB9-4039-A187-F8B142EE6ACE"
-           Name="Systematizer v1.2.1" 
+	<Product Id="933F437F-0C0B-4DEF-A357-F52B6415ED46"
+           Name="Systematizer v1.2.2" 
            Language="1033" 
-           Version="1.2.1" 
+           Version="1.2.2" 
            Manufacturer="Divergent Labs" 
            UpgradeCode="5201E674-EC37-439C-8229-2A4A80BADB04">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="Systematizer Installer"/>
