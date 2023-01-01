@@ -191,7 +191,7 @@ class ExtBoxController : BlockController
             var initialPath = GetDefaultFolderPath();
             var dlg = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
             if (initialPath != null) dlg.SelectedPath = initialPath;
-            if (dlg.ShowDialog(App.Current.MainWindow) != true) return true;
+            if (dlg.ShowDialog(Application.Current.MainWindow) != true) return true;
             VM.RefDir = dlg.SelectedPath;
             VM.NotifyVisibilityDetails();
             return true;
@@ -201,7 +201,7 @@ class ExtBoxController : BlockController
             var initialPath = GetDefaultFolderPath();
             var dlg = new OpenFileDialog();
             if (initialPath != null) dlg.InitialDirectory = initialPath;
-            if (dlg.ShowDialog(App.Current.MainWindow) != true) return true;
+            if (dlg.ShowDialog(Application.Current.MainWindow) != true) return true;
             VM.RefFile = dlg.FileName;
             VM.NotifyVisibilityDetails();
             return true;
@@ -304,7 +304,7 @@ class ExtBoxController : BlockController
         if (defaultPath != null) saveDlg.InitialDirectory = defaultPath;
         string ext = Path.GetExtension(templateName);
         saveDlg.Filter = ext + "|" + ext;
-        if (saveDlg.ShowDialog(App.Current.MainWindow) != true) return;
+        if (saveDlg.ShowDialog(Application.Current.MainWindow) != true) return;
         string targetName = saveDlg.FileName; //with path
 
         //copy file then open it

@@ -28,7 +28,8 @@ public class IndexableWordSet
     /// <param name="s"></param>
     public void AddUserField(string s)
     {
-        string[] words = (s ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string[] words = (s ?? "").Split(new char[] { ' ', '\n', '\r', '\t', '.', ',', ';', ':', '/', '+', '(', ')', '[', ']', '{', '}' }, 
+            StringSplitOptions.RemoveEmptyEntries);
         foreach (var word in words) AddWord(word);
     }
 

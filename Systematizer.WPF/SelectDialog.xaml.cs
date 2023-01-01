@@ -35,7 +35,7 @@ public partial class SelectDialog : Window
 
         var dlg = new SelectDialog
         {
-            Owner = App.Current.MainWindow
+            Owner = Application.Current.MainWindow
         };
         dlg.eList.ItemsSource = vm;
         dlg.ShowDialog();

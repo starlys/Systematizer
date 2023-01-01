@@ -181,7 +181,7 @@ class ExtPersonController : BlockController
                 UIGlobals.Do.HandleGlobalCommand(Globals.Commands.ABANDON);
             else
             {
-                if (MessageBox.Show(App.Current.MainWindow, $"Really permanently delete person ({VM.Name})?", "Systematizer", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                if (MessageBox.Show(Application.Current.MainWindow, $"Really permanently delete person ({VM.Name})?", "Systematizer", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
                     CollapseRequested(this, true);
                     UIService.DeletePerson(VM.Persistent.Person.RowId);

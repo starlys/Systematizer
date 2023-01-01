@@ -258,7 +258,7 @@ class MainController : IGlobalBehaviors //note this is the only not not derived 
             ShowTimedMessge("Ciao!");
             Timer30.IsEnabled = false;
             UIGlobals.CommonActions.Cleanup();
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         };
         Win.eWakeUp.Click += (s, e) =>
         {

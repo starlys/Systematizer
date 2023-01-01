@@ -18,7 +18,7 @@ class SystemController
         //init dialog
         SysDlg = new SystemDialog
         {
-            Owner = App.Current.MainWindow
+            Owner = Application.Current.MainWindow
         };
         foreach (string path in RecentFilesList.GetRecentFiles())
             SysDlg.eFileList.Items.Add(path);

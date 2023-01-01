@@ -17,7 +17,7 @@ public partial class StringDialog : Window
     {
         var dialog = new StringDialog
         {
-            Owner = App.Current.MainWindow
+            Owner = Application.Current.MainWindow
         };
         dialog.eCaption.Text = caption;
         dialog.eValue.MaxLength = maxLength;

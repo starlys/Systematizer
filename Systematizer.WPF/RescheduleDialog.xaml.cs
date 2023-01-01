@@ -26,7 +26,7 @@ public partial class RescheduleDialog : Window
     {
         var dlg = new RescheduleDialog
         {
-            Owner = App.Current.MainWindow
+            Owner = Application.Current.MainWindow
         };
         dlg.Loaded += (s, e) => dlg.eCommand.Focus();
         if (dlg.ShowDialog() != true) return null;

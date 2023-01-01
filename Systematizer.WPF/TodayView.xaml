@@ -13,7 +13,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Background="#FFDDDDDD">
-                            <TextBox Uid="eChunkTitle" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="16" GotFocus="ChunkTitle_GotFocus" BorderThickness="0" AllowDrop="True" PreviewDragOver="ChunkTitle_DragEnter" PreviewDragLeave="ChunkTitle_DragLeave" Drop="ChunkTitle_Drop"/>
+                            <TextBox Uid="eChunkTitle" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="16" GotFocus="ChunkTitle_GotFocus" LostFocus="ChunkTitle_LostFocus" BorderThickness="0" AllowDrop="True" PreviewDragOver="ChunkTitle_DragEnter" PreviewDragLeave="ChunkTitle_DragLeave" Drop="ChunkTitle_Drop"/>
                             <Label Height="2" Background="{Binding DragTargetColor}"/>
                             <ItemsControl ItemsSource="{Binding Items}" IsTabStop="False">
                                 <ItemsControl.ItemTemplate>

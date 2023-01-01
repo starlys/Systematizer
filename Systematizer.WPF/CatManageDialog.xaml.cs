@@ -26,7 +26,7 @@ public partial class CatManageDialog : Window
     {
         var dialog = new CatManageDialog
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             DataContext = new VM()
         };
         dialog.ShowDialog();
@@ -97,7 +97,7 @@ public partial class CatManageDialog : Window
         //warning or not allowed: abort
         if (warning.Item2 != null)
         {
-            if (MessageBox.Show(App.Current.MainWindow, warning.Item2, "Systematizer", MessageBoxButton.OKCancel, MessageBoxImage.Information) != MessageBoxResult.OK)
+            if (MessageBox.Show(Application.Current.MainWindow, warning.Item2, "Systematizer", MessageBoxButton.OKCancel, MessageBoxImage.Information) != MessageBoxResult.OK)
                 return;
         }
         if (!warning.Item1)

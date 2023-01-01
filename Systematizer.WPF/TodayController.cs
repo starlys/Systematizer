@@ -39,9 +39,19 @@ class TodayController : ListBlockController
         {
             LastFocusedChunk = VM.Chunks[idx];
         };
+        VM.ChunkLostFocus = idx =>
+        {
+            if (idx < 0 || idx >= VM.Chunks.Count) return;
+            var chunkVM = VM.Chunks[idx];
+            if (string.IsNullOrEmpty(chunkVM.Title))
+            {
+                UserRemovedChunk(chunkVM);
+                VisualUtils.DelayThen(10, () => VM.GetMainControl()?.Focus());
+            }
+        };
         VM.RequestAddChunk = () =>
         {
-            VM.Chunks.Add(new TodayVM.ChunkVM(VM, UserRemovedChunk)
+            VM.Chunks.Add(new TodayVM.ChunkVM()
             {
                 Title = VM.NewChunkTitle,
                 IsDirty = true
@@ -109,7 +119,7 @@ class TodayController : ListBlockController
         {
             //init VM's chunks
             foreach (var c in chunkList.Chunks)
-                VM.Chunks.Add(new TodayVM.ChunkVM(VM, UserRemovedChunk)
+                VM.Chunks.Add(new TodayVM.ChunkVM()
                 {
                     Title = c.Title
                 });

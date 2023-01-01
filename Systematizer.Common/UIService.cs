@@ -60,6 +60,7 @@ namespace Systematizer.Common
                 //idle tests
                 if (idleSeconds > 30)
                     Globals.Connection?.NotifyIdle();
+
                 if (!Globals.UIState.IsIdle && idleSeconds > 60 * 15)
                 {
                     Globals.UIAction.SetIdleMode(true, false);
@@ -74,7 +75,8 @@ namespace Systematizer.Common
         }
 
         /// <summary>
-        /// Call when user requests wake up app from idle mode; pending edits should be saved before calling this (so it doesn't overwrite day chunks)
+        /// Call when user requests wake up app from idle mode, or on startup;
+        /// pending edits should be saved before calling this (so it doesn't overwrite day chunks)
         /// </summary>
         public static void RequestWakeUp()
         {

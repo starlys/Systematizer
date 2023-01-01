@@ -103,7 +103,7 @@ class CollapsedBlockController : BlockController
         };
 
         if (autoRemoveOld)
-            ExpiresAtUtc = DateTime.UtcNow.AddMinutes(10);
+            ExpiresAtUtc = DateTime.UtcNow.AddHours(2);
         else
             ExpiresAtUtc = DateTime.MaxValue;
     }

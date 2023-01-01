@@ -38,6 +38,14 @@ public partial class TodayView : UserControl
         if (chunkIdx >= 0) VM.ChunkGotFocus(chunkIdx);
     }
 
+    void ChunkTitle_LostFocus(object sender, RoutedEventArgs e)
+    {
+        var tb = (TextBox)sender;
+        tb.SelectAll();
+        var chunkIdx = VisualUtils.IndexOfControlInItemsControl(ChunkList, tb);
+        if (chunkIdx >= 0) VM.ChunkLostFocus(chunkIdx);
+    }
+
     void ChunkTitle_DragEnter(object sender, DragEventArgs e)
     {
         bool ok = e.Data.GetDataPresent(nameof(BoxDragInfo));

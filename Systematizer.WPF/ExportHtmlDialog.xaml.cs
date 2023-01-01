@@ -20,7 +20,7 @@ public partial class ExportHtmlDialog : Window
     {
         var dialog = new ExportHtmlDialog()
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             ContextBoxIds = contextBoxIds,
             ContextPersonIds = contextPersonIds
         };
@@ -40,7 +40,7 @@ public partial class ExportHtmlDialog : Window
         {
             Filter = isHtml ? "HTML|*.html" : "CSV|*.csv"
         };
-        if (fileDlg.ShowDialog(App.Current.MainWindow) != true) return null;
+        if (fileDlg.ShowDialog(Application.Current.MainWindow) != true) return null;
         return fileDlg.FileName;
     }
 
@@ -50,7 +50,7 @@ public partial class ExportHtmlDialog : Window
         {
             Filter = isHtml ? "HTML|*.html" : "CSV|*.csv"
         };
-        if (fileDlg.ShowDialog(App.Current.MainWindow) != true) return null;
+        if (fileDlg.ShowDialog(Application.Current.MainWindow) != true) return null;
         return fileDlg.FileName;
     }
 

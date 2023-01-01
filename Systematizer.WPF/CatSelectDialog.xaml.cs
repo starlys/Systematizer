@@ -29,7 +29,7 @@ public partial class CatSelectDialog : Window
     {
         var dialog = new CatSelectDialog
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             DataContext = new VM()
         };
         dialog.eCaption.Text = caption;

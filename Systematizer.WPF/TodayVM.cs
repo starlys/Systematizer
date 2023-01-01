@@ -10,14 +10,6 @@ class TodayVM : BaseListBlockVM
 {
     public class ChunkVM : BaseVM
     {
-        readonly TodayVM Owner;
-
-        public ChunkVM(TodayVM owner, Action<ChunkVM> removeAction)
-        {
-            Owner = owner;
-            Remove = removeAction;
-        }
-
         string _title;
         public string Title
         {
@@ -26,11 +18,6 @@ class TodayVM : BaseListBlockVM
             {
                 _title = value;
                 NotifyChanged();
-                if (string.IsNullOrEmpty(value) && Remove != null)
-                {
-                    Remove(this);
-                    VisualUtils.DelayThen(10, () => Owner.GetMainControl()?.Focus());
-                }
             }
         }
 
@@ -47,9 +34,6 @@ class TodayVM : BaseListBlockVM
 
         public ObservableCollection<BoxPreviewVM> Items { get; set; } = new ObservableCollection<BoxPreviewVM>();
 
-        //actions injected by controller
-        readonly Action<ChunkVM> Remove;
-
         public bool ContainsBoxId(long id) => Items.Any(i => i.Persistent.Box.RowId == id);
     }
 
@@ -61,7 +45,7 @@ class TodayVM : BaseListBlockVM
     //actions injected by controller
     public Action RequestAddChunk;
     public Action<BoxDragInfo, ChunkVM> DropOnChunkRequested;
-    public Action<int> ChunkGotFocus;
+    public Action<int> ChunkGotFocus, ChunkLostFocus;
 
     //actions injected by view
     //public Action FocusFirstChunk

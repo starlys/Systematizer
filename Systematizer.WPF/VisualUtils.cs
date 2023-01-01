@@ -66,7 +66,7 @@ static class VisualUtils
     /// </summary>
     public static void ShowMessageDialog(string s)
     {
-        MessageBox.Show(App.Current.MainWindow, s, "Systematizer", MessageBoxButton.OK, MessageBoxImage.Information); 
+        MessageBox.Show(Application.Current.MainWindow, s, "Systematizer", MessageBoxButton.OK, MessageBoxImage.Information); 
     }
 
     /// <summary>

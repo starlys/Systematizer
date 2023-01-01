@@ -92,7 +92,7 @@ public partial class CatMultiselectDialog : Window
     {
         var dialog = new CatMultiselectDialog
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             _VM = new VM(ep.SelectedCatIds)
         };
         dialog.DataContext = dialog._VM;
@@ -109,7 +109,7 @@ public partial class CatMultiselectDialog : Window
     {
         var dialog = new CatMultiselectDialog
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             _VM = new VM(Array.Empty<long>())
             {
                 ShowNonLeafCheckboxes = allowNonLeafSelection

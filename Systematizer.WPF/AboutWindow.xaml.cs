@@ -17,11 +17,13 @@ namespace Systematizer.WPF
         {
             try
             {
-                string versionNo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+                string versionNo = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+                //note the following line works in dev mode but fails in deployed product
+                //string versionNo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
                 var dlg = new AboutWindow
                 {
-                    Owner = App.Current.MainWindow
+                    Owner = Application.Current.MainWindow
                 };
                 dlg.eVersion.Text = "Version: " + versionNo;
                 dlg.ShowDialog();

@@ -129,7 +129,7 @@ public partial class RepeatExceptionDialog : Window
         //prep VM and show dialog
         var dialog = new RepeatExceptionDialog
         {
-            Owner = App.Current.MainWindow,
+            Owner = Application.Current.MainWindow,
             CallerVM = callerVM
         };
         var vm = new VM { Owner = dialog };
