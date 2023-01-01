@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Systematizer.Common.PersistentModel;
+﻿using Systematizer.Common.PersistentModel;
 
 namespace Systematizer.Common
 {
@@ -49,7 +46,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Boxes currently being edited, with the old values filled in
         /// </summary>
-        readonly List<Item> OpenItems = new List<Item>();
+        readonly List<Item> OpenItems = new();
 
         /// <summary>
         /// Create Item that forces all changes, using mock data
@@ -98,7 +95,7 @@ namespace Systematizer.Common
         internal Item CheckIn(Box box)
         {
             var item = OpenItems.FirstOrDefault(b => b.OldBoxId == box.RowId);
-            if (item == null) item = new Item(); //happens when this is a new box
+            item ??= new Item(); //happens when this is a new box
             item.NewBoxId = box.RowId;
             item.NewBoxTime = box.BoxTime;
             item.NewDuration = box.Duration;

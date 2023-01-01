@@ -1,13 +1,11 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+public partial class BlockStackView : UserControl
 {
-    public partial class BlockStackView : UserControl
+    public BlockStackView()
     {
-        public BlockStackView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

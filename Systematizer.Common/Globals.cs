@@ -1,35 +1,28 @@
-﻿using System;
-using Systematizer.Common.PersistentModel;
+﻿#pragma warning disable CA2211 // Non-constant fields should not be visible
 
-namespace Systematizer.Common
+namespace Systematizer.Common;
+
+public static class Globals
 {
-    public static class Globals
-    {
-        //db info
-        public static string DatabasePath; //null when db closed
-        public static ConnectionWrapper Connection;
-        public static BoxCache BoxCache = new BoxCache();
+    //db info
+    public static string DatabasePath; //null when db closed
+    public static ConnectionWrapper Connection;
+    public static BoxCache BoxCache = new();
 
-        //info read from settings
-        public static bool AllowTasks;
-        public static MultiDayChunkSet DayChunks;
-        public static string[] PersonCustomLabels; //may be null or blank if not used
-        public static CatCache AllCats;
+    //info read from settings
+    public static bool AllowTasks;
+    public static MultiDayChunkSet DayChunks;
+    public static string[] PersonCustomLabels; //may be null or blank if not used
+    public static CatCache AllCats;
 
-        internal static readonly UIState UIState = new UIState();
+    internal static readonly UIState UIState = new();
 
-        internal static readonly BoxEditingPool BoxEditingPool = new BoxEditingPool();
+    internal static readonly BoxEditingPool BoxEditingPool = new();
 
-        /// <summary>
-        /// UI layer must inject this
-        /// </summary>
-        public static IUIAction UIAction;
+    /// <summary>
+    /// UI layer must inject this
+    /// </summary>
+    public static IUIAction UIAction;
 
-        /// <summary>
-        /// UI notifications must call methods here
-        /// </summary>
-        public static readonly UIService UI = new UIService();
-
-        public static readonly CommandCenter Commands = new CommandCenter();
-    }
+    public static readonly CommandCenter Commands = new();
 }

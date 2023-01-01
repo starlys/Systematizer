@@ -1,23 +1,20 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for BlockLinkView.xaml
+/// </summary>
+public partial class BlockLinkView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for BlockLinkView.xaml
-    /// </summary>
-    public partial class BlockLinkView : UserControl
+    public BlockLinkView()
     {
-        public BlockLinkView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        void Link_Click(object sender, RoutedEventArgs e)
-        {
-            if (((TextBlock)sender).DataContext is BlockLinkVM.ItemVM vm)
-                vm.LinkClicked?.Invoke(vm);
-        }
+    void Link_Click(object sender, RoutedEventArgs e)
+    {
+        if (((TextBlock)sender).DataContext is BlockLinkVM.ItemVM vm)
+            vm.LinkClicked?.Invoke(vm);
     }
 }

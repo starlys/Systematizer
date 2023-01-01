@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.IO;
 using Systematizer.Common.PersistentModel;
 
 namespace Systematizer.Common
@@ -10,13 +6,13 @@ namespace Systematizer.Common
     /// <summary>
     /// Landing spot for required calls from UI layer
     /// </summary>
-    public class UIService
+    public static class UIService
     {
         /// <summary>
         /// Get the folder where the exe file was run from.
         /// Note that single-file deployments cause this to be a temp folder instead of the actual source.
         /// </summary>
-        public string GetExeDirectory()
+        public static string GetExeDirectory()
         {
 #if DEBUG
             return AppContext.BaseDirectory;
@@ -29,7 +25,7 @@ namespace Systematizer.Common
         /// App startup (call when UI loaded and after database is identified); true if file opened
         /// </summary>
         /// <param name="path">path and file name of database</param>
-        public bool OpenDatabase(string path)
+        public static bool OpenDatabase(string path)
         {
             if (!File.Exists(path)) return false;
             Globals.DatabasePath = path;
@@ -45,7 +41,7 @@ namespace Systematizer.Common
         /// <summary>
         /// App shutdown; also called when user has selected a different database; implementation cleans up resources
         /// </summary>
-        public void CloseDatabase()
+        public static void CloseDatabase()
         {
             Globals.BoxCache = null;
             Globals.Connection?.Dispose();
@@ -57,7 +53,7 @@ namespace Systematizer.Common
         /// Perform timed activities; UI should call this every 30s
         /// </summary>
         /// <param name="idleSeconds">seconds since last user activity</param>
-        public void Ping30(int idleSeconds)
+        public static void Ping30(int idleSeconds)
         {
             try
             {
@@ -80,7 +76,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Call when user requests wake up app from idle mode; pending edits should be saved before calling this (so it doesn't overwrite day chunks)
         /// </summary>
-        public void RequestWakeUp()
+        public static void RequestWakeUp()
         {
             Globals.UIState.IsIdle = false;
             Globals.BoxCache.AutoCompleteTasks();
@@ -92,7 +88,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Write Globals.DayChunks to database; caller should ensure that object is up to date before calling this
         /// </summary>
-        public void SaveDayChunks()
+        public static void SaveDayChunks()
         {
             string dbValue = Globals.DayChunks.PackForStorage();
             DBUtil.WriteSettings(s => s.ChunkInfo = dbValue); 
@@ -101,7 +97,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Get boxes for detail view or editing; caller should call SaveBox or AbandonBox when the pane/window is closed
         /// </summary>
-        public IEnumerable<ExtBox> LoadUnclassBoxesForEditing()
+        public static IEnumerable<ExtBox> LoadUnclassBoxesForEditing()
         {
             var ret = new List<ExtBox>();
             using (var db = new SystematizerContext())
@@ -121,7 +117,7 @@ namespace Systematizer.Common
         /// Check if boxes exist matching the criteria given.
         /// </summary>
         /// <param name="parentRowId">matches on parent ID - required</param>
-        public bool CheckBoxesExist(long parentRowId = 0, bool filterByNotDone = false)
+        public static bool CheckBoxesExist(long parentRowId = 0, bool filterByNotDone = false)
         {
             if (parentRowId == 0) throw new Exception("invalid arguments");
             using var db = new SystematizerContext();
@@ -134,7 +130,7 @@ namespace Systematizer.Common
         /// Get box for detail view or editing; caller should call SaveBox or AbandonBox when the pane/window is closed
         /// </summary>
         /// <returns>null if not found</returns>
-        public ExtBox LoadBoxForEditing(long boxId)
+        public static ExtBox LoadBoxForEditing(long boxId)
         {
             using var db = new SystematizerContext();
             var box = db.Box.Find(boxId);
@@ -147,7 +143,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Reload the links in a box; to be called after the UI records changes in links
         /// </summary>
-        public void UpdateLinks(ExtBox ebox)
+        public static void UpdateLinks(ExtBox ebox)
         {
             using var db = new SystematizerContext();
             var links = DBUtil.LoadLinksFor(db, ebox.Box).ToList();
@@ -157,7 +153,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Reload the links in a box; to be called after the UI records changes in links
         /// </summary>
-        public void UpdateLinks(ExtPerson ep)
+        public static void UpdateLinks(ExtPerson ep)
         {
             using var db = new SystematizerContext();
             var links = DBUtil.LoadLinksFor(db, ep.Person).ToList();
@@ -168,7 +164,7 @@ namespace Systematizer.Common
         /// Get boxes for export
         /// </summary>
         /// <param name="ids">either null to include all non-done boxes or a specific list</param>
-        public Box[] LoadBoxesForExport(long[] ids)
+        public static Box[] LoadBoxesForExport(long[] ids)
         {
             using var db = new SystematizerContext();
             if (ids == null)
@@ -180,7 +176,7 @@ namespace Systematizer.Common
         /// Get persons for export
         /// </summary>
         /// <param name="ids">either null to include all or a specific list</param>
-        public Person[] LoadPersonsForExport(long[] ids)
+        public static Person[] LoadPersonsForExport(long[] ids)
         {
             using var db = new SystematizerContext();
             if (ids == null)
@@ -188,7 +184,7 @@ namespace Systematizer.Common
             return db.Person.Where(r => ids.Contains(r.RowId)).ToArray();
         }
 
-        public CachedBox[] LoadBoxesByParent(long parentId, bool onlyNotDone)
+        public static CachedBox[] LoadBoxesByParent(long parentId, bool onlyNotDone)
         {
             using var db = new SystematizerContext();
             return DBUtil.LoadBoxesByParent(db, parentId, onlyNotDone).ToArray();
@@ -197,7 +193,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Get boxes for done/search blocks; see comments in DBUtil
         /// </summary>
-        public CachedBox[] LoadBoxesByKeyword(string term, bool includeDetails, string doneSince)
+        public static CachedBox[] LoadBoxesByKeyword(string term, bool includeDetails, string doneSince)
         {
             using var db = new SystematizerContext();
             var boxes = DBUtil.BoxesByKeyword(db, term, includeDetails, doneSince);
@@ -209,11 +205,11 @@ namespace Systematizer.Common
         /// Get persons for search block; see comments in DBUtil
         /// </summary>
         /// <param name="catIds">null or catIds to match</param>
-        public Person[] LoadFilteredPersons(string term, bool includeDetails, long[] catIds, bool forExport)
+        public static Person[] LoadFilteredPersons(string term, bool includeDetails, long[] catIds, bool forExport)
         {
             using var db = new SystematizerContext();
             var a = DBUtil.LoadFilteredPersons(db, term, includeDetails, catIds, allowLoadUnfiltered: true, limit100: !forExport);
-            if (a == null) a = new Person[0];
+            a ??= Array.Empty<Person>();
             return a.ToArray();
         }
 
@@ -223,7 +219,7 @@ namespace Systematizer.Common
         /// throws exception on validation/save problem
         /// </summary>
         /// <returns>new rowID</returns>
-        public long SaveBox(ExtBox ebox, bool propagageToUI)
+        public static long SaveBox(ExtBox ebox, bool propagageToUI)
         {
             //validate
             string message = ebox.Box.Validate();
@@ -252,7 +248,7 @@ namespace Systematizer.Common
             return ebox.Box.RowId;
         }
 
-        public void AbandonBox(long boxId)
+        public static void AbandonBox(long boxId)
         {
             Globals.BoxEditingPool.Abandon(boxId);
         }
@@ -260,9 +256,9 @@ namespace Systematizer.Common
         /// <summary>
         /// Return a subset of rowIds given in the argument, including only those Box ids that have child boxes
         /// </summary>
-        public long[] BoxesWithChildren(long[] ids, bool onlyNotDone)
+        public static long[] BoxesWithChildren(long[] ids, bool onlyNotDone)
         {
-            if (ids.Length == 0) return new long[0];
+            if (ids.Length == 0) return Array.Empty<long>();
             using var db = new SystematizerContext();
             return DBUtil.BoxesWithChildren(db, ids, onlyNotDone);
         }
@@ -271,7 +267,7 @@ namespace Systematizer.Common
         /// Load person detail for editing
         /// </summary>
         /// <returns>null if not found</returns>
-        public ExtPerson LoadPerson(long id)
+        public static ExtPerson LoadPerson(long id)
         {
             using var db = new SystematizerContext();
             var person = db.Person.Find(id);
@@ -286,7 +282,7 @@ namespace Systematizer.Common
         /// throws exception on validation/save problem
         /// </summary>
         /// <returns>new rowID</returns>
-        public long SavePerson(ExtPerson person)
+        public static long SavePerson(ExtPerson person)
         {
             //validate
             string message = person.Person.Validate();
@@ -306,7 +302,7 @@ namespace Systematizer.Common
         /// <summary>
         /// Add or delete a link between any two records involving a person (ignores other types)
         /// </summary>
-        public void WritePersonLink(LinkInstruction cmd)
+        public static void WritePersonLink(LinkInstruction cmd)
         {
             using var db = new SystematizerContext();
             DBUtil.WritePersonLink(db, cmd);
@@ -317,7 +313,7 @@ namespace Systematizer.Common
         /// </summary>
         /// <param name="rowId">pass 0 to add new cat</param>
         /// <param name="modify">function to modify it</param>
-        public void ModifyCat(long rowId, Action<Cat> modify)
+        public static void ModifyCat(long rowId, Action<Cat> modify)
         {
             using var db = new SystematizerContext();
             Cat cat;
@@ -339,7 +335,7 @@ namespace Systematizer.Common
         /// DeleteCat. Returns null string if no warning needed.
         /// </summary>
         /// <returns>true if allowed to delete, and message to show user</returns>
-        public (bool, string) GetCategoryDeleteWarning(long rowId)
+        public static (bool, string) GetCategoryDeleteWarning(long rowId)
         {
             var cat = Globals.AllCats.Find(rowId);
             if (cat == null) 
@@ -360,7 +356,7 @@ namespace Systematizer.Common
         /// Delete a category, removing or promoting references to that category; updates cache
         /// </summary>
         /// <param name="rowId"></param>
-        public void DeleteCategory(long rowId)
+        public static void DeleteCategory(long rowId)
         {
             using var db = new SystematizerContext();
             var catRec = db.Cat.Find(rowId);
@@ -385,7 +381,7 @@ namespace Systematizer.Common
             Globals.AllCats = new CatCache(db.Cat);
         }
 
-        public void DeletePerson(long rowId)
+        public static void DeletePerson(long rowId)
         {
             using var db = new SystematizerContext();
             DBUtil.DeletePerson(db, rowId);
@@ -394,7 +390,7 @@ namespace Systematizer.Common
         /// <summary>
         /// return the box or its first ancestor box where the predicate is true; or null
         /// </summary>
-        public Box NavigateToParentBoxWhere(Box box, Func<Box, bool> predicate)
+        public static Box NavigateToParentBoxWhere(Box box, Func<Box, bool> predicate)
         {
             if (predicate(box)) return box;
             if (box.ParentId == null) return null;

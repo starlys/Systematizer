@@ -1,25 +1,20 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
+﻿namespace Systematizer.WPF;
 
-namespace Systematizer.WPF
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            Loaded += MainWindow_Loaded;
-        }
+        InitializeComponent();
+        Loaded += MainWindow_Loaded;
+    }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            var c = new MainController();
-            UIGlobals.Do = c;
-            c.Initialize(this);
-        }
+    void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        var c = new MainController();
+        UIGlobals.Do = c;
+        c.Initialize(this);
     }
 }

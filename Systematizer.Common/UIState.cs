@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace Systematizer.Common;
 
-namespace Systematizer.Common
+/// <summary>
+/// Common layer representation of certain aspects of UI state
+/// </summary>
+public class UIState
 {
-    /// <summary>
-    /// Common layer representation of certain aspects of UI state
-    /// </summary>
-    public class UIState
-    {
-        public bool IsIdle { get; internal set; }
-    }
+    public bool IsIdle { get; internal set; }
 }

@@ -1,4 +1,3 @@
-﻿namespace Systematizer.Common
-{
-    public enum LinkType { FromBoxToParentBox, FromBoxToChildBox, FromBoxToPerson, FromPersonToBox, FromPersonToPerson }
-}
+﻿namespace Systematizer.Common;
+
+public enum LinkType { FromBoxToParentBox, FromBoxToChildBox, FromBoxToPerson, FromPersonToBox, FromPersonToPerson }

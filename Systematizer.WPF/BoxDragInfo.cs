@@ -1,10 +1,6 @@
-﻿using System;
-using Systematizer.Common;
+﻿namespace Systematizer.WPF;
 
-namespace Systematizer.WPF
+class BoxDragInfo
 {
-    class BoxDragInfo
-    {
-        public CachedBox Box;
-    }
+    public CachedBox Box;
 }

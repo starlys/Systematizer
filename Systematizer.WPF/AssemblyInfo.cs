@@ -1,4 +1,9 @@
-using System.Windows;
+global using System;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using System.Windows;
+global using Systematizer.Common;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located

@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Systematizer.Common.PersistentModel;
 
-namespace Systematizer.Common.PersistentModel
+public class BaseTable
 {
-    public class BaseTable
-    {
-        public long RowId { get; set; }
-    }
+    public long RowId { get; set; }
 }

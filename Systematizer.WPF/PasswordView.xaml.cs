@@ -1,29 +1,26 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for PasswordView.xaml
+/// </summary>
+public partial class PasswordView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for PasswordView.xaml
-    /// </summary>
-    public partial class PasswordView : UserControl
+    public PasswordView()
     {
-        public PasswordView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        PasswordVM VM => DataContext as PasswordVM;
+    PasswordVM VM => DataContext as PasswordVM;
 
-        void Reveal_Click(object sender, RoutedEventArgs e)
-        {
-            VM.IsRevealed = true;
-        }
+    void Reveal_Click(object sender, RoutedEventArgs e)
+    {
+        VM.IsRevealed = true;
+    }
 
-        void Copy_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(VM.Value);
-        }
+    void Copy_Click(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText(VM.Value);
     }
 }

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for MainMenu.xaml
+/// </summary>
+public partial class MainMenuView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for MainMenu.xaml
-    /// </summary>
-    public partial class MainMenuView : UserControl
+    public MainMenuView()
     {
-        public MainMenuView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

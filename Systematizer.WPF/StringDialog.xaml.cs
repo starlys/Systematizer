@@ -1,37 +1,33 @@
-﻿using System;
-using System.Windows;
+﻿namespace Systematizer.WPF;
 
-namespace Systematizer.WPF
+/// <summary>
+/// Dialog to enter text
+/// </summary>
+public partial class StringDialog : Window
 {
-    /// <summary>
-    /// Dialog to enter text
-    /// </summary>
-    public partial class StringDialog : Window
+    public StringDialog()
     {
-        public StringDialog()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        /// <summary>
-        /// Get input; return null on cancel
-        /// </summary>
-        public static string GetInput(string caption, string initialValue, int maxLength)
+    /// <summary>
+    /// Get input; return null on cancel
+    /// </summary>
+    public static string GetInput(string caption, string initialValue, int maxLength)
+    {
+        var dialog = new StringDialog
         {
-            var dialog = new StringDialog
-            {
-                Owner = App.Current.MainWindow
-            };
-            dialog.eCaption.Text = caption;
-            dialog.eValue.MaxLength = maxLength;
-            dialog.eValue.Text = initialValue;
-            if (dialog.ShowDialog() != true) return null;
-            return dialog.eValue.Text;
-        }
+            Owner = App.Current.MainWindow
+        };
+        dialog.eCaption.Text = caption;
+        dialog.eValue.MaxLength = maxLength;
+        dialog.eValue.Text = initialValue;
+        if (dialog.ShowDialog() != true) return null;
+        return dialog.eValue.Text;
+    }
 
-        void OK_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+    void OK_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
     }
 }

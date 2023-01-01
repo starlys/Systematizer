@@ -1,35 +1,31 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using Systematizer.Common;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for RawEmailView.xaml
+/// </summary>
+public partial class RawEmailView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for RawEmailView.xaml
-    /// </summary>
-    public partial class RawEmailView : UserControl
+    RawEmailVM VM => DataContext as RawEmailVM;
+
+    public RawEmailView()
     {
-        RawEmailVM VM => DataContext as RawEmailVM;
+        InitializeComponent();
+    }
 
-        public RawEmailView()
-        {
-            InitializeComponent();
-        }
+    void View_Click(object sender, RoutedEventArgs e)
+    {
+        VM.HandleCommand?.Invoke(Globals.Commands.VIEWEMAIL);
+    }
 
-        void View_Click(object sender, RoutedEventArgs e)
-        {
-            VM.HandleCommand?.Invoke(Globals.Commands.VIEWEMAIL);
-        }
+    void Capture_Click(object sender, RoutedEventArgs e)
+    {
+        VM.HandleCommand?.Invoke(Globals.Commands.CAPTUREEMAIL);
+    }
 
-        void Capture_Click(object sender, RoutedEventArgs e)
-        {
-            VM.HandleCommand?.Invoke(Globals.Commands.CAPTUREEMAIL);
-        }
-
-        void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            VM.HandleCommand?.Invoke(Globals.Commands.CLEAREMAIL);
-        }
+    void Clear_Click(object sender, RoutedEventArgs e)
+    {
+        VM.HandleCommand?.Invoke(Globals.Commands.CLEAREMAIL);
     }
 }

@@ -1,46 +1,43 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for BoxSearchView.xaml
+/// </summary>
+public partial class BoxSearchView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for BoxSearchView.xaml
-    /// </summary>
-    public partial class BoxSearchView : UserControl
+    BoxSearchVM VM => DataContext as BoxSearchVM;
+
+    public BoxSearchView()
     {
-        BoxSearchVM VM => DataContext as BoxSearchVM;
+        InitializeComponent();
 
-        public BoxSearchView()
+        DataContextChanged += (s, e) =>
         {
-            InitializeComponent();
-
-            DataContextChanged += (s, e) =>
+            if (VM == null) return;
+            VM.GetMainControl = () =>
             {
-                if (VM == null) return;
-                VM.GetMainControl = () =>
-                {
-                    return VisualUtils.GetByUid(this, "eTerm") as TextBox;
-                };
-                VM.GetPreResultsControl = () =>
-                 {
-                     return VisualUtils.GetByUid(this, "eSearch") as Button;
-                 };
+                return VisualUtils.GetByUid(this, "eTerm") as TextBox;
             };
-        }
+            VM.GetPreResultsControl = () =>
+             {
+                 return VisualUtils.GetByUid(this, "eSearch") as Button;
+             };
+        };
+    }
 
-        void Search_Click(object sender, RoutedEventArgs e)
+    void Search_Click(object sender, RoutedEventArgs e)
+    {
+        VM.SearchRequested();
+    }
+
+    private void Search_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
         {
             VM.SearchRequested();
-        }
-
-        private void Search_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                VM.SearchRequested();
-                e.Handled = true;
-            }
+            e.Handled = true;
         }
     }
 }

@@ -1,75 +1,70 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using Systematizer.Common;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for DateView.xaml
+/// </summary>
+public partial class DateView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for DateView.xaml
-    /// </summary>
-    public partial class DateView : UserControl
+    DateVM VM => DataContext as DateVM;
+
+    public DateView()
     {
-        DateVM VM => DataContext as DateVM;
+        InitializeComponent();
+    }
 
-        public DateView()
-        {
-            InitializeComponent();
-        }
+    public void FocusMainControl()
+    {
+        eInstaChange.Focus();
+    }
 
-        public void FocusMainControl()
+    void CalendarToggle_Click(object sender, RoutedEventArgs e)
+    {
+        bool isOpen = eToggle.IsChecked == true;
+        if (isOpen)
         {
-            eInstaChange.Focus();
-        }
-
-        void CalendarToggle_Click(object sender, RoutedEventArgs e)
-        {
-            bool isOpen = eToggle.IsChecked == true;
-            if (isOpen)
+            var current = DateUtil.ToDateTime(VM.Date);
+            if (current.HasValue)
             {
-                var current = DateUtil.ToDateTime(VM.Date);
-                if (current.HasValue)
-                {
-                    eCalendar.SelectedDate = current.Value;
-                    eCalendar.DisplayDate = current.Value;
-                }
-                UIGlobals.WindowAffectsPopupAction = () => eToggle.IsChecked = false;
+                eCalendar.SelectedDate = current.Value;
+                eCalendar.DisplayDate = current.Value;
             }
-            else
-            {
-                UIGlobals.WindowAffectsPopupAction = null;
-            }
-            VM.IsCalendarOpen = isOpen;
+            UIGlobals.WindowAffectsPopupAction = () => eToggle.IsChecked = false;
         }
-
-        private void Win_LocationChanged(object sender, EventArgs e)
+        else
         {
-            throw new NotImplementedException();
+            UIGlobals.WindowAffectsPopupAction = null;
         }
+        VM.IsCalendarOpen = isOpen;
+    }
 
-        void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (eCalendar.SelectedDate == null) return;
-            string d = DateUtil.ToYMD(eCalendar.SelectedDate.Value);
-            VM.Date = d;
-            eToggle.IsChecked = false;
-            VM.IsCalendarOpen = false;
-        }
+    private void Win_LocationChanged(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (eCalendar.SelectedDate == null) return;
+        string d = DateUtil.ToYMD(eCalendar.SelectedDate.Value);
+        VM.Date = d;
+        eToggle.IsChecked = false;
+        VM.IsCalendarOpen = false;
+    }
 
 #pragma warning disable IDE1006 // Naming Styles
-        async void eInstaChange_LostFocus(object sender, RoutedEventArgs e)
-        {
-            await Task.Delay(100);
-            VM.InstaChange = "";
-        }
+    async void eInstaChange_LostFocus(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(100);
+        VM.InstaChange = "";
+    }
 #pragma warning restore IDE1006 // Naming Styles
 
-        //this is called on any UI event outside the popup, because StaysOpen=false
-        private void Popup_Closed(object sender, EventArgs e)
-        {
-            eToggle.IsChecked = false;
-            //CalendarToggle_Click(null, null);
-        }
+    //this is called on any UI event outside the popup, because StaysOpen=false
+    private void Popup_Closed(object sender, EventArgs e)
+    {
+        eToggle.IsChecked = false;
+        //CalendarToggle_Click(null, null);
     }
 }

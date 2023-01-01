@@ -1,33 +1,30 @@
-﻿using System;
-using System.Windows.Controls;
-using Systematizer.Common;
+﻿using System.Windows.Controls;
 
-namespace Systematizer.WPF
+namespace Systematizer.WPF;
+
+/// <summary>
+/// Interaction logic for ExtPersonView.xaml
+/// </summary>
+public partial class ExtPersonView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ExtPersonView.xaml
-    /// </summary>
-    public partial class ExtPersonView : UserControl
+    ExtPersonVM VM => DataContext as ExtPersonVM;
+
+    public ExtPersonView()
     {
-        ExtPersonVM VM => DataContext as ExtPersonVM;
+        InitializeComponent();
 
-        public ExtPersonView()
+        DataContextChanged += (s, e) =>
         {
-            InitializeComponent();
-
-            DataContextChanged += (s, e) =>
+            if (VM == null) return;
+            VM.GetMainControl = () =>
             {
-                if (VM == null) return;
-                VM.GetMainControl = () =>
-                {
-                    return VisualUtils.GetByUid(this, "eName") as TextBox;
-                };
+                return VisualUtils.GetByUid(this, "eName") as TextBox;
             };
-        }
+        };
+    }
 
-        void Categories_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            UIGlobals.Do.HandleGlobalCommand(Globals.Commands.EDITCATEGORIES);
-        }
+    void Categories_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        UIGlobals.Do.HandleGlobalCommand(Globals.Commands.EDITCATEGORIES);
     }
 }

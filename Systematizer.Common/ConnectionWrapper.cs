@@ -1,48 +1,45 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 
-namespace Systematizer.Common
+namespace Systematizer.Common;
+
+/// <summary>
+/// Encapsulates single global connection to the database file and closing it when idle.
+/// NotifyIdle must be called from UI repeatedly at idle times.
+/// </summary>
+public sealed class ConnectionWrapper : IDisposable
 {
-    /// <summary>
-    /// Encapsulates single global connection to the database file and closing it when idle.
-    /// NotifyIdle must be called from UI repeatedly at idle times.
-    /// </summary>
-    public class ConnectionWrapper : IDisposable
+    DateTime LastUsedUtc = DateTime.UtcNow;
+    DbConnection OpenInstance;
+
+    public void NotifyIdle()
     {
-        DateTime LastUsedUtc = DateTime.UtcNow;
-        DbConnection OpenInstance;
-
-        public void NotifyIdle()
+        lock (this)
         {
-            lock (this)
-            {
-                if (OpenInstance != null && LastUsedUtc.AddMinutes(3) < DateTime.UtcNow)
-                    Dispose();
-            }
+            if (OpenInstance != null && LastUsedUtc.AddMinutes(3) < DateTime.UtcNow)
+                Dispose();
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        lock (this)
         {
-            lock (this)
-            {
-                OpenInstance?.Dispose();
-                OpenInstance = null;
-            }
+            OpenInstance?.Dispose();
+            OpenInstance = null;
         }
+    }
 
-        public DbConnection Get()
+    public DbConnection Get()
+    {
+        lock (this)
         {
-            lock (this)
+            LastUsedUtc = DateTime.UtcNow;
+            if (OpenInstance == null)
             {
-                LastUsedUtc = DateTime.UtcNow;
-                if (OpenInstance == null)
-                {
-                    OpenInstance = new SqliteConnection($"Data Source={Globals.DatabasePath};Mode=ReadWrite;");
-                    OpenInstance.Open();
-                }
-                return OpenInstance;
+                OpenInstance = new SqliteConnection($"Data Source={Globals.DatabasePath};Mode=ReadWrite;");
+                OpenInstance.Open();
             }
+            return OpenInstance;
         }
     }
 }

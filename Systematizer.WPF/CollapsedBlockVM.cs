@@ -1,17 +1,14 @@
-﻿using System;
+﻿namespace Systematizer.WPF;
 
-namespace Systematizer.WPF
+class CollapsedBlockVM : BaseBlockVM
 {
-    class CollapsedBlockVM : BaseBlockVM
-    {
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        //injected behavior
-        public Action ExpansionRequested; 
+    //injected behavior
+    public Action ExpansionRequested; 
 
-        public CollapsedBlockVM(Action<BaseBlockVM> vmGotFocusHandler) : base(vmGotFocusHandler)
-        { }
+    public CollapsedBlockVM(Action<BaseBlockVM> vmGotFocusHandler) : base(vmGotFocusHandler)
+    { }
 
-        public override string BlockTitle => "";
-    }
+    public override string BlockTitle => "";
 }

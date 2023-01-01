@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Systematizer.Common.PersistentModel;
 
-namespace Systematizer.Common.PersistentModel
+public partial class BoxPerson : BaseTable
 {
-    public partial class BoxPerson : BaseTable
-    {
-        public long BoxId { get; set; }
-        public long PersonId { get; set; }
-    }
+    public long BoxId { get; set; }
+    public long PersonId { get; set; }
 }
