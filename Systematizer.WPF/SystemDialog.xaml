@@ -15,6 +15,12 @@
             <Button Margin="5" x:Name="eCreateButton">Create New Database</Button>
             <Button Margin="5" x:Name="eOpenOtherButton">Open Another Database</Button>
             <Button Margin="5" x:Name="eForgetButton">Remove From List</Button>
+            <!--COLOR TESTER <Label Background="LawnGreen" Width="40" />
+            <Label Background="HotPink" Width="40" />
+            <Label Background="CadetBlue" Width="40" Content="xxx" />
+            <Label Background="Yellow" Width="40" />
+            <Label Background="Cyan" Width="40" />
+            <Label Background="Orange" Width="40" />-->
         </StackPanel>
         <GroupBox x:Name="eOptionsPanel">
             <GroupBox.Header>Options for Current Database</GroupBox.Header>
