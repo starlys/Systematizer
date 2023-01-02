@@ -13,9 +13,9 @@
             <StackPanel >
                 <Button Visibility="{Binding ClassifyButtonVisibility}" Click="ClassifyButton_Click" HorizontalAlignment="Right" IsTabStop="False">Classify quick note as...</Button>
                 <WrapPanel Visibility="{Binding ClassificationPanelVisibility}">
-                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding TimeTypeOptions, Mode=OneTime}" SelectedValue="{Binding TimeType}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
-                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding VisibilityOptions, Mode=OneTime}" SelectedValue="{Binding Visibility}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
-                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding ImportanceOptions, Mode=OneTime}" SelectedValue="{Binding Importance}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding TimeTypeOptions, Mode=OneTime}" SelectedValue="{Binding TimeType}" IsTabStop="False" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding VisibilityOptions, Mode=OneTime}" SelectedValue="{Binding Visibility}" IsTabStop="False" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <ComboBox IsEnabled="{Binding IsEditMode}" Margin="2,0" ItemsSource="{Binding ImportanceOptions, Mode=OneTime}" SelectedValue="{Binding Importance}" IsTabStop="False" SelectedValuePath="Key" DisplayMemberPath="Value"/>
                     <Grid Margin="2,0" Visibility="{Binding BoxTime_DateVisibility}" >
                         <local:DateView DataContext="{Binding BoxTime_Date}" x:Uid="eDate" KeyDown="Date_KeyDown"/>
                     </Grid>
@@ -25,9 +25,9 @@
                 </WrapPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,2" Visibility="{Binding DurationVisibility}">
                     <TextBlock Text="Duration:"/>
-                    <TextBox Width="40" Text="{Binding Duration}" IsReadOnly="{Binding IsReadOnly}" />
+                    <TextBox Width="40" Text="{Binding Duration}" IsReadOnly="{Binding IsReadOnly}" IsTabStop="False" />
                     <TextBlock Text=" Prep time:"/>
-                    <TextBox Width="40" Text="{Binding PrepDuration}" IsReadOnly="{Binding IsReadOnly}" />
+                    <TextBox Width="40" Text="{Binding PrepDuration}" IsReadOnly="{Binding IsReadOnly}" IsTabStop="False" />
                 </StackPanel>
             </StackPanel>
             <local:RichTextView x:Uid="eNotes" DataContext="{Binding Notes}" Margin="2" />

@@ -120,6 +120,7 @@ class BlockStackController : BaseController
             StackHasFocus = true;
             StackGotFocus();
         }
+        UIGlobals.LastActivityUtc = DateTime.UtcNow;
     }
 
     /// <summary>

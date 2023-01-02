@@ -195,10 +195,10 @@ namespace Systematizer.Common
         /// <summary>
         /// Get boxes for done/search blocks; see comments in DBUtil
         /// </summary>
-        public static CachedBox[] LoadBoxesByKeyword(string term, bool includeDetails, string doneSince)
+        public static CachedBox[] LoadBoxesByKeyword(string term, string doneSince)
         {
             using var db = new SystematizerContext();
-            var boxes = DBUtil.BoxesByKeyword(db, term, includeDetails, doneSince);
+            var boxes = DBUtil.BoxesByKeyword(db, term, doneSince);
             if (boxes == null) return null;
             return boxes.ToArray();
         }

@@ -39,16 +39,6 @@ class BoxSearchVM : BaseBlockVM
         set { _termCri = value; NotifyChanged(); }
     }
 
-    bool _includeDetailsCri;
-    /// <summary>
-    /// User entered flag - true means search also in notes; false means search only in titles
-    /// </summary>
-    public bool IncludeDetailsCri
-    {
-        get => _includeDetailsCri;
-        set { _includeDetailsCri = value; NotifyChanged(); }
-    }
-
     /// <summary>
     /// When in done mode, the minimum done date YYYYMMDD 
     /// </summary>

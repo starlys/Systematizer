@@ -2,7 +2,7 @@
 
 class CalendarController : ListBlockController
 {
-    static readonly int BARHEIGHT = 16, WEEKHEIGHT = BARHEIGHT * Constants.NHIGHLIGHT_COLORS;
+    static readonly int BARHEIGHT = 16, WEEKHEIGHT = BARHEIGHT * Constants.NHIGHLIGHT_COLORS + 2;
 
     public CalendarVM VM { get; private set; }
 

@@ -17,9 +17,9 @@ public class BoxCache
     {
         using (var db = new SystematizerContext())
         {
-            ScheduledBoxes = DBUtil.LoadForCaching(db.Box.Where(r => r.BoxTime != null && r.DoneDate == null));
+            ScheduledBoxes = DBUtil.LoadForSearch(db.Box.Where(r => r.BoxTime != null && r.DoneDate == null));
             //note code duplication with next line and UpdateCacheAfterSave
-            TopNotes = DBUtil.LoadForCaching(db.Box.Where(r => r.BoxTime == null && r.ParentId == null && r.IsUnclass == 0 && r.DoneDate == null));
+            TopNotes = DBUtil.LoadForSearch(db.Box.Where(r => r.BoxTime == null && r.ParentId == null && r.IsUnclass == 0 && r.DoneDate == null));
         }
 
         foreach (var box in ScheduledBoxes)
@@ -169,7 +169,7 @@ public class BoxCache
     /// </summary>
     void AssignHighlights()
     {
-        var boxes = Agenda.Where(ae => ae.Box.Visibility == Constants.VISIBILITY_HIGHLIGHT).OrderBy(ae => ae.Box.BoxTime).ToArray();
+        var boxes = Agenda.Where(ae => ae.Box.Visibility == Constants.VISIBILITY_HIGHLIGHT).OrderBy(ae => ae.Time).ToArray();
         var previousEnds = new string[Constants.NHIGHLIGHT_COLORS]; //YYYYMMDDHHMM of when each color was last used until
         Array.Fill(previousEnds, "197012312359");
         int lastAssignedColorNo = -1;
@@ -184,10 +184,12 @@ public class BoxCache
             }
 
             //if unassigned, choose next color that doesn't overlap
-            if (box.HighlightColor < 0)
+            if (false || box.HighlightColor < 0)
             {
-                for (int colorNo = 0; colorNo < Constants.NHIGHLIGHT_COLORS; ++colorNo)
+                for (int addColor = 1; addColor <= Constants.NHIGHLIGHT_COLORS; ++addColor)
                 {
+                    //alternate colors even if they don't overlap, just for visual interest
+                    int colorNo = (addColor + lastAssignedColorNo + Constants.NHIGHLIGHT_COLORS) % Constants.NHIGHLIGHT_COLORS;
                     if (DateUtil.IsBefore(previousEnds[colorNo], box.Time))
                     {
                         box.HighlightColor = colorNo;

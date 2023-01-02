@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Systematizer.WPF;
 
@@ -41,9 +42,23 @@ public partial class SubjectView : UserControl
             VM.ItemExpanded?.Invoke(rowVM, false);
     }
 
-    void TreeView_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    void TreeView_KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == System.Windows.Input.Key.Enter)
+        if (e.Key == Key.Enter)
             VM.OpenRequested?.Invoke();
+    }
+
+    private void TreeView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is not TreeView t) return;
+        if (e.Handled) return;
+        e.Handled = true;
+        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        {
+            RoutedEvent = MouseWheelEvent,
+            Source = sender
+        };
+        var parent = t.Parent as UIElement;
+        parent.RaiseEvent(eventArg);
     }
 }

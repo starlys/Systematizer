@@ -1,4 +1,6 @@
-﻿namespace Systematizer.WPF;
+﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+
+namespace Systematizer.WPF;
 
 class TodayController : ListBlockController
 {
@@ -58,9 +60,13 @@ class TodayController : ListBlockController
             });
             VM.NewChunkTitle = "";
         };
-        VM.DropOnChunkRequested = (BoxDragInfo di, TodayVM.ChunkVM chunkVM) =>
+        VM.DropBoxOnChunkRequested = (BoxDragInfo di, TodayVM.ChunkVM chunkVM) =>
         {
             MoveBoxToChunk(di.Box, chunkVM, true);
+        };
+        VM.DropChunkOnChunkRequested = (ChunkDragInfo di, TodayVM.ChunkVM toChunkVM) =>
+        {
+            ResequenceChunks(di.FromIndex, toChunkVM);
         };
         VM.FocusBarClicked = () =>
         {
@@ -69,6 +75,7 @@ class TodayController : ListBlockController
                 VM.GetMainControl?.Invoke()?.Focus();
             });
         };
+        VM.ChunkDragStartRequested = ChunkDragStartRequested;
 
         Refresh(null);
     }
@@ -152,7 +159,7 @@ class TodayController : ListBlockController
                 var preview = new BoxPreviewVM(a, Date, ItemGotFocus)
                 {
                     TimeClicked = HandleTimeClicked,
-                    DragStartRequested = DragStartRequested,
+                    DragStartRequested = BoxDragStartRequested,
                     MouseOpenRequested = MouseOpenRequested,
                     DropUnderBoxRequested = DropUnderBox
                 };
@@ -234,10 +241,16 @@ class TodayController : ListBlockController
         DraggableBoxVM = pvm;
     }
 
-    void DragStartRequested(BoxPreviewVM pvm, FrameworkElement eventSource)
+    void BoxDragStartRequested(BoxPreviewVM pvm, FrameworkElement eventSource)
     {
         if (DraggableBoxVM == null) return;
         var dragData = new DataObject(nameof(BoxDragInfo), new BoxDragInfo { Box = DraggableBoxVM.Persistent.Box });
+        DragDrop.DoDragDrop(eventSource, dragData, DragDropEffects.Move);
+    }
+
+    void ChunkDragStartRequested(int chunkIdx, FrameworkElement eventSource)
+    {
+        var dragData = new DataObject(nameof(ChunkDragInfo), new ChunkDragInfo { VM = VM, FromIndex = chunkIdx });
         DragDrop.DoDragDrop(eventSource, dragData, DragDropEffects.Move);
     }
 
@@ -335,6 +348,24 @@ class TodayController : ListBlockController
 
         //this handler can only affect today so we only refresh this one view
         if (rebulidViews) Refresh(null);
+    }
+
+    /// <summary>
+    /// handler for result of a drag of a chunk onto a chunk title
+    /// </summary>
+    void ResequenceChunks(int fromChunkIdx, TodayVM.ChunkVM dropOnChunk)
+    {
+        if (fromChunkIdx < 0 || fromChunkIdx >= VM.Chunks.Count) return;
+        int toChunkIdx = VM.Chunks.IndexOf(dropOnChunk);
+        if (toChunkIdx < 0 || toChunkIdx >= VM.Chunks.Count 
+            || toChunkIdx == fromChunkIdx || toChunkIdx == fromChunkIdx - 1) return;
+        var draggedChunk = VM.Chunks[fromChunkIdx];
+        VM.Chunks.RemoveAt(fromChunkIdx);
+        int insertAt = toChunkIdx < fromChunkIdx ? toChunkIdx + 1 : toChunkIdx; 
+        if (insertAt < 0) return;
+        if (insertAt >= VM.Chunks.Count) VM.Chunks.Add(draggedChunk);
+        else VM.Chunks.Insert(insertAt, draggedChunk);
+        Refresh(null);
     }
 
     void MouseOpenRequested(BoxPreviewVM pvm)

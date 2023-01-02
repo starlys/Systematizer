@@ -104,7 +104,7 @@ public static class DBUtil
     /// <summary>
     /// Load the given subset of boxes and project into CachedBox format
     /// </summary>
-    internal static List<CachedBox> LoadForCaching(IQueryable<Box> scheduledBoxes)
+    internal static List<CachedBox> LoadForSearch(IQueryable<Box> scheduledBoxes)
     {
         //note code duplication with BoxCache because LINQ might not be smart enough to do the Select in SQL if it calls another function
         var scheduledBoxes2 = scheduledBoxes.ToArray();
@@ -135,23 +135,34 @@ public static class DBUtil
     /// </summary>
     /// <param name="doneSince">if null, searches not-done only; if set, searches done items since this date YYYYMMDD</param>
     /// <returns>can be null or empty collection</returns>
-    internal static IEnumerable<CachedBox> BoxesByKeyword(SystematizerContext db, string term, bool includeDetails, string doneSince)
+    internal static IEnumerable<CachedBox> BoxesByKeyword(SystematizerContext db, string term, string doneSince)
     {
-        string keyFilter = BuildKeywordFilter("Box", 0, term, includeDetails);
+        //load where term is in header
+        string keyFilter = BuildKeywordFilter("Box", 0, term, false);
         bool doneMode = doneSince != null;
         string doneFilter = doneMode ? $"DoneDate is not null and DoneDate>='{doneSince}'" : "DoneDate is null";
         if (keyFilter == null && !doneMode) return null;
         string sql = $"select RowId,* from Box where {doneFilter}";
         if (keyFilter != null) sql += $" and {keyFilter}";
         sql += " order by BoxTime limit 100";
-        return LoadForCaching(db.Box.FromSqlRaw(sql));
+        var listNoDetails = LoadForSearch(db.Box.FromSqlRaw(sql));
+
+        //conditionally load where term is in detail
+        if (listNoDetails.Count < 50 && keyFilter != null)
+        {
+            keyFilter = BuildKeywordFilter("Box", 0, term, true);
+            sql = $"select RowId,* from Box where {doneFilter} and {keyFilter} order by BoxTime limit 100";
+            var listWithDetails = LoadForSearch(db.Box.FromSqlRaw(sql));
+            return listNoDetails.UnionBy(listWithDetails, b => b.RowId);
+        }
+        return listNoDetails;
     }
 
     internal static IEnumerable<CachedBox> LoadBoxesByParent(SystematizerContext db, long parentId, bool onlyNotDone)
     {
         var q = db.Box.Where(r => r.ParentId == parentId);
         if (onlyNotDone) q = q.Where(r => r.DoneDate == null);
-        return LoadForCaching(q).OrderBy(r => r.Title);
+        return LoadForSearch(q).OrderBy(r => r.Title);
     }
 
     internal static long[] BoxesWithChildren(SystematizerContext db, long[] ids, bool onlyNotDone)

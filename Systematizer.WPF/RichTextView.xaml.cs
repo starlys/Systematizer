@@ -36,7 +36,7 @@ public partial class RichTextView : UserControl
         eRTB.Focus();
     }
 
-    void eRTB_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+    void eRTB_LostFocus(object sender, RoutedEventArgs e)
     {
         VM?.UpdateText();
     }
@@ -48,13 +48,13 @@ public partial class RichTextView : UserControl
             Clipboard.SetText(s);
     }
 
-    void CommandBinding_Disabled(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+    void CommandBinding_Disabled(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = false;
         e.Handled = false;
     }
 
-    void eRTB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    void eRTB_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
             VM?.EnterPressed();
@@ -65,7 +65,7 @@ public partial class RichTextView : UserControl
         eRTB.InputBindings.Add(new KeyBinding(ApplicationCommands.NotACommand, k, ModifierKeys.Control));
     }
 
-    void Hyperlink_Click(object sender, MouseEventArgs e)
+    void Hyperlink_Click(object sender, MouseButtonEventArgs e)
     {
         //this is a better solution because it would allow left button to work, but it is not being called
         var hlink = (Hyperlink)sender;

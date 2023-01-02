@@ -51,6 +51,7 @@ public partial class DateView : UserControl
         VM.Date = d;
         eToggle.IsChecked = false;
         VM.IsCalendarOpen = false;
+        eInstaChange.Focus();
     }
 
 #pragma warning disable IDE1006 // Naming Styles

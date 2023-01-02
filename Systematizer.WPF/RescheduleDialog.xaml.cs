@@ -10,7 +10,7 @@ namespace Systematizer.WPF;
 public partial class RescheduleDialog : Window
 {
     char AdvanceChar = '!';
-    const string ALLOWED_ADVANCE_CHARS = "123456789SMTWHFA";
+    const string ALLOWED_ADVANCE_CHARS = "123456789SMTWHFAY";
 
     public RescheduleDialog()
     {

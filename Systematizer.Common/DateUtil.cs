@@ -107,7 +107,7 @@ public static class DateUtil
     {
         if (dur == null || dur.Length < 2) return null;
         char unit  = dur[^1];
-        if (!int.TryParse(dur[0..^1], out int num)) return null;
+        if (!double.TryParse(dur[0..^1], out double num)) return null;
         if (unit == 'm') return TimeSpan.FromMinutes(num);
         if (unit == 'h') return TimeSpan.FromHours(num);
         if (unit == 'd') return TimeSpan.FromDays(num);
@@ -115,8 +115,8 @@ public static class DateUtil
     }
 
     /// <summary>
-    /// Given an optional starting date (uses today if missing) and a day of the week or
-    /// a number of days (1-9), return the
+    /// Given an optional starting date (uses today if missing) and a day of the week, or
+    /// a number of days (1-9), or Y for today, return the
     /// date that is the next occuring one on that day of the week or plus the designated number
     /// of days. Uses YYYYMMDD format.
     /// </summary>
@@ -125,8 +125,14 @@ public static class DateUtil
     {
         var d = ToDateTime(fromDate) ?? DateTime.Today;
 
+        //today
+        if (shortcut == 'Y' || shortcut == 'y')
+        {
+            d = DateTime.Today;
+        }
+
         //is digit?
-        if (shortcut >= '1' && shortcut <= '9')
+        else if (shortcut >= '1' && shortcut <= '9')
         {
             d = d.AddDays((int)shortcut - (int)'0');
         }

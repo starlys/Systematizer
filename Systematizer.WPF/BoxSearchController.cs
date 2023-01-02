@@ -7,7 +7,7 @@ class BoxSearchController : ListBlockController
     /// </summary>
     public class CollapseData : ICollapseBlockData
     {
-        public bool DoneMode, IncludeDetailsCri;
+        public bool DoneMode;
         public string DoneSinceCri, TermCri;
     }
 
@@ -66,15 +66,18 @@ class BoxSearchController : ListBlockController
             doneSince = VM.DoneSinceCri.Date;
             if (doneSince == null) return; //must have done date in done mode
         }
-        var cachedBoxes = UIService.LoadBoxesByKeyword(VM.TermCri, VM.IncludeDetailsCri, doneSince);
+        var boxes = UIService.LoadBoxesByKeyword(VM.TermCri, doneSince);
         VM.Results.Clear();
-        if (cachedBoxes == null) return;
-        foreach (var cb in cachedBoxes)
-            VM.Results.Add(new BoxPreviewVM(new AgendaEntry { Box = cb, Time = cb.BoxTime }, null, ItemGotFocus));
+        if (boxes == null) return;
+        foreach (var cb in boxes)
+            VM.Results.Add(new BoxPreviewVM(new AgendaEntry { Box = cb, Time = cb.BoxTime }, null, ItemGotFocus)
+            {
+                DisplayTime = "" //in results, it makes no sense to see time 
+            });
         foreach (var vm in VM.Results) vm.TimeClicked = HandleTimeClicked;
 
         var searchBtn = VM.GetPreResultsControl?.Invoke();
-        if (searchBtn != null && cachedBoxes.Length > 0)
+        if (searchBtn != null && boxes.Length > 0)
         {
             VisualUtils.DelayThen(20, () =>
             {

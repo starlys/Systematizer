@@ -13,21 +13,19 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Search for:"/>
                     <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left"/>
-                    <CheckBox Grid.Row="1" Grid.Column="1" Margin="4" Content="Also search in details" IsChecked="{Binding IncludeDetailsCri}"/>
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-                        <Button Margin="4" Click="CatFilter_Click">Filter by Category</Button>
-                        <Button Margin="4" Click="Clear_Click">Clear</Button>
-                    </StackPanel>
-                    <Button Grid.Row="3" Grid.Column="1" x:Uid="eSearch" Margin="4" HorizontalAlignment="Left" Click="Search_Click">Search</Button>
+                    <Button Grid.Column="2" x:Uid="eSearch" IsTabStop="False" Margin="4" HorizontalAlignment="Left" Click="Search_Click">Search</Button>
+                    <CheckBox Grid.Column="3" Margin="4" Content="Also search in details" IsChecked="{Binding IncludeDetailsCri}"/>
+                    <Button Grid.Row="1" Grid.Column="1" IsTabStop="False" Margin="4" Click="CatFilter_Click">Filter by Category</Button>
+                    <Button Grid.Column="2" Grid.Row="1" IsTabStop="False" Margin="4" Click="Clear_Click">Clear</Button>
                 </Grid>
             </Border>
             <TextBlock Text="(No results)" Visibility="{Binding EmptyMessageVisibility}"/>

@@ -167,8 +167,23 @@ class ExtBoxController : BlockController
             string newDate = RescheduleDialog.ShowDialog(VM.BoxTime_Date.Date);
             if (newDate != null)
             {
+                //if it has a duration that is in days, and which exceeds the difference, then shorten the duration
+                string reducedMessage = "";
+                var duration = DateUtil.ParseDuration(VM.Duration);
+                if (duration.HasValue && duration.Value.TotalDays > 1)
+                    try
+                    {
+                        var delta = DateUtil.ToDateTime(newDate).Value.Subtract(DateUtil.ToDateTime(VM.BoxTime_Date.Date).Value);
+                        if (delta.TotalDays > 0 && delta < duration)
+                        {
+                            double newDurationInDays = duration.Value.TotalDays - delta.TotalDays;
+                            VM.Duration = $"{newDurationInDays:##0.#}d";
+                            reducedMessage = "; duration shortened";
+                        }
+                    } catch { }
+
                 VM.BoxTime_Date.Date = newDate;
-                UIGlobals.Do.ShowTimedMessge("Rescheduled for " + DateUtil.ToReadableDate(newDate, includeDOW: true));
+                UIGlobals.Do.ShowTimedMessge($"Rescheduled for {DateUtil.ToReadableDate(newDate, includeDOW: true)}{reducedMessage}");
                 ChangeMode(Mode.ReadOnly, true);
                 CollapseRequested(this, false);
             }
@@ -203,6 +218,7 @@ class ExtBoxController : BlockController
             if (initialPath != null) dlg.InitialDirectory = initialPath;
             if (dlg.ShowDialog(Application.Current.MainWindow) != true) return true;
             VM.RefFile = dlg.FileName;
+            if (string.IsNullOrEmpty(VM.RefDir)) VM.RefDir = Path.GetDirectoryName(dlg.FileName);
             VM.NotifyVisibilityDetails();
             return true;
         }

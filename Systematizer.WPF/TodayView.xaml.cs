@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Systematizer.WPF;
 
@@ -10,6 +11,8 @@ public partial class TodayView : UserControl
     TodayVM VM => DataContext as TodayVM;
 
     static TodayVM.ChunkVM LastDropTarget;
+
+    Point DragStartPos;
 
     ItemsControl ChunkList => VisualUtils.GetByUid(this, "eChunkList") as ItemsControl;
 
@@ -46,9 +49,48 @@ public partial class TodayView : UserControl
         if (chunkIdx >= 0) VM.ChunkLostFocus(chunkIdx);
     }
 
+    void ChunkHandle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        DragStartPos = e.GetPosition(null);
+        UIGlobals.LastActivityUtc = DateTime.UtcNow;
+    }
+
+    void ChunkHandle_MouseMove(object sender, MouseEventArgs e)
+    {
+        //maybe start drag
+        if (e.LeftButton != MouseButtonState.Pressed) return;
+        var curPos = e.GetPosition(null);
+        Vector diff = DragStartPos - curPos;
+        if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+        {
+            if (sender is FrameworkElement senderFE)
+            {
+                var chunkIdx = VisualUtils.IndexOfControlInItemsControl(ChunkList, senderFE);
+                if (chunkIdx >= 0) VM.ChunkDragStartRequested?.Invoke(chunkIdx, (FrameworkElement)sender);
+            }
+        }
+    }
+
+    void ChunkHandle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+    }
+
+    void ChunkHandleDragging_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+    {
+        if ((e.Effects & DragDropEffects.Move) != 0)
+        {
+            e.UseDefaultCursors = false;
+            Mouse.SetCursor(Cursors.Hand);
+            e.Handled = true;
+        }
+        else
+            e.UseDefaultCursors = true;
+    }
+
+    //show visual effect for dragging a box or chunk
     void ChunkTitle_DragEnter(object sender, DragEventArgs e)
     {
-        bool ok = e.Data.GetDataPresent(nameof(BoxDragInfo));
+        bool ok = e.Data.GetDataPresent(nameof(BoxDragInfo)) || e.Data.GetDataPresent(nameof(ChunkDragInfo));
         var chunkIdx = VisualUtils.IndexOfControlInItemsControl(ChunkList, (DependencyObject)sender);
         if (chunkIdx == -1)
             ok = false;
@@ -67,12 +109,17 @@ public partial class TodayView : UserControl
 
     void ChunkTitle_Drop(object sender, DragEventArgs e)
     {
-        bool ok = e.Data.GetDataPresent(nameof(BoxDragInfo));
         var chunkIdx = VisualUtils.IndexOfControlInItemsControl(ChunkList, (DependencyObject)sender);
-        if (chunkIdx == -1) ok = false;
-        if (!ok) return;
-        var di = e.Data.GetData(nameof(BoxDragInfo)) as BoxDragInfo;
-        VM.DropOnChunkRequested(di, VM.Chunks[chunkIdx]);
+        if (chunkIdx == -1) return;
+
+        //drop box
+        if (e.Data.GetData(nameof(BoxDragInfo)) is BoxDragInfo di)
+            VM.DropBoxOnChunkRequested(di, VM.Chunks[chunkIdx]);
+
+        //drop chunk
+        if (e.Data.GetData(nameof(ChunkDragInfo)) is ChunkDragInfo di2)
+            VM.DropChunkOnChunkRequested(di2, VM.Chunks[chunkIdx]);
+
         SetDropTarget(null);
     }
 

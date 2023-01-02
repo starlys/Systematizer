@@ -198,6 +198,8 @@ class ExtBoxVM : BaseEditableBlockVM
             }
             if (_timeType == Constants.TIMETYPE_MINUTE && _visibility < Constants.VISIBILITY_PLANAROUND)
                 Visibility = Constants.VISIBILITY_PLANAROUND;
+            if (_timeType <= Constants.TIMETYPE_DAY && _visibility > Constants.VISIBILITY_NORMAL)
+                Visibility = Constants.VISIBILITY_NORMAL;
             NotifyChanged();
             NotifyChanged(nameof(BoxTime_DateVisibility));
             NotifyChanged(nameof(BoxTime_TimeVisibility));

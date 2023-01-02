@@ -29,23 +29,25 @@ class RichTextVM : EditableVM
     {
         RemoveFormat = new SimpleCommand(_ =>
         {
-            var range = GetCurrentParagraphRange();
+            var range = GetCurrentParagraphRange(false);
             if (range == null) return;
             range.ApplyPropertyValue(TextElement.FontSizeProperty, 12.0);
             range.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            FocusTextBox();
         });
 
         HeadingFormat = new SimpleCommand(_ =>
         {
-            var range = GetCurrentParagraphRange();
+            var range = GetCurrentParagraphRange(true);
             if (range == null) return;
             range.ApplyPropertyValue(TextElement.FontSizeProperty, 14.0);
             range.ApplyPropertyValue(TextElement.FontWeightProperty, BOLD);
+            FocusTextBox();
         });
         BulletFormat = new SimpleCommand(_ =>
         {
             //fails: EditingCommands.ToggleBullets.Execute(null, TextBox);
-            var range = GetCurrentParagraphRange();
+            var range = GetCurrentParagraphRange(false);
             if (range == null) return;
             string plain = RangeToText(range);
             range.Text = "";
@@ -53,12 +55,18 @@ class RichTextVM : EditableVM
             Block newPara = range.Start.Paragraph;
             if (newPara.Parent is ListItem p2) newPara = ((List)p2.Parent);
             TextBox.Document.Blocks.InsertAfter(newPara, list);
+            FocusTextBox();
         });
         InitializeFromPersistent();
     }
 
     public override void InitializeFromPersistent()
     {
+    }
+
+    void FocusTextBox()
+    {
+        TextBox?.Focus();
     }
 
     /// <summary>
@@ -81,15 +89,29 @@ class RichTextVM : EditableVM
     {
         //Enter should clear format of new para if previous para was heading
         if (TextBox == null) return;
-        var para = TextBox.CaretPosition.Paragraph;
-        if (para == null) return;
-        var range = new TextRange(para.ContentStart, para.ContentEnd);
-        bool wasOnHeading = ((FontWeight)range.GetPropertyValue(TextElement.FontWeightProperty)) == BOLD;
+        var para2 = TextBox.CaretPosition.Paragraph;
+        if (para2 == null) return;
+        var range2 = new TextRange(para2.ContentStart, para2.ContentEnd);
+        bool wasOnHeading = ((FontWeight)range2.GetPropertyValue(TextElement.FontWeightProperty)) == BOLD;
         if (!wasOnHeading) return;
 
+        //much experimentation: need to do a lot to prevent it from holding the previous style at the selection point
         VisualUtils.DelayThen(10, () =>
         {
-            RemoveFormat.Execute(null); //after WPF adds the new paragraph; this is not working because RemoveFormat doesn't do anything on an empty paragraph
+            var para = TextBox.CaretPosition.Paragraph;
+            if (para == null) return;
+#pragma warning disable IDE0017 // Simplify object initialization
+            var range = new TextRange(para.ContentStart, para.ContentEnd);
+#pragma warning restore IDE0017 // Simplify object initialization
+            range.Text = "X";
+            TextBox.Selection.Select(range.Start.GetPositionAtOffset(0), range.Start.GetPositionAtOffset(1));
+            RemoveFormat.Execute(null); //only works if para is not empty
+            TextBox.CaretPosition = TextBox.Document.ContentStart;
+            VisualUtils.DelayThen(1, () =>
+            {
+                TextBox.CaretPosition = para.ContentEnd;
+                range.Text = "";
+            });
         });
     }
 
@@ -124,14 +146,24 @@ class RichTextVM : EditableVM
     //commands (implementation is in ctor)
     public ICommand RemoveFormat { get; private set; } 
     public ICommand HeadingFormat { get; private set; } 
-    public ICommand BulletFormat { get; private set; } 
+    public ICommand BulletFormat { get; private set; }
 
-    TextRange GetCurrentParagraphRange()
+    /// <summary>
+    /// null or TextRange of current selection
+    /// </summary>
+    TextRange GetCurrentParagraphRange(bool addPlaceholderWhenEmpty)
     {
         if (TextBox == null) return null;
         var para = TextBox.CaretPosition.Paragraph;
         if (para == null) return null;
-        return new TextRange(para.ContentStart, para.ContentEnd);
+        var range = new TextRange(para.ContentStart, para.ContentEnd);
+        if (range.IsEmpty && addPlaceholderWhenEmpty)
+        {
+            range.Text = "X";
+            TextBox.Selection.Select(range.Start.GetPositionAtOffset(0), range.Start.GetPositionAtOffset(1));
+            range = TextBox.Selection;
+        }
+        return range;
     }
 
     /// <summary>
@@ -188,7 +220,7 @@ class RichTextVM : EditableVM
     /// </summary>
     public static string FlowDocumentToText(FlowDocument doc)
     {
-        var plainParagraphs = new System.Collections.Generic.List<string>();
+        var plainParagraphs = new List<string>();
         foreach (var block in doc.Blocks)
         {
             if (block is List list)
@@ -202,10 +234,17 @@ class RichTextVM : EditableVM
             {
                 var range = new TextRange(para.ContentStart, para.ContentEnd);
                 string plain = RangeToText(range);
-                if (((FontWeight)range.GetPropertyValue(TextElement.FontWeightProperty)) == BOLD)
-                    plainParagraphs.Add(HEADINGPREFIX + plain);
-                else
+                try
+                {
+                    if (((FontWeight)range.GetPropertyValue(TextElement.FontWeightProperty)) == BOLD)
+                        plainParagraphs.Add(HEADINGPREFIX + plain);
+                    else
+                        plainParagraphs.Add(plain);
+                }
+                catch
+                {
                     plainParagraphs.Add(plain);
+                }
             }
         }
         return string.Join("\r\n", plainParagraphs);

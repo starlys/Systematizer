@@ -12,7 +12,7 @@ public partial class BoxPreviewView : UserControl
 
     BoxPreviewVM VM => DataContext as BoxPreviewVM;
     Point DragStartPos;
-    bool dragPending;
+    bool DragPending;
 
     public BoxPreviewView()
     {
@@ -25,15 +25,15 @@ public partial class BoxPreviewView : UserControl
         ((TextBox)sender).SelectAll();
     }
 
-    void Time_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    void Time_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragStartPos = e.GetPosition(null);
-        dragPending = true;
+        DragPending = true;
         VM.TimeClicked?.Invoke(VM, (FrameworkElement)sender);
         UIGlobals.LastActivityUtc = DateTime.UtcNow;
     }
 
-    void Time_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    void Time_MouseMove(object sender, MouseEventArgs e)
     {
         //maybe start drag
         if (e.LeftButton != MouseButtonState.Pressed) return;
@@ -41,16 +41,16 @@ public partial class BoxPreviewView : UserControl
         Vector diff = DragStartPos - curPos;
         if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
         {
-            dragPending = false;
+            DragPending = false;
             VM.DragStartRequested?.Invoke(VM, (FrameworkElement)sender);
         }
     }
 
-    void Time_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    void Time_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (dragPending)
+        if (DragPending)
         {
-            dragPending = false;
+            DragPending = false;
             VM.MouseOpenRequested?.Invoke(VM);
         }
     }

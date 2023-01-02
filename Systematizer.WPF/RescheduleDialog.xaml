@@ -9,6 +9,7 @@
     <StackPanel>
         <TextBlock Margin="5" Text="Enter the number of days in the future to schedule (1-9)"/>
         <TextBlock Margin="5" Text="Or enter a code for the day of the week: S M T W H F A"/>
+        <TextBlock Margin="5" Text="Or enter Y for today"/>
         <TextBox x:Name="eCommand" Margin="5" Width="12" HorizontalAlignment="Left" TextChanged="eCommand_TextChanged"/>
         <Button Margin="5" IsCancel="True" HorizontalAlignment="Left">Cancel</Button>
     </StackPanel>

@@ -43,7 +43,6 @@ class CollapsedBlockController : BlockController
             {
                 DoneMode = vm4.DoneMode,
                 DoneSinceCri = vm4.DoneSinceCri.Date,
-                IncludeDetailsCri = vm4.IncludeDetailsCri,
                 TermCri = vm4.TermCri
             };
             return new CollapsedBlockController(typeof(BoxSearchController), blockGotFocusHandler, expansionRequested, vm4.BlockTitle, data, !vm4.DoneMode);
@@ -152,7 +151,6 @@ class CollapsedBlockController : BlockController
             var c = new BoxSearchController(blockGotFocusHandler, collapseRequested, inflateData.DoneMode);
             c.VM.TermCri = inflateData.TermCri;
             c.VM.DoneSinceCri.Date = inflateData.DoneSinceCri;
-            c.VM.IncludeDetailsCri = inflateData.IncludeDetailsCri;
             c.SearchRequested();
             return c;
         }

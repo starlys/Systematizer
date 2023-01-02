@@ -9,7 +9,7 @@
     <!-- DataContext is SubjectVM-->
     <local:BlockView>
         <TreeView ItemsSource="{Binding RootRows}" SelectedItemChanged="TreeView_SelectedItemChanged" TreeViewItem.Expanded="TreeView_Expanded" 
-                  TreeViewItem.Collapsed="TreeView_Collapsed" KeyDown="TreeView_KeyDown">
+                  TreeViewItem.Collapsed="TreeView_Collapsed" KeyDown="TreeView_KeyDown" PreviewMouseWheel="TreeView_PreviewMouseWheel">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>

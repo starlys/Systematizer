@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:Systematizer.WPF"
              mc:Ignorable="d" >
     <!-- DataContext is TimeVM-->
-    <TextBox Text="{Binding DisplayTime}" GotFocus="TextBox_GotFocus" IsReadOnly="{Binding IsReadOnly}"/>
+    <TextBox x:Name="eTime" Text="{Binding DisplayTime}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" IsReadOnly="{Binding IsReadOnly}"/>
 </UserControl>

@@ -44,8 +44,10 @@ class TodayVM : BaseListBlockVM
 
     //actions injected by controller
     public Action RequestAddChunk;
-    public Action<BoxDragInfo, ChunkVM> DropOnChunkRequested;
+    public Action<BoxDragInfo, ChunkVM> DropBoxOnChunkRequested;
+    public Action<ChunkDragInfo, ChunkVM> DropChunkOnChunkRequested;
     public Action<int> ChunkGotFocus, ChunkLostFocus;
+    public Action<int, FrameworkElement> ChunkDragStartRequested; //pass chunk index
 
     //actions injected by view
     //public Action FocusFirstChunk

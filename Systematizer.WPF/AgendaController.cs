@@ -3,7 +3,7 @@ namespace Systematizer.WPF;
 
 class AgendaController : ListBlockController
 {
-    public enum AgendaSize { TwoWeeks, Month, All }
+    public enum AgendaSize { TwoWeeks, Month1, Month2, Month3, All }
 
     public AgendaVM VM { get; private set; }
 
@@ -36,8 +36,10 @@ class AgendaController : ListBlockController
         };
         VM.MoreRequested = () =>
         {
-            if (Size == AgendaSize.TwoWeeks) Size = AgendaSize.Month;
-            else if (Size == AgendaSize.Month) Size = AgendaSize.All;
+            if (Size == AgendaSize.TwoWeeks) Size = AgendaSize.Month1;
+            else if (Size == AgendaSize.Month1) Size = AgendaSize.Month2;
+            else if (Size == AgendaSize.Month2) Size = AgendaSize.Month3;
+            else if (Size == AgendaSize.Month3) Size = AgendaSize.All;
             VM.AllowRequestMore = Size != AgendaSize.All;
             RefreshDefinitely(true);
         };
@@ -108,8 +110,10 @@ class AgendaController : ListBlockController
         if (VM.BoxVisibilityIncluded <= Constants.VISIBILITY_NORMAL) effectiveNDaysToOmit = 0;
 
         //figure date range to include
-        DateTime startDt = DateTime.Today.AddDays(effectiveNDaysToOmit), endDt = DateTime.Today.AddMonths(1);
-        if (Size == AgendaSize.TwoWeeks) endDt = DateTime.Today.AddDays(14);
+        DateTime startDt = DateTime.Today.AddDays(effectiveNDaysToOmit), endDt = DateTime.Today.AddDays(14);
+        if (Size == AgendaSize.Month1) endDt = DateTime.Today.AddMonths(1);
+        else if (Size == AgendaSize.Month2) endDt = DateTime.Today.AddMonths(2);
+        else if (Size == AgendaSize.Month3) endDt = DateTime.Today.AddMonths(3);
         else if (Size == AgendaSize.All && agendaItems.Any())
             endDt = DateUtil.ToDateTime(agendaItems.Last().Time).Value.AddMonths(1); //month past last item
         string minBoxTime = DateUtil.ToYMDHM(startDt);
