@@ -72,7 +72,7 @@ class BoxSearchController : ListBlockController
         foreach (var cb in boxes)
             VM.Results.Add(new BoxPreviewVM(new AgendaEntry { Box = cb, Time = cb.BoxTime }, null, ItemGotFocus)
             {
-                DisplayTime = "" //in results, it makes no sense to see time 
+                DisplayTime = " >>" //in results, it makes no sense to see time 
             });
         foreach (var vm in VM.Results) vm.TimeClicked = HandleTimeClicked;
 

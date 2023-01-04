@@ -91,7 +91,10 @@ class MainController : IGlobalBehaviors //note this is the only not not derived 
     /// </summary>
     public void FocusTopBlock()
     {
-        HomeStackController.FocusFirstUncollapsed();
+        if (FocusedStack == EditStackController)
+            EditStackController.FocusFirstUncollapsed();
+        else
+            HomeStackController.FocusFirstUncollapsed();
     }
 
     /// <summary>

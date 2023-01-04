@@ -13,19 +13,20 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Search for:"/>
-                    <TextBox Grid.Column="1" Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left" PreviewKeyDown="Search_PreviewKeyDown"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBox Uid="eTerm" Text="{Binding TermCri}" Margin="4" Width="50" HorizontalAlignment="Left" PreviewKeyDown="Search_PreviewKeyDown"/>
+                        <Button IsTabStop="False" Margin="4" HorizontalAlignment="Left" Click="Search_Click" x:Uid="eSearch">Search</Button>
+                    </StackPanel>
                     <TextBlock Grid.Row="2" Text="Done since:" Visibility="{Binding DoneSinceVisibility}" />
                     <Grid Grid.Row="2" Grid.Column="1" Margin="4" Visibility="{Binding DoneSinceVisibility}" >
                         <local:DateView DataContext="{Binding DoneSinceCri}" />
                     </Grid>
-                    <Button Grid.Column="2" IsTabStop="False" Margin="4" HorizontalAlignment="Left" Click="Search_Click" x:Uid="eSearch">Search</Button>
                 </Grid>
             </Border>
             <TextBlock Text="(No results)" Visibility="{Binding EmptyMessageVisibility}"/>

@@ -45,10 +45,14 @@ class TodayController : ListBlockController
         {
             if (idx < 0 || idx >= VM.Chunks.Count) return;
             var chunkVM = VM.Chunks[idx];
+
+            //on delete chunk title, delete the chunk; focus next only if there are others
+            //(note that an attempt to focus could be circular if we try to focus the same thing that is losing focus)
             if (string.IsNullOrEmpty(chunkVM.Title))
             {
-                UserRemovedChunk(chunkVM);
-                VisualUtils.DelayThen(10, () => VM.GetMainControl()?.Focus());
+                bool wasRemoved = UserRemovedChunk(chunkVM);
+                if (wasRemoved)
+                    VisualUtils.DelayThen(10, () => VM.GetMainControl()?.Focus());
             }
         };
         VM.RequestAddChunk = () =>
@@ -430,13 +434,17 @@ class TodayController : ListBlockController
         UIService.SaveDayChunks();
     }
 
-    void UserRemovedChunk(TodayVM.ChunkVM cvm)
+    /// <summary>
+    /// True if could be removed
+    /// </summary>
+    bool UserRemovedChunk(TodayVM.ChunkVM cvm)
     {
         //can't remove last one
-        if (VM.Chunks.Count <= 1) return;
+        if (VM.Chunks.Count <= 1) return false;
 
         VM.Chunks.Remove(cvm);
         SaveChunks(force: true);
         Refresh(null);
+        return true;
     }
 }
