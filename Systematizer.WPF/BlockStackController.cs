@@ -213,14 +213,19 @@ class BlockStackController : BaseController
         });
     }
 
-    public void FocusFirstUncollapsed()
+    /// <summary>
+    /// Focus top block; return true if successul, false if there are none
+    /// </summary>
+    /// <returns></returns>
+    public bool FocusFirstUncollapsed()
     {
         for (int i = 0; i < Controllers.Count; ++i)
         {
             if (Controllers[i] is CollapsedBlockController) continue;
             FocusByIndex(i);
-            return;
+            return true;
         }
+        return false;
     }
 
     /// <summary>

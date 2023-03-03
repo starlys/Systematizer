@@ -29,11 +29,13 @@ class RichTextVM : EditableVM
     {
         RemoveFormat = new SimpleCommand(_ =>
         {
-            var range = GetCurrentParagraphRange(false);
+            var range = GetCurrentParagraphRange(true);
             if (range == null) return;
             range.ApplyPropertyValue(TextElement.FontSizeProperty, 12.0);
             range.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            TextBox.Selection.Select(range.Start, range.End);
             FocusTextBox();
+            EmitKey(Key.Right);
         });
 
         HeadingFormat = new SimpleCommand(_ =>
@@ -87,30 +89,37 @@ class RichTextVM : EditableVM
     /// </summary>
     public void EnterPressed()
     {
-        //Enter should clear format of new para if previous para was heading
+        //Enter should clear format of new para if previous para was heading and pressing enter at the end of a line
         if (TextBox == null) return;
         var para2 = TextBox.CaretPosition.Paragraph;
         if (para2 == null) return;
         var range2 = new TextRange(para2.ContentStart, para2.ContentEnd);
         bool wasOnHeading = ((FontWeight)range2.GetPropertyValue(TextElement.FontWeightProperty)) == BOLD;
-        if (!wasOnHeading) return;
+        var range3 = new TextRange(TextBox.CaretPosition, para2.ContentEnd);
+        bool wasAtEndOfLine = range3.IsEmpty;
+        var range4 = new TextRange(TextBox.CaretPosition, TextBox.Document.ContentEnd);
+        bool isOnLastLine = string.IsNullOrWhiteSpace(range4.Text);
+        if (!wasOnHeading || !wasAtEndOfLine) return;
 
         //much experimentation: need to do a lot to prevent it from holding the previous style at the selection point
-        VisualUtils.DelayThen(10, () =>
+        VisualUtils.DelayThen(2, () =>
         {
             var para = TextBox.CaretPosition.Paragraph;
             if (para == null) return;
-#pragma warning disable IDE0017 // Simplify object initialization
-            var range = new TextRange(para.ContentStart, para.ContentEnd);
-#pragma warning restore IDE0017 // Simplify object initialization
-            range.Text = "X";
+            var range = new TextRange(para.ContentStart, para.ContentEnd)
+            {
+                Text = "X"
+            };
             TextBox.Selection.Select(range.Start.GetPositionAtOffset(0), range.Start.GetPositionAtOffset(1));
             RemoveFormat.Execute(null); //only works if para is not empty
+            range.Text = "";
             TextBox.CaretPosition = TextBox.Document.ContentStart;
-            VisualUtils.DelayThen(1, () =>
+            VisualUtils.DelayThen(2, () =>
             {
-                TextBox.CaretPosition = para.ContentEnd;
-                range.Text = "";
+                //select empty range then key right; this makes the caret position not have a format
+                TextBox.Selection.Select(range.Start, range.End);
+                EmitKey(Key.Right);
+                if (!isOnLastLine) EmitKey(Key.Left);
             });
         });
     }
@@ -164,6 +173,17 @@ class RichTextVM : EditableVM
             range = TextBox.Selection;
         }
         return range;
+    }
+
+    /// <summary>
+    /// simulate key to textbox
+    /// </summary>
+    void EmitKey(Key k)
+    {
+        TextBox.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(TextBox), 0, k)
+        {
+            RoutedEvent = Keyboard.KeyDownEvent
+        });
     }
 
     /// <summary>
